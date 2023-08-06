@@ -1,121 +1,176 @@
 # Files, command line en scripting
 
-Eén van de eerste basis-vaardigheden van een software-ontwikkelaar is het kunnen omgaan met een shell of command-line.  
-Het kunnen omgaan met de command-line is meestal noodzakelijk builden en deployen van je software:
+## Intro
 
-* **"Builden"** van je software
-* Opladen van de software naar een cloudplatform (of ontwikkelbordje)
-* **Automatisatie**, bijvoorbeeld eerste een reeks testen uitvoeren en dan pas opladen naar het platform
+### Wat is het doel van dit onderdeel?
+
+Binnen deze opleiding gebruik je vele tools die je er voor zorgen dat je direct kan werken met een programmeertaal (C#, Java, Javascript, SQL,...) zonder dat je details hoeft te kennen van het platform waar je mee werkt (Linux, Windows, Mac, ...).
+
+Denk hierbij aan verschillende tools zoals Visual Studio (C#), IntelliJ (Java) of diverse web interfaces zoals de Azure Portal voor devops of om virtuele machines aan te maken.
+
+In de loop van de opleiding zal je soms je ontwikkelplatform (Linux, Windows, Mac, ...) moeten aanspreken om bepaalde problemen op te lossen, denk hier maar aan:
+
+* Zoeken van en binnen logs
+* Werken met buildtools zoals dotnet, Maven, Gradle, ...
+* Troubleshooten van je applicatie
+* Containers om je serverless apps te beheren (Docker)
+* Automatiseren van bepaalde taken adhv scripting
+* Backups maken
+* Platformissues troubleshooten (disk, memory, netwerk, ...)
 * ...
 
-Anderzijds bestaan er veel grafische tools, maar deze steunen in de meeste gevallen op command-line-tools in de achtergrond.  
+In vele (of meeste gevallen) zal je dit moeten doen via een command line interface (Bash, Powershell, ...)
 
-## Werken met een "File Explorer" (verkenner)
+### Aanpak van dit onderdeel
 
-Deze bestanden kan je via een "fileexplorer" bekijken en openen.
+Het is niet mogelijk al deze skills aan te leren in een korte tijd.  
+Dit zal binnen de verschillende andere vakken worden aangebracht en aangeleerd (afhankelijk van de toepassing).
 
-### Windows "File Explorer"
+Dit opleidingsonderdeel heeft eerder als doelstelling een basis te leggen.  
 
-De Windows kan je deze openen via het menu:
+* Files, folders, ...
+* Wat is een command line
+* Basis command line tools
+* ...
 
-![drawing](windows_fileexplorer_nav.png)
+### Windows vs *nix
 
-En kan je via deze explorer navigeren naar directories en bestanden openen
+Naast Windows heb je ook andere Unix(like)-besturingssystemen.  
+Deze omvatten bijvoorbeeld de vele Linux-distro's (Ubuntu, Fedora, ...), Mac OSx en zelfs Android...
 
-![](windows_fileexplorer.png)
+Hoewel een meerderheid van de studenten met Windows als ontwikkelplatform werkt proberen we hier de meeste concepten mee te geven voor deze Unix(like) systemen.  
 
-### Linux "File Explorer"
+Niet alleen omdat sommige studenten met zulke platformen werken maar ook gezien de meerderheid van server-applicaties op een Linux-systeem draaien (vandaag de dag ook via containers zoals Docker)
 
-Op Linux heb je - afhankelijk van je distributie - vergelijkbare tools.  
-Hieronder zie je op Linux Mint het gebruik van Nemo-fileexplorer
+## Files (bestanden) en directories (folders)
 
-![](linux_fileexplorer.png)
-
-### Mac OSx "File Explorer" (Finder)
-
-Mac OSx gebruik het dan weer het reeds geïnstalleerde **Finder**
-
-![](mac_fileexplorer.jpg)
-
-## Files en directories (begrippen)
+We starten met files (of bestanden)
 
 Alle data en programma's op je computer worden bewaard in **files** (of bestanden).  
-Denk maar aan je code, documenten, database-files, ... maar ook programma's en libraries.  
+Denk maar bijvoorbeeld aan de code die je schrijft, word-documenten, database-files, ... maar ook programma's en libraries.  
 
-### Hierarchische bestandssystemen
+### Soorten bestanden
 
-Om deze bestanden gemakkelijk te kunnen terugvinden op je harde schijf, zorgt je operating system voor een organisatie van die harde schijf (of andere opslagmedia zoals een SD-card).
+#### File-extensions
 
-Deze hierarchische organisatie kennen we als een bestandssysteem.
+Een file extension is een suffix, in de vorm van enkele karakters, aan het einde van een filenaam.  
+Deze extensie geeft aan welk type bestand het is en welk programma moet worden gebruikt om het te openen. 
 
-#### Filepath
+Het is meestal gescheiden van de bestandsnaam door een punt aan het einde, zo zullen bijvoorbeeld de C#-files waar je met werkt eindigen eindigen op cs, bijvoorbeeld 'HelloWorld.cs'.
 
-Elke directory heeft een bepaalde path waar je kan navigeren, in het geval van de home-directory is dit hieronder "C:\Users\Bart"
+Zo'n extensie zegt dus iets over het soort van bestand en wat je besturingsysteem er met doet als je dit bestand opent via een file explorere
+
+* Een .txt extensie geeft aan dat het een tekstbestand is, dat kan worden geopend met Notepad
+* Een .docx is een Word-document dat zal worden geopend met Microsoft Word (of LibreOffice in geval van Linux).
+* Een .jpg of .png extensie duidt een afbeeldingsbestand aan, dat kan worden geopend met elk beeldbewerkingsprogramma of viewer, zoals Adobe Photoshop of de standaard foto-viewer van je besturingssysteem.
+* Een .exe extensie geeft een uitvoerbaar bestand aan in Windows (op Linux meestal zonder een extensie), wat betekent dat het een programma is dat kan worden uitgevoerd.
+
+Sommige besturingssystemen verbergen standaard de bestandsextensie voor bekende bestandstypen, maar deze kan meestal worden weergegeven door de juiste instellingen te wijzigen.  
+Het is belangrijk om voorzichtig te zijn bij het wijzigen van een bestandsextensie, omdat dit de manier kan veranderen waarop het besturingssysteem het bestand behandelt.
+
+#### Text vs binaire bestanden
+
+Binnen files maken onderscheid tussen tekst-bestanden en binaire bestanden.  
+
+Een tekstbestand is een type bestand dat leesbare karakters of tekst bevat.  
+Het is in feite een reeks tekens die door een computer worden opgeslagen als binaire codes, maar die worden geïnterpreteerd als leesbare tekens (zoals letters, cijfers, en symbolen).  
+
+Tekstbestanden zijn universeel en kunnen worden geopend door eenvoudige tekstbewerkingsprogramma's zoals notepad (of andere texteditors).  
+Voorbeelden van tekstbestanden zijn .txt, .csv, .xml en .json bestanden.
+
+De code waar je met werkt is meestal  
+
+Een binair bestand daarentegen is een bestand dat binaire gegevens bevat, die niet direct menselijk leesbaar zijn. Dit betekent dat de inhoud van het bestand bestaat uit een of andere vorm van data die door de computer op een specifieke manier moet worden geïnterpreteerd. Deze bestanden bevatten vaak meer complexe gegevensstructuren dan simpele tekst, zoals afbeeldingen, audio, video, uitvoerbare programma's, enz. Voorbeelden van binaire bestanden zijn .jpg, .png, .mp3, .exe, enz.
+
+Belangrijk om op te merken is dat terwijl tekstbestanden doorgaans minder complex zijn dan binaire bestanden, ze beperkter zijn in termen van de soorten data die ze kunnen bevatten. Binaire bestanden, hoewel complexer, kunnen een veel breder scala aan data bevatten en representeren.
+
+### Bestandssystemen
+
+Om deze **bestanden** gemakkelijk te kunnen **terugvinden** op je harde schijf, zorgt je operating system (of besturingssysteem) voor een organisatie van die harde schijf (of andere opslagmedia zoals een SD-card).
+
+Deze hiërarchische organisatie kennen we als een **"file system"** (of bestandssysteem).  
+Zo'n "file system" werkt een beetje als een **boomstructuur**.
+
+#### Windows
+
+Een voorbeeld van zo'n boomstructuur in Windows zie je hieronder.  
+
+In windows is de root van alle bestanden een harde schrijf.  
+Standaard is dit de C-schijf maar je kan er meerdere hebben afhankelijk van je configuratie.
+
+Onder deze harde schijf heb je een aan directories (folders) die op hun beurt andere directories en 
+files kan bevatten. Je hebt de harde schijf (C).
+
+~~~
+         +---------+
+     +---+   C:    +---+
+     |   +---------+   |
++----+----+         +--+------+
+| System  |   +-----+  Users  +-----+   ...
++---------+   |     +---------+     |
+         +----+----+           +----+----+
+         |  Bart   |           | Public  |
+         +----+----+           +---------+
+              |
+        +-----+-----+
+        | afile.txt |
+        +-----------+
+~~~
+
+In het voorbeeld hierboven heb je een folder Users, met daaronder een folder Bart en daaronder
+een file met de naam afile.txt
+
+In Windows kan je de **file explorer** (or verkenner) gebruiken om deze folders 
+
+![](windows_file.png)
+
+#### Linux
+
+In Unix-like systemen zal je in tegenstelling tot Windows geen 
+C-schijf (of andere schijven) terugvinden.  
+
+Alles bevindt zicht daar onder de **root-directory**, hier aangeduid
+als een **/**
+
+> *Nota:*  
+> dit wil niet zeggen dat je niet meerdere harde
+> schijven in Unix-systemen kan hebben maar dat is
+> buiten scope in de cursus
+
+~~~
+           +---------+
+     +-----+    /    +---+
+     |     +---------+   |
++----+----+           +--+------+
+| bin     |     +-----+  home   +-----+
++---------+     |     +---------+     |
+           +----+----+           +----+----+
+           |  bart   |           |  test   |
+           +----+----+           +---------+
+                |
+          +-----+-----+
+          | afile.txt |
+          +-----------+
+
+~~~
+
+### Filepath (bestandspad)
+
+Elke directory heeft een bepaalde **path** (of pad) waar je kan navigeren, in het geval van de home-directory is dit hieronder "C:\Users\Bart"
 
 ![](windows_path.png)
 
 > In Windows Explorer
 
-#### Windows layout
+### Hidden files
 
-~~~
-c:\ ──+
-      ├── Program Files
-      ├── Program Files (x86)
-      ├── Users
-            └── student
-            └── bart
-      ├── System
-      ├── System32
-      ├── SysWOW64
-~~~
-
-
-#### Linux layout
-
-~~~
-/ ──+
-    ├── bin -> usr/bin (link)
-    ├── boot
-    ├── dev
-    ├── etc
-    └── home
-          └── student
-          └── bart
-    ├── media
-    ├── mnt
-    ├── opt
-    ├── proc
-    ├── root
-    ├── run
-    ├── sbin -> usr/sbin (link)
-    ├── srv
-    ├── sys
-    ├── tmp
-    └── usr
-        ├── bin
-        ├── include
-        ├── lib
-        ├── local
-        └── sbin
-    └── var
-~~~
-
-#### MacOSx
-
-### File-extensions
-
-### Speciale directories en bestanden
-
-#### HOME-directory
+### HOME-directory
 
 ![](windows_homedir.png)
 
-#### Systeem-directories
+### Systeem-directories
 
 ![](windows_system_dir.png)
-
-#### Hidden files
 
 ## Werken met een shell?
 
@@ -131,6 +186,7 @@ Een shell is (om het simpel te houden) een tool die je een toegang geeft om low-
 * **Opstarten** van **programma's**
 * **Navigeren** door een **file-systeem**
 * **Manipuleren** files en folders
+* Commando's uitvoeren en programma's starten
 * **Controleren** en **monitoren** van **processen**
 * **Automatiseren** van taken
 * ...
@@ -143,8 +199,6 @@ Deze tekst-commando's kunnen meestal ook **gebundeld** worden in een **script** 
 
 Nadat zo'n commando/script/programma is uitgevoerd krijgt de gebruiker weer de kans om de shell of het programma aan te spreken door op de opdrachtregel een nieuwe opdracht op te geven.  
 
-#### Structuur van commando's
-
 ### Waarom werken met een shell
 
 Om het kort te houden, het is een tool die moet gekend zijn als je wil programmeren omdat we deze vaardigheden nodig hebben om later met toolchains (compiler en linkers) om te gaan.  
@@ -152,18 +206,18 @@ Om het kort te houden, het is een tool die moet gekend zijn als je wil programme
 Elke softwareontwikkelaar moet de beginselen kennen van het werken met command-line.  
 Dit argument is nog sterker als je met embedded devices werkt die veelal enkel te besturen zijn via command-line.
 
-### Vervolg -> Bash en Powershell
+### Bash en Powershell
 
 We gaan nu dit bekijken voor 2 soorten shell-omgevingen
 
-* Windows CMD
-* Bash (Linux, Mac e.a. Posix-systemen)
+* Powershell op Windows
+* Bash op Linux, Mac (e.a. Posix-systemen)
 
 ## Shell-omgevingen
 
 ### Een shell openen in Windows
 
-In Windows heb je (sinds Windows 7) 2 versies van "command line":
+In Windows heb je (sinds Windows 7) heb je 2 versies van "command line":
 
 * De klassieke CMD
 * Powershell
@@ -199,6 +253,22 @@ Deze **prompt** ```PS C:\Users\bart>```:
 * geeft je mogelijkheid om een **commando** in te typen
 * PS geeft aan dat je met powershell werkt (ipv de klassieke CMD-tool)
 
+
+~~~ps
+PS C:\Users\Bart> ls
+
+
+    Directory: C:\Users\Bart
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          3/4/2022  11:14 AM                .config
+d-----        12/21/2022   8:11 PM                .dotnet
+...
+PS C:\Users\Bart>
+~~~
+
 ### Linux/Mac shell openen (Bash)
 
 Linux en Max hebben verschillende programma's waarmee je toegang kan hebben tot de shell.
@@ -208,7 +278,7 @@ Linux en Max hebben verschillende programma's waarmee je toegang kan hebben tot 
 Eenmaal gestart krijg je een scherm zoals hieronder:  
 
 ~~~bash
-demo@demohost ~ $
+demo@demohost:~ $
 ~~~
 
 Deze **prompt** :
@@ -218,9 +288,30 @@ Deze **prompt** :
   (in dit geval komt ~ overeen met de home-directory van de user)
 * geeft je mogelijkheid om een **commando** in te typen
 
-## File en directories
+~~~bash
+demo@demohost:~ $ ls -l
+total 2196296
+-rw-r--r--  1 bart bart 124774783 Feb  6 22:00  01_optional.mp4
+-rw-rw-r--  1 bart bart     12811 Aug 21  2022  04.04.28-163.11.eid
+-rw-rw-r--  1 bart bart       184 May 29 21:57  1tp.py
+drwxrwxr-x  2 bart bart      4096 Oct  4  2022  a
+...
+~~~
+
+## Operaties op files en directories
+
+Veel van de operaties die je moet uitvoeren op een command line zijn 
+fileoperaties:
+
+* Aanmaken en verwijderen van files en directories
+* Navigeren door een filesysteem
+* Kopiëren/Verplaatsen van files en directories
+* ...
 
 ### Een directory aanmaken
+
+Een eerste operatie is het aanmaken van een directory. 
+Hiervoor gebruik je - zowel in Powershell en Bash - het commando **mkdir**
 
 #### Een directory aanmaken in Powershell
 
@@ -649,13 +740,10 @@ Hello World
 Naast je eigen variabelen houdt je operating systeem ook een aantal variabelen bij.  
 
 ~~~powershell
-PS C:\Users\Bart\mijn_eerste_programma>cd een_directory_die_niet_bestaat
-
-PS C:\Users\Bart\mijn_eerste_programma>echo %ERROR_LEVEL%
-11
+PS C:\Users\Bart> echo $?                                    True                                                         PS C:\Users\Bart> ls qbsdfs                                  ls : Cannot find path 'C:\Users\Bart\qbsdfs' because it      does not exist.                                              At line:1 char:1                                             + ls qbsdfs                                                  + ~~~~~~~~~                                                      + CategoryInfo          : ObjectNotFound: (C:\Users\Bar     t\qbsdfs:String) [Get-ChildItem], ItemNotFoundException       + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerS     hell.Commands.GetChildItemCommand                                                             PS C:\Users\Bart>   
 ~~~
 
-De variabele **ERROR_LEVEL** bijvoorbeeld houdt de error-code van de laatst uitgevoerde applicatie bij.
+De variabele **$?** bijvoorbeeld houdt de error-code van de laatst uitgevoerde applicatie bij.
 
 #### Error-levels in Bash
 
@@ -710,7 +798,7 @@ PS C:\Users\Bart\mijn_eerste_programma>
 
 > **Let op**, als deze variabele al bestaat dan wordt deze overschreven
 
-#### Een environment-variabele definieren in Bash
+#### Een environment-variabele definiëren in Bash
 
 Een environment-variabele is een variabele (eigenlijk een stuk tekst) die door de shell wordt bijgehouden gedurende de terminal-sessie.  
 
