@@ -172,6 +172,9 @@ Elke directory heeft een bepaalde **path** (of pad) waar je kan navigeren, in he
 
 ![](windows_system_dir.png)
 
+### Let op case-sensitivity
+
+
 ## Werken met een shell?
 
 Een shell is een programma dat rechtstreeks toegang heeft tot een
@@ -318,7 +321,7 @@ Hiervoor gebruik je - zowel in Powershell en Bash - het commando **mkdir**
 We starten met het aanmaken van een **directory** waarin we onze C-code gaan plaatsen.
 
 ~~~powershell
-PS C:\Users\Bart> mkdir een_eerste_programma
+PS C:\Users\Bart> mkdir een_eerste_directory
 PS C:\Users\Bart> dir
  Volume in drive C is System
  Volume Serial Number is E687-8D34
@@ -326,13 +329,13 @@ PS C:\Users\Bart> dir
  Directory of C:\Users\Bart
 
 ...
-02/02/2017  14:08    <DIR>          een_eerste_programma
+02/02/2017  14:08    <DIR>          een_eerste_directory
 ...
 ~~~
 
 Hier zien we in 1 klap 2 commando's:
 
-* **mkdir** gevolg door het path **een_eerste_programma**  
+* **mkdir** gevolg door het path **een_eerste_directory**  
   Dit maakt een nieuwe folder of directory deze naam.  
 * Het commando **dir**  
   Laat ons toe de **inhoud** na te kijken van de huidige **directory**
