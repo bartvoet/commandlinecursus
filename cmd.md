@@ -179,7 +179,7 @@ Elke directory heeft een bepaalde **path** (of pad) waar je kan navigeren, in he
 
 Een shell is een programma dat rechtstreeks toegang heeft tot een
 
-* Aanmaken/verwijderen/hernoemen/... van een files en foldes
+* Aanmaken/verwijderen/hernoemen/... van een files en folders
 * Starten van programma's
 
 ![](shell_vs_user.png)
@@ -274,7 +274,7 @@ PS C:\Users\Bart>
 
 ### Linux/Mac shell openen (Bash)
 
-Linux en Max hebben verschillende programma's waarmee je toegang kan hebben tot de shell.
+Linux en Mac hebben verschillende programma's waarmee je toegang kan hebben tot de shell.
 
 ![](bash_terminal.png)
 
@@ -313,7 +313,7 @@ fileoperaties:
 
 ### Een directory aanmaken
 
-Een eerste operatie is het aanmaken van een directory. 
+Een eerste operatie is het aanmaken van een directory.  
 Hiervoor gebruik je - zowel in Powershell en Bash - het commando **mkdir**
 
 #### Een directory aanmaken in Powershell
@@ -321,15 +321,29 @@ Hiervoor gebruik je - zowel in Powershell en Bash - het commando **mkdir**
 We starten met het aanmaken van een **directory** waarin we onze C-code gaan plaatsen.
 
 ~~~powershell
-PS C:\Users\Bart> mkdir een_eerste_directory
-PS C:\Users\Bart> dir
- Volume in drive C is System
- Volume Serial Number is E687-8D34
+PS C:\Users\Bart> mkdir een_tweede_directory
 
- Directory of C:\Users\Bart
+
+    Directory: C:\Users\Bart
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          9/3/2023  10:54 PM                een_eerste_directory
+
+
+PS C:\Users\Bart>
+PS C:\Users\Bart> dir
+
+
+    Directory: C:\Users\Bart
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
 
 ...
-02/02/2017  14:08    <DIR>          een_eerste_directory
+d-----          9/3/2023  10:54 PM                een_eerste_directory
 ...
 ~~~
 
@@ -359,18 +373,36 @@ Hier zien we in 1 klap 2 commando's:
 
 ### Navigeren door directories
 
+Om te navigeren naar een andere directory maak je - zowel in Powershell, CMD als Bash - gebruik van het commando **cd**, dat staat voor **"change directory"**
+
 #### Navigeren door directories in Powershell
 
-Als je deze directory hebt aangemaakt kan je hiernaartoe navigeren via het commando **cd**  
-(hetgeen staat voor change directory)
+Het gebruik is éénvoudig, je navigeert door cd te typen gevolgd door het path naar deze directory.
+In Powershell doe je dit zoals hieronder.
 
 ~~~powershell
 PS C:\Users\Bart> cd een_eerste_programma
 PS C:\Users\Bart\een_eerste_programma>
 ~~~
 
-Het gebruik is éénvoudig, je navigeert door cd te typen gevolgd door het path naar deze directory.
+Merk ook dat aan de prompt het nieuwe path kan zien, in dit geval zijn we ven 
+"C:\Users\Bart\" naar "C:\Users\Bart\een_eerste_programma" genavigeerd.
 
+Het pad waar je nu in werkt noemen we ook de "work directory".  
+Er bestaat trouwens ook het commando **pwd** dat staat voor "print workdirectory".  
+Zoals het commando aangeeft zal dit de "work directory" afdrukken waarin je aan het werken bent.
+
+~~~powershell
+PS C:\Users\Bart\een_eerste_directory> pwd
+
+
+Path
+----
+C:\Users\Bart\een_eerste_directory
+
+
+PS C:\Users\Bart\een_eerste_directory>
+~~~
 #### Navigeren door directories in Bash
 
 Als je deze directory hebt aangemaakt kan je hiernaartoe navigeren via het commando **cd**  
