@@ -8,6 +8,7 @@ Denk hierbij maar aan:
 * Een RAM-geheugen van 8 gigabyte
 * De codering van IP-adressen
 * RGB-kleurensysteem
+* Hashing en ecrypties die op bit-niveau spelen
 * ...
 
 ## Computerhardware kent enkel bits en bytes
@@ -67,7 +68,7 @@ zoals je hieronder kan zien:
 =    3000    +    100     +    20      +    4
 ~~~
 
-## Van decimaal naar een binair getallenstelsel...
+## Van 10 naar 8 vingers
 
 Bovenstaande zou nog in je comfortzone moeten zitten uit het lager en middelbaar onderwijs...  
 Decimale getallen zijn voor ons ook heel logisch, de mens heeft leren werken met het decimale
@@ -75,13 +76,71 @@ tallenstelsel gezien wij 10 vingers hebben.
 
 ![](5vingers.jpeg)
 
-Stel dat we - zoals de 4 vingers zouden hebben zouden een 8-tallig tallenstelsel hebben
+Stel dat we - zoals de **4 vingers** zouden hebben zouden we bijvoorbeeld met een 8-tallig tallenstelsel hebben
 
 ![](simpsons.png)
 
-Dat zou allemaal redelijk comfortabel moeten aanvoelen: we werken elke dag met decimale cijfers. Het leuke van getalsystemen is dat er niets is dat je dwingt om 10 verschillende waarden in een cijfer te hebben. Ons getallenstelsel met grondtal 10 is waarschijnlijk ontstaan ​​omdat we 10 vingers hebben, maar als we in plaats daarvan zouden evolueren naar acht vingers, zouden we waarschijnlijk een getalstelsel met grondtal 8 hebben. Je kunt een getalsysteem met een grondtal hebben. Er zijn zelfs veel goede redenen om verschillende bases in verschillende situaties te gebruiken.
+En zouden we als volgt tot de waarde komen van onze getallen
 
-Computers werken toevallig met het 2-tallige getallenstelsel, ook wel het binaire getallenstelsel genoemd (net zoals het 10-tallige getallenstelsel bekend staat als het decimale getallenstelsel). Ontdek waarom en hoe dat werkt in de volgende sectie.
+~~~
+  (1 * 8^3) + (2 * 8^2) + (3 * 8^1) + (4 * 8^0)
+=    512    +    128     +     24     +    4
+
+  (3 * 8^3) + (1 * 8^2) + (2 * 8^1) + (4 * 10^0)
+=    1536    +    64     +    16      +    4
+~~~
+
+### Computers hebben echter maar 2 vingers...
+
+Computers werken toevallig met het 2-tallige getallenstelsel, ook wel het binaire getallenstelsel.  
+Dit is omdat dat alle hardware simpel gezegd elektronische schakelaars zijn, die enkel aan of uit kunnen zijn.  
+
+![](schakelaar.jpeg)
+
+Het geheugen van een computer, een harde schijf, het cache-geheugen van een processor bestaat eigenlijk uit kleine schakelaars (of transistoren) die 1 of 0 kunnen zijn.  
+maw een getal dat je in je programma berekent zal worden opgeslagen als een sequentie van 0 en 1-tjes
+
+> Nota: technisch gezien zou je computerhardware kunnen maken die tot 10
+> zou kunnen tellen ipv 2 maar dit zou zeer complex en duur worden...
+
+### Binaire getalstelsel
+
+Dus ipv met 10 vingers te tellen tellen we er met maar 2 vingers
+
+![](2vingers.jpeg)
+
+Waar we dus met 10 cijfer-symbolen werkten tussen 0 en 9, werkte een computer enkel met 0 en 1.  
+Zoals hierboven vermeld is dit veel éénvoudiger
+
+Bijvoorbeeld het getal 1011 vertaalt zich naar een waarde als volgt:
+
+~~~
+  (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (1 * 2^0)
+=    8    +       0     +     2     +    1      =   11 (decimaal)
+~~~
+
+> Weetje: het woord bit is eigenlijk de afkorting van **b**inary dig**it** 
+> waar digit voor cijfer staat...
+
+### Bytes groeperen bits...
+
+Bits worden zelden alleen gebruikt binnen computers en programma's.  
+Ze zijn bijna altijd gebundeld in 8-bits groepjes, en deze verzamelingen noemen we bytes...
+
+Dit maakt het gemakkelijker om grotere getallen te vormen en hardware te maken die op
+groepen van bits te werken.  
+
+Waarom 8, dat is iets dat de afgelopen 70 jaar zo geevolueerd is in computer hardware...
+
+Hoe ziet zo'n byte eruit, heel simple een aanéénschakeling van 8 bits
+
+~~~
+1101 1010
+~~~
+
+
+
+ genoemd. Waarom zitten er 8 bits in een byte? Een soortgelijke vraag is: "Waarom zitten er twaalf eieren in een dozijn?" De 8-bits byte is iets waar mensen de afgelopen 50 jaar met vallen en opstaan ​​tot zijn gekomen.
 
 
 ## Waarom is dit belangrijk
