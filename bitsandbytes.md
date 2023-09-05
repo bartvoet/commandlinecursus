@@ -49,7 +49,7 @@ met een **macht van 10**.
 
 Je gebruik hiervoor machten van 10:
 
-* het meest** rechtse cijfer** wordt vermenigvuldigd met **10** tot de **0de macht**
+* het meest **rechtse cijfer** wordt vermenigvuldigd met **10** tot de **0de macht**
 * het **2de van rechts** 10 met de **1ste macht**
 * het 3de met de 2 macht
 * ...
