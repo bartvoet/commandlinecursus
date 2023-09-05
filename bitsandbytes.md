@@ -22,51 +22,41 @@ Om te weten waarom bits & bytes zo belangrijk zijn moeten we gaan kijken naar co
 
 ### Cijfers vs getallen
 
-De eenvoudigste manier om bits te begrijpen is door ze te vergelijken met iets dat je kent, namelijk **cijfers**.  
+De eenvoudigste **manier** om **bits** te **begrijpen** is door ze te **vergelijken** met iets dat je **kent**, namelijk **cijfers**.  
 
-Een (decimaal) getal bestaat uit verschillende cijfers die numerieke waarden tussen 0 en 9 kan bevatten.  Deze cijfers worden dan gecombineerd om grotere getallen te creëren.  
+Een (decimaal) **getal** bestaat uit verschillende **cijfers** die numerieke waarden **tussen 0 en 9** kan bevatten.  
+Deze cijfers worden dan gecombineerd om grotere getallen te creëren.  
 
 ### Volgorde vs waarde
 
-Bijvoorbeeld het getal 1234 bestaat uit 4 cijfers: 1, 2, 3 en 4.  
-De waarde die dit getal heeft wordt bepaald door dat de volgorde van deze cijfers.  
+Bijvoorbeeld het getal **1234** bestaat uit **4** **cijfers**: **1, 2, 3 en 4**.  
+De waarde die dit getal heeft wordt bepaald door dat de **volgorde** van deze cijfers.  
 
-Zo weten we dat 3124 groter is dan 1234 ondanks het feit dat dit uit dezelfde cijfers bestaat.
+Zo weten we dat **3124** **groter** is dan **1234** **ondanks** het feit dat dit uit **dezelfde cijfers** bestaat.
 
 ### Decimale getallen-stelsel
 
-Dit kan je wiskundig heel gemakkelijk uitrekenen door elk cijfer te vermenigvuldigen
-met 10-tallen.
+Dit kan je wiskundig heel gemakkelijk uitrekenen door elk **cijfer** uit een **getal** te vermenigvuldigen
+met een **macht van 10**.
 
 ~~~
   (1 * 1000) + (2 * 100) + (3 * 10) + (4 * 1)
-=    1000    +    200    +    30    +    4
+=    1000    +    200    +    30    +    4     =   1234
 
   (3 * 1000) + (1 * 100) + (3 * 10) + (4 * 1)
-=    3000    +    100    +    20    +    4
+=    3000    +    100    +    20    +    4     =   3124
 ~~~
 
-maw Je vermenigvuldigt telkens met een hogere macht van 10
+Je gebruik hiervoor machten van 10:
 
+* het meest** rechtse cijfer** wordt vermenigvuldigd met **10** tot de **0de macht**
+* het **2de van rechts** 10 met de **1ste macht**
+* het 3de met de 2 macht
+* ...
 
 Vandaar dat we het getallenstelsel decimaal noemen.  
 De **deci** in decimaal betekent **10**, elke **positie** - van rechts naar links - stelt een
 hogere macht van 10 voor
-
-* het meest rechtse cijfer wordt vermenigvuldigd met 10 tot de 0de macht
-* het 2de van rechts met de 1ste macht
-* het 3de met de 2 macht
-* ...
-
-zoals je hieronder kan zien:
-
-~~~
-  (1 * 10^3) + (2 * 10^2) + (3 * 10^1) + (4 * 10^0)
-=    1000    +    200     +     30     +    4
-
-  (3 * 10^3) + (1 * 10^2) + (2 * 10^1) + (4 * 10^0)
-=    3000    +    100     +    20      +    4
-~~~
 
 ## Van 10 naar 8 vingers
 
@@ -76,7 +66,7 @@ tallenstelsel gezien wij 10 vingers hebben.
 
 ![](5vingers.jpeg)
 
-Stel dat we - zoals de **4 vingers** zouden hebben zouden we bijvoorbeeld met een 8-tallig tallenstelsel hebben
+Stel dat we - zoals de **4 vingers** zouden hebben zouden we bijvoorbeeld met een **8-tallig tallenstelsel** hebben
 
 ![](simpsons.png)
 
@@ -84,35 +74,43 @@ En zouden we als volgt tot de waarde komen van onze getallen
 
 ~~~
   (1 * 8^3) + (2 * 8^2) + (3 * 8^1) + (4 * 8^0)
-=    512    +    128     +     24     +    4
+=    512    +    128     +     24     +    4    =   668 (ipv 1234 decimaal)
 
   (3 * 8^3) + (1 * 8^2) + (2 * 8^1) + (4 * 10^0)
-=    1536    +    64     +    16      +    4
+=    1536    +    64     +    16      +    4    =  1620 (ipv 3124 decimaal)
 ~~~
 
-### Computers hebben echter maar 2 vingers...
+Met een andere getallenstelsel krijgen we dus een andere waarde.  
+In het geval van het 8-tallig (Simpson-)getallenstelsel is de eigenlijke waarde kleiner...
 
-Computers werken toevallig met het 2-tallige getallenstelsel, ook wel het binaire getallenstelsel.  
-Dit is omdat dat alle hardware simpel gezegd elektronische schakelaars zijn, die enkel aan of uit kunnen zijn.  
+## Computers hebben echter maar 2 vingers...
+
+Computers werken echter **niet** met **10 of 8** (vingers) als **basis** maar met een **2-tallig getallenstelsel**.  
+Dit benoem we ook wel het **binaire getallenstelsel**.  
+
+Waarom heeft een computer maar 2 vingers om te tellen?  
+Dit is omdat dat alle hardware simpel gezegd **elektronische schakelaars** zijn, die enkel **aan** of **uit** kunnen zijn.  
 
 ![](schakelaar.jpeg)
 
-Het geheugen van een computer, een harde schijf, het cache-geheugen van een processor bestaat eigenlijk uit kleine schakelaars (of transistoren) die 1 of 0 kunnen zijn.  
-maw een getal dat je in je programma berekent zal worden opgeslagen als een sequentie van 0 en 1-tjes
+De **geheugens** van een **computer**, zoals een harde schijf, ram-geheugen, het cache-geheugen van een processor (eender welke vorm van memory..) bestaat eigenlijk uit miniscuul kleine schakelaars (of transistoren) die 1 of 0 kunnen zijn (eigenlijk +- 1 000 000 000 van die schakelaars).
+
+maw alle getallen (alle data) die je in je programma berekent zal worden opgeslagen als een sequentie van 0 en 1-tjes
+
+![](cputransistors.jpeg)
 
 > Nota: technisch gezien zou je computerhardware kunnen maken die tot 10
 > zou kunnen tellen ipv 2 maar dit zou zeer complex en duur worden...
 
 ### Binaire getalstelsel
 
-Dus ipv met 10 vingers te tellen tellen we er met maar 2 vingers
+Hoe werkt dit binaire getallenstelsel nu?  
+**ipv** met **10 vingers** te tellen tellen we er met maar **2 vingers**
 
 ![](2vingers.jpeg)
 
-Waar we dus met 10 cijfer-symbolen werkten tussen 0 en 9, werkte een computer enkel met 0 en 1.  
-Zoals hierboven vermeld is dit veel éénvoudiger
-
-Bijvoorbeeld het getal 1011 vertaalt zich naar een waarde als volgt:
+Waar we dus met **10 cijfer-symbolen** werkten tussen **0 en 9**, werkte een computer enkel met 2 symbolen **0 en 1**.  
+**Bijvoorbeeld** het getal 1011 **vertaalt** zich naar een waarde als volgt:
 
 ~~~
   (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (1 * 2^0)
@@ -124,24 +122,18 @@ Bijvoorbeeld het getal 1011 vertaalt zich naar een waarde als volgt:
 
 ### Bytes groeperen bits...
 
-Bits worden zelden alleen gebruikt binnen computers en programma's.  
-Ze zijn bijna altijd gebundeld in 8-bits groepjes, en deze verzamelingen noemen we bytes...
+**Bits** worden zelden **alleen** **gebruikt** binnen **computers** en programma's.  
+Ze zijn bijna altijd gebundeld in **8-bits groepjes**, en deze verzamelingen noemen we **bytes**...
 
-Dit maakt het gemakkelijker om grotere getallen te vormen en hardware te maken die op
+Dit maakt het **gemakkelijker** om **grotere** **getallen** te vormen en hardware te maken die op
 groepen van bits te werken.  
 
 Waarom 8, dat is iets dat de afgelopen 70 jaar zo geevolueerd is in computer hardware...
-
 Hoe ziet zo'n byte eruit, heel simple een aanéénschakeling van 8 bits
 
 ~~~
 1101 1010
 ~~~
-
-
-
- genoemd. Waarom zitten er 8 bits in een byte? Een soortgelijke vraag is: "Waarom zitten er twaalf eieren in een dozijn?" De 8-bits byte is iets waar mensen de afgelopen 50 jaar met vallen en opstaan ​​tot zijn gekomen.
-
 
 ## Waarom is dit belangrijk
 
