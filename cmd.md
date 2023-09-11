@@ -24,12 +24,12 @@ In vele (of meeste gevallen) zal je dit moeten doen via een command line interfa
 ### Aanpak van dit onderdeel
 
 Het is niet mogelijk al deze skills aan te leren in een korte tijd.  
-Dit zal binnen de verschillende andere vakken worden aangebracht en aangeleerd (afhankelijk van de toepassing).
+Dit zal binnen de verschillende **andere vakken** worden aangebracht en aangeleerd (afhankelijk van de toepassing).
 
-Dit opleidingsonderdeel heeft eerder als doelstelling een basis te leggen.  
+Dit **opleidingsonderdeel** heeft eerder als doelstelling een **basis** te leggen.  
 
-* Files, folders, ...
-* Wat is een command line
+* Wat zijn Files, folders, ...
+* Hoe kanje bepaalde zaken automatiseren met de command line
 * Basis command line tools
 * ...
 
@@ -1182,6 +1182,191 @@ Binnen een script kan je 1 of meerdere commando's bundelen en deze kan je dan in
 
 ### Powershell scripting
 
+#### Hello World
+
+~~~ps1
+Write-Host "Hello world"
+~~~
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-Hello.ps1
+Hello World
+PS C:\Users\Bart\pstryout>
+~~~
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-Hello
+Hello World
+PS C:\Users\Bart\pstryout>
+~~~
+
+~~~ps1
+echo "Hello world"
+~~~
+
+~~~ps1
+Write-Host -NoNewLine "Hello world"
+~~~
+
+#### Commentaar
+
+~~~ps1
+# Dit is een script...
+Write-Host "Hello world" # Na een commando kan ook comment zetten
+~~~
+
+#### Argumenten
+
+~~~ps1
+# Dit is een script...
+Write-Host $args[0] 
+~~~
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-Argument.ps1 test
+test
+PS C:\Users\Bart\pstryout>
+~~~
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-Argument.ps1
+
+PS C:\Users\Bart\pstryout>
+~~~
+
+#### Argumenten met spaties
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-Argument.ps1 Hello World
+Hello
+PS C:\Users\Bart\pstryout>
+~~~
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-Argument.ps1 "Hello World"
+Hello World
+PS C:\Users\Bart\pstryout>
+~~~
+
+#### Meerdere argumenten
+
+~~~ps1
+# Dit is een script...
+Write-Host $args.count 
+~~~
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-NumbeOfArguments.ps1 "Hello World"
+1
+PS C:\Users\Bart\pstryout>  .\Write-NumbeOfArguments.ps1 Hello World
+2
+PS C:\Users\Bart\pstryout>  
+~~~
+
+#### Named parameters
+
+~~~ps1
+param ($param1)
+write-host $param1 
+~~~
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-Argument.ps1 "Hello World"
+Hello
+PS C:\Users\Bart\pstryout>
+~~~
+
+~~~ps1
+param ($param1,$param2)
+write-host  -NoNewLine $param1
+write-host $param2 
+~~~
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-2Arguments.ps1 Hello World
+Hello
+World
+PS C:\Users\Bart\pstryout>
+~~~
+
+~~~ps1
+param ($param1,$param2)
+write-host $param1
+write-host $param2 
+~~~
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-2Arguments.ps1 Hello World
+HelloWorld
+PS C:\Users\Bart\pstryout>
+~~~
+
+~~~ps1
+param ([int]$param1,[int]$param2)
+write-host ($param1 + $param2)
+~~~
+
+#### Variabelen
+
+~~~ps1
+param ([int]$param1,[int]$param2)
+$result = $param1 + $param2
+write-host $result
+~~~
+
+
+~~~ps1
+param ([int]$param1,[int]$param2)
+$result = $param1 + $param2
+write-host "$param1 + $param2 = $result"
+~~~
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-Hello 1 2
+1 + 2 = 3
+PS C:\Users\Bart\pstryout>
+~~~
+
+
+~~~ps1
+param ([int]$lijnen)
+for ($i = 1; $i -le $lijnen; $i++){
+    Write-Host $i
+}
+~~~
+
+~~~ps1
+foreach($item in $args){
+    Write-Host $item
+}
+~~~
+
+~~~ps1
+[int]$sum = 0
+foreach($item in $args){
+    sum = $sum + $item
+}
+Write-Host "Het totaal is $sum"
+~~~
+
+
+~~~ps1
+$list = @('a', 'b', 'c', 'd');
+
+foreach($item in $list){
+    Write-Host $item
+}
+~~~
+
+
+~~~ps1
+$value = 5
+
+if ($value -gt 1) {
+    Write-Host "value is greater than 1"
+}
+~~~
+
 ### Bash-scripting
 
 Op Linux
@@ -1215,6 +1400,9 @@ echo "Hello World"
 #2de commando
 echo "Het is vandaag $(date)"
 ~~~
+
+#### Argumenten
+
 
 #### Uitvoeren met de bash-interpreter
 
