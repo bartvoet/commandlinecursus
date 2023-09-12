@@ -1182,11 +1182,36 @@ Binnen een script kan je 1 of meerdere commando's bundelen en deze kan je dan in
 
 ### Powershell scripting
 
-#### Hello World
+#### Een powershell-script schrijven
+
+Om een powershell-script te schrijven heb je in principe niet veel nodig:
+
+* Een teksteditor, eender welke teksteditor (zelfs notepad zou al moeten volstaan)  
+  De meest efficiente voor dit soort scripting is echter Visual Studio Code (https://code.visualstudio.com/) met
+  goede code completion en debugging mogelijkheden
+* Een powershell-console, normaal gezien standaard geinstalleerd op Windows
+
+> *Bemerking:*
+> Powershell is ook installeerbaar op Linux en macOS.  
+> Voor deze besturingssystemen wordt echter standaard eerder naar Bash gekeken (zie verder bij Bash-scripting)
+
+#### Een script aanmaken (Hello World)
+
+Om een powershell-script aan te maken maak je een nieuwe tekstbestand aan binnen je teksteditor (of ide).  
+Dit bestand moet eindigen met ps1 om automatisch door de interpreter te worden opgepikt.
+
+Als eerste oefening maak een betand met de naam Write-Hello.ps1 aan met onderstaande content:
 
 ~~~ps1
 Write-Host "Hello world"
 ~~~
+
+#### Een script uitvoeren
+
+Om een script uit te voeren:
+
+* Navigeer je met de console naar de locatie waar je het script hebt opgeslagen
+* Je voert het uit door de naam te typen voorafgegaan door .\ zoals hieronder
 
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-Hello.ps1
@@ -1194,39 +1219,191 @@ Hello World
 PS C:\Users\Bart\pstryout>
 ~~~
 
+Het punt gevolgd door backslash verwijst hier naar het **relatieve path** van het script 
+tov je **huidige working work-directory**
+
+Je kan ook een absoluut path doorgeven als hieronder
+
+~~~ps1
+PS C:\Users\> cd ..\..
+PS C:\Users\> C:\Users\Bart\pstryout\Write-Hello.ps1
+Hello World
+PS C:\Users\>
+~~~
+
+Of een relatief path vanuit een andere directory
+
+~~~ps1
+PS C:\Users\> .\Bart\pstryout\Write-Hello.ps1
+Hello World
+PS C:\Users\>
+~~~
+
+##### Extensie weglaten
+
+Je kan ook de extensie weglaten bij het script zoals hieronder gedemonstreed...
+
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-Hello
 Hello World
 PS C:\Users\Bart\pstryout>
 ~~~
 
+#### Security!!!
+
+Eén van de zaken waar je dient op te letten (zeker als je een laptop van het bedrijf hebt) is dat Powershell
+dikwijls is gedisabled.  
+
+~~~ps1
+PS C:\Users\bartvoe> .\Write-Hello.ps1
+.\Write-Hello.ps1 : File C:\Users\bartvoe\Write-Hello.ps1 cannot be loaded because running scripts is disabled
+on this system. For more information, see about_Execution_Policies at
+https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ .\Write-Hello.ps1
++ ~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+PS C:\Users\bartvoe>
+~~~
+
+
+#### PATH
+
+Enkel de naam de naam van het typen volstaat niet zoals je hieronder ziet.  
+
+~~~ps1
+PS C:\Users\Bart\pstryout> Write-Hello.ps1
+Write-Hello.ps1 : The term 'Write-Hello.ps1' is not recognized as the name of a cmdlet, function, script file,
+or operable program. Check the spelling of the name, or if a path was included, verify that the path is
+correct and try again.
+At line:1 char:1
++ Write-Hello.ps1
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (Write-Hello.ps1:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+
+Suggestion [3,General]: The command Write-Hello.ps1 was not found, but does exist in the current location. Windows PowerShell does not load commands from the current location by default. If you trust this command, instead type: ".\Write-Hello.ps1". See "get-help about_Command_Precedence" for more details.
+PS C:\Users\bartvoe>
+~~~
+
+Je dient het **exacte path** te gebruiken en in dit geval kan je **relatief verwijzen** door **.\**
+
+TODO: PATH demonstreren...
+
+
+
+#### Write-Host command
+
+Powershell ondersteund vele commands en commandlets.  
+De eerste die we hebben gezien is Write-Host die dient om output naar de console te schrijven vanuit een script:
+
+~~~ps1
+Write-Host "Hello world"
+~~~
+
+In vele gevallen zijn er trouwens ook klassiek varianten (uit CMD of Bash) ondersteund.  
+In dit geval zal **echo** hetzelfde doen als **Write-Host**...
+
 ~~~ps1
 echo "Hello world"
 ~~~
+
+#### Informatie over commando's via  Get-Help
+
+Als je meer over deze commando's kan je naast een google-search binnen de command-line ook altijd gebruik maken van 
+de **Get-Help-commandlet**.  
+Deze laat je toe om info op te vragen over het commando zelf:
+
+~~~ps1
+PS C:\Users\bartvoe\commandlinecursus> Get-Help Write-Host
+
+NAME
+    Write-Host
+    
+SYNTAX
+    Write-Host [[-Object] <Object>] [-NoNewline] [-Separator <Object>] [-ForegroundColor {Black | DarkBlue | DarkGreen | DarkCyan | DarkRed | DarkMagenta | 
+    DarkYellow | Gray | DarkGray | Blue | Green | Cyan | Red | Magenta | Yellow | White}] [-BackgroundColor {Black | DarkBlue | DarkGreen | DarkCyan | DarkRed | 
+    DarkMagenta | DarkYellow | Gray | DarkGray | Blue | Green | Cyan | Red | Magenta | Yellow | White}]  [<CommonParameters>]
+
+ALIASES
+    None
+
+REMARKS
+    Get-Help cannot find the Help files for this cmdlet on this computer. It is displaying only partial help.
+        -- To download and install Help files for the module that includes this cmdlet, use Update-Help.
+        -- To view the Help topic for this cmdlet online, type: "Get-Help Write-Host -Online" or
+           go to https://go.microsoft.com/fwlink/?LinkID=113426.
+PS C:\Users\bartvoe\commandlinecursus>
+~~~
+
+Als we bij voorbeeld 1 van de bovenstaande opties - NoNewLine - aan het script toevoegen:
 
 ~~~ps1
 Write-Host -NoNewLine "Hello world"
 ~~~
 
+Kunnen we het gedrag van dit command aanpassen zodat het geen nieuwe
+lijn afdrukt
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-Hello
+Hello WorldPS C:\Users\Bart\pstryout>
+~~~
+
+(hetgeen we later in onze scripten kunnen hergebruiken als we meerdere zaken op 1 lijn willen schrijven)
+
+
+#### Opzoeken van meerdere commando's
+
+~~~
+PS C:\Users\bartvoe\commandlinecursus> Get-Help file  
+Name                              Category  Module                    Synopsis                                                                                   
+----                              --------  ------                    --------                                                                                   
+Get-FileHash                      Function  Microsoft.PowerShell.U... ...
+Import-PowerShellDataFile         Function  Microsoft.PowerShell.U... ...
+New-TemporaryFile                 Function  Microsoft.PowerShell.U... ...
+New-PSRoleCapabilityFile          Cmdlet    Microsoft.PowerShell.Core ...                       
+...
+~~~
+
 #### Commentaar
+
+Net zoals in Java en C#-code kan je ook lijnen in comment zetten.  
+In de meeste scripting talen (Powershell, Python, Bash, ...) doe je dit met een hash-teken zoals hieronder
 
 ~~~ps1
 # Dit is een script...
 Write-Host "Hello world" # Na een commando kan ook comment zetten
 ~~~
 
-#### Argumenten
+Je kan comment op een eigen lijn maar ook achter het commando schrijven.
+
+#### Werken met (naamloze) argumenten/parameters
+
+Aan een script kan je - net zoals een functie uit een programmeertaal - ook argumenten meegeven.  
+Dit zorgt er voor dat je scripten hergebruikbaar zijn.
+
+We passen het voorgaande script aan door een argument op te vragen wat het moet afdrukken (ipv het hardgecodeerde HelloWorld).  
+Je kan dit doen via de variabele **args**
 
 ~~~ps1
 # Dit is een script...
 Write-Host $args[0] 
 ~~~
 
+Deze variabele vangt eventuele argumenten op die via de command line worden doorgeven zoals hieronder geillustreerd:
+
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-Argument.ps1 test
 test
 PS C:\Users\Bart\pstryout>
 ~~~
+
+Je kan dit vergelijken met een array (of lijst) uit klassieke programmeertalen.  
+Als je argument leeg is zal het programma niet crashen zoals hieronder geillustreerd maar
+eerder een lege string teruggeven
 
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-Argument.ps1
@@ -1236,11 +1413,17 @@ PS C:\Users\Bart\pstryout>
 
 #### Argumenten met spaties
 
+Argumenten worden van elkaar gescheiden door spaties.  
+Dit betekent als je een string meegeeft bestaande uit 2 woorden deze ook als 2 argumenten worden doorgegeven.
+
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-Argument.ps1 Hello World
 Hello
 PS C:\Users\Bart\pstryout>
 ~~~
+
+Als je een string wil meegeven als 1 argument omring je deze best met quotes zoals
+hieronder geillustreerd
 
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-Argument.ps1 "Hello World"
@@ -1248,12 +1431,17 @@ Hello World
 PS C:\Users\Bart\pstryout>
 ~~~
 
-#### Meerdere argumenten
+#### Argumenten tellen
+
+Binnen het script kan je ook het aantal argumenten meegeven tellen.  
+Dit kan handig zijn als je bijvoorbeeld het gedrag wil veranderen op basis van het aantal argumenten (zie verder voor condities)
 
 ~~~ps1
 # Dit is een script...
 Write-Host $args.count 
 ~~~
+
+Als je dit uitvoert met onze 2 vorige voorbeelden
 
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-NumbeOfArguments.ps1 "Hello World"
@@ -1263,24 +1451,40 @@ PS C:\Users\Bart\pstryout>  .\Write-NumbeOfArguments.ps1 Hello World
 PS C:\Users\Bart\pstryout>  
 ~~~
 
-#### Named parameters
+#### Werken met "named" argumenten/parameters
+
+ipv de $args-lijst te gebruiken kan je de argumenten ook binden aan een
+gewone variabele
 
 ~~~ps1
 param ($param1)
 write-host $param1 
 ~~~
 
+Dit zal zich identiek gedragen aan het werken met de $args-variabele
+
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-Argument.ps1 "Hello World"
+Hello World
+PS C:\Users\Bart\pstryout> .\Write-Argument.ps1 Hello World
 Hello
+PS C:\Users\Bart\pstryout> .\Write-Argument.ps1
+
 PS C:\Users\Bart\pstryout>
 ~~~
 
+#### Werken met meerder "named" argumenten/parameters
+
+Vanzelfsprekend kan je meerder parameters binden.  
+De parameters zullen zich dan binden volgens de positie...
+
 ~~~ps1
 param ($param1,$param2)
-write-host  -NoNewLine $param1
+write-host $param1
 write-host $param2 
 ~~~
+
+Met als resultaat:
 
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-2Arguments.ps1 Hello World
@@ -1289,31 +1493,43 @@ World
 PS C:\Users\Bart\pstryout>
 ~~~
 
-~~~ps1
-param ($param1,$param2)
-write-host $param1
-write-host $param2 
-~~~
+#### Parameters met types
 
-~~~ps1
-PS C:\Users\Bart\pstryout> .\Write-2Arguments.ps1 Hello World
-HelloWorld
-PS C:\Users\Bart\pstryout>
-~~~
+Je kan deze parameters ook types geven.  
+Dit kan zeer handig zijn als je bijvoorbeeld rekenkundige operaties wil uitvoeren.
+
+In powershell kan je de types annoteren door deze te plaatsen voor de definitie (tussen vierkante haken)
 
 ~~~ps1
 param ([int]$param1,[int]$param2)
 write-host ($param1 + $param2)
 ~~~
 
+> Powershell ondersteunt bijna dezelfde types en operaties als C#
+
 #### Variabelen
+
+De parameters (en de args-array) die we reeds gezien hebben zijn een specifieke soort van variabelen.   
+Je kan echter ook - net als in een klassieke programmeertaal - lokale variabelen definieren.  
+
+In het onderstaande voorbeeld gebruiken we een tussenvariabele $result om deze af te drukken
 
 ~~~ps1
 param ([int]$param1,[int]$param2)
 $result = $param1 + $param2
-write-host $result
+Write-Host $result
 ~~~
 
+#### Variable-substition binnen strings
+
+Een zeer nuttige en veel gebruikte techniek binnen scripting is het principe
+van variable-substition.
+
+ipv van je string te concateneren kan je de variabelen rechtstreeks includen 
+in de string
+
+Als we bijvoorbeeld de 3 parameters willen herbruiken van het vorige script
+om een mooi geformateerd resultaat te printen zoals hieronder
 
 ~~~ps1
 param ([int]$param1,[int]$param2)
@@ -1321,12 +1537,62 @@ $result = $param1 + $param2
 write-host "$param1 + $param2 = $result"
 ~~~
 
+Als je dit uitvoert zoals hieronder krijg je een mooiere output
+
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-Hello 1 2
 1 + 2 = 3
 PS C:\Users\Bart\pstryout>
 ~~~
 
+#### Alternatieve schrijfwijze
+
+Let ook, je kan ook variabelen aanroepen door deze te 
+omringen door accolades.  
+Dit is - zoals we direct gaan zien - om een duidelijk onderscheid te maken met command substitution
+
+~~~ps1
+param ([int]$param1,[int]$param2)
+$result = $param1 + $param2
+write-host "${param1} + ${param2} = ${result}"
+~~~
+
+#### Command-substitution
+
+Een variant op de voorgaande variable-substitution is command-substitution.  
+ipv de inhoud van een variabele te herbruiken, gaat deze de output van een commando herbruiken
+
+~~~ps1
+Write-Host "Het is vandaag $(date)"
+~~~
+
+Zoals je hieronder ziet zal deze de datum vandaag afdrukken
+
+~~~ps1
+PS C:\Users\Bart\pstryout> Write-DateOfToday
+Het is vandaag 09/12/2023 19:57:52
+PS C:\Users\Bart\pstryout>
+~~~
+
+Je kan dit trouwens ook hergebruiken om een variabele te initializeren
+met de output van een commando:
+
+~~~ps1
+$datumVandaag = $(date)
+Write-Host "Het is vandaag $datumVandaag"
+~~~
+
+#### Condities
+
+~~~ps1
+$value = 5
+
+if ($value -gt 1) {
+    Write-Host "value is greater than 1"
+}
+~~~
+
+#### for-loop
 
 ~~~ps1
 param ([int]$lijnen)
@@ -1334,6 +1600,8 @@ for ($i = 1; $i -le $lijnen; $i++){
     Write-Host $i
 }
 ~~~
+
+#### foreach-loop
 
 ~~~ps1
 foreach($item in $args){
@@ -1349,21 +1617,13 @@ foreach($item in $args){
 Write-Host "Het totaal is $sum"
 ~~~
 
+#### lijsten
 
 ~~~ps1
 $list = @('a', 'b', 'c', 'd');
 
 foreach($item in $list){
     Write-Host $item
-}
-~~~
-
-
-~~~ps1
-$value = 5
-
-if ($value -gt 1) {
-    Write-Host "value is greater than 1"
 }
 ~~~
 
