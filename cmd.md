@@ -1661,7 +1661,29 @@ Met onderstaande shebang zal je vragen aan het OS geen bash te gebruiken maar Ko
 
 #### Een eerste script
 
-Vervolgens kan je daaronder dan commando's plaatsen, deze zullen dan **sequentieel** worden **uitgevoerd**
+Laten we starten met een "Hello World".  
+Hiervoor voegen we 1 lijn toe aan het script
+
+~~~bash
+#!/bin/bash
+
+echo "Hello World"
+~~~
+
+Als je dit script wil uitvoeren navigeer je naar de directory waar dit script uitgevoerd staat
+en type je bash gevolgd door de naam van het script
+
+Dit voert het echo-commando uit dat een string "Hello World" zal printen naar de console.
+
+~~~bash
+$ bash hello.sh
+Hello World
+$
+~~~
+
+#### Sequentiele uitvoering
+
+Net als bij andere programmeertalen kan je meerdere commando's achter elkaar plaatsen, deze zullen dan **sequentieel** worden **uitgevoerd**
 
 ~~~bash
 #!/bin/bash
@@ -1669,9 +1691,18 @@ echo "Hello World"
 echo "Je eerste bash-script"
 ~~~
 
+Beide lijnen worden vervolgens onder elkaar uitgevoerd
+
+~~~bash
+$ bash hello.sh
+Hello World
+Je eerste bash-script
+$
+~~~
+
 #### Commentaar
 
-Naast het shebang-karakter kan je ook het hash-karakter of **```#```** gebruiken als een comment-teken (zoals in Python).  
+Naast het shebang-karakter kan je ook het hash-karakter of **```#```** ook gebruiken als een **comment**-teken (zoals in Python).  
 Alles wat je dan schrijft achter dit karakter (op dezelfde lijn) zal dan niet geinterpreteerd worden door de bash-interpreter.
 
 ~~~bash
@@ -1679,64 +1710,140 @@ Alles wat je dan schrijft achter dit karakter (op dezelfde lijn) zal dan niet ge
 #1ste commando...
 echo "Hello World"
 #2de commando
-echo "Het is vandaag $(date)"
+echo "Je eerste bash-script"
 ~~~
 
-#### Argumenten
+#### Bash scripten zijn niet standaard uitvoerbaar
+
+Tot nog toe hebben we het script rechtstreeks door de bash-interpreter laten uitvoeren.
+
+~~~bash
+$ bash hello.sh
+~~~
+
+Over het algemeen wordt een script echter niet op die manier aangeroepen.  
+Net zoals in powershell kan je het script aanroepen door de file rechtstreeks aan te roepen zoals hieronder
+
+~~~bash
+bart@CI00166387:~$ ./hello.sh
+-bash: ./hello.sh: Permission denied
+bart@CI00166387:~$
+~~~
+
+De shell geeft echter een foutboodschap, groot probleem!!!  
+Waarom is dit => SECURITY
+
+Linux en Unix-systemen zullen over het algemeen scripten niet automatisch als 
+uitvoerbaar aanmaken (hetgeen ook logisch is)
 
 
-#### Uitvoeren met de bash-interpreter
+#### Permissies
 
-**Bewaar** dit als **hello.sh** en voer deze uit als **volgt**:
+Om dus een script rechtstreeks uitvoerbaar te maken zal je nog een extra stap moeten doen.  
+Laten we eerst even kijken naar de permissies via het ls commando (met de optie l)
+
+~~~bash
+$ ls -l hello.sh
+-rw-r--r-- 1 bart bart 33 Sep 12 23:03 hello.sh
+$
+~~~
+
+##### read, write, execute
+
+In dit commando zijn de permissies aangeduid als rw-r--r--.  
+Wat betekent dit nu eigelijk?
+
+Om te starten heb je standaard 3 soorten rechten:
+
+* r voor read
+* w voor write
+* x voor execute (uitvoeren)
+
+Het ls commando zal de letter (r,w of x) aanduiden als je het respectievelijke recht hebt en een streep (-) als je het niet hebt.  
+Bijvoorbeeld:
+
+* r-- zijn enkel leesrechten
+* r-x lees- en uitvoerrechten
+* rwx alle rechten
+* ... (en alle andere mogelijke combo's)
+
+##### user, group en others
+
+Als we echter goed kijken zien we echter geen 3 symbolen maar 9 in het totaal namelijk rw-r--r--?  
+Dit komt omdat me op 3 niveaus rechten kan toekennen:
+
+* user (positie 1 tem 3)  
+  De eigenaar van de file
+* group (positie 4 tem 6)  
+  Iedereen die tot dezelfde groep hoort waartoe deze file behoort
+* other (positie 7 tem 9)  
+  Iedereen allen
 
 ~~~
-student@studentdeb:~$ bash ./hello.sh 
+   user --+  group --+  others --+
+          |          |           |
+         rw-        r--         r--
+~~~
+
+In dit geval heeft:
+
+* De user read en write
+* Iedereen anders heeft enkel leesrechten
+
+##### Permissie geven met chmod
+
+Als je dus permissierechten wil toekennen kan je dit via het chmod commando.  
+
+~~~bash
+$ ls -l hello.sh
+-rw-r--r-- 1 bart bart 33 Sep 12 23:03 hello.sh
+~~~
+
+Als je nu het chmod-commando uitvoert:
+
+~~~bash
+$ chmod u+x hello.sh
+$
+~~~
+
+Zie je dat op het user-niveau een x is bijgekomen.
+
+~~~bash
+$ ls -l hello.sh
+-rwxr--r-- 1 bart bart 33 Sep 12 23:03 hello.sh
+$
+~~~
+
+Het chmod-commando werkt via de volgend syntax:
+
+~~~
+chmod {Wie}{Wat}{Welk} {file|directory}
+~~~
+
+* Wie? Target...
+  * u => user/owner van deze file
+  * g => group waar deze file toe behoort
+  * o => others, iedereen verschillend van
+  * a of ugo => all, iedereen
+* Wat? Toegepast op wie/target
+  * + => add => Voeg een permissie toe (voor het target hierboven)
+  * - => remove => Neem een permissie af
+  * = => set exactly => Zet deze permissie exact (andere permissies worden afgenomen)
+* Welke permissies?
+  * r => read of leesrecht
+  * w => write of schrijfrecht
+  * x => execute oftewel recht om uit te voeren als een programma
+
+Het commando chmod u+x hello.sh zal dus aan de user/owner van de file uitvoeringsrechten geven
+
+##### Resultaat
+
+Als gevolg kan je nu het script rechtstreeks aanroepen...
+
+~~~bash
+$ ./hello.sh
 Hello World
-Het is vandaag Wed 15 Dec 2021 03:24:45 PM CET
-student@studentdeb:~$ 
-~~~
-
-Beide lijnen worden 1 na 1 uitgevoerd???
-
-#### Uitvoeren als programma (en permissies)
-
-Je kan het **script** ook **uitvoeren** net zoals je een gewoon **programma/commando** uitvoert.  
-Om dat te kunnen doen dien je echter nog een extra stap te doen want...
-
-~~~
-student@studentdeb:~$ ./hello.sh
-bash: ./hello.sh: No such file or directory
-student@studentdeb:~$ bash ./hello.sh 
-~~~
-
-...een **script** wordt **by default niet uitvoerbaar** gemaakt zoals je hieronder ziet.  
-
-~~~
-student@studentdeb:~$ ls -l ./hello.sh
--rw-r--r-- 1 student student 61 Dec 15 15:24 ./hello.sh
-~~~
-
-Om het het script zo uit te voeren dien je echter de **permissies** te **wijzigen** dit doe je met het **chmod-commando**:
-
-~~~
-student@studentdeb:~$ chmod u+x hello.sh
-student@studentdeb:~$ ls -l ./hello.sh
--rwxr--r-- 1 student student 61 Dec 15 15:24 ./hello.sh
-student@studentdeb:~$
-~~~
-
-ls -l toont dat je het script nu kan uitvoeren door de x (in rwx) en dus **kan** je het En kan je het script uitvoeren. uitvoeren.
-
-> *Geduld:*
-> De **uitleg** rond **permissies** **volgt** in het hoofdstuk rond permissies...
-
-~~~
-student@studentdeb:~$ ls -l ./hello.sh
--rwxr--r-- 1 student student 61 Dec 15 15:24 ./hello.sh
-student@studentdeb:~$ ./hello.sh 
-Hello World
-Het is vandaag Wed 15 Dec 2021 03:28:37 PM CET
-student@studentdeb:~$
+$
 ~~~
 
 #### Argumenten
@@ -1857,6 +1964,7 @@ ls: cannot access 'c': No such file or directory
 test 2:
 ls: cannot access 'a b c': No such file or directory
 ~~~
+
 
 
 
