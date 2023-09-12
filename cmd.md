@@ -1629,23 +1629,44 @@ foreach($item in $list){
 
 ### Bash-scripting
 
-Op Linux
+Waar we op Windows eerder gebruik zullen maken van powershell gebruiken we op Linux en macOS 
+typisch gebruik van scripting met Bash.
 
-#### shebang
+> Nota:  
+> Op Windows kan het ook zijn dat je geconfronteerd wordt met Bash.  
+> Zeker met het gebruik van WSL en Docker...
 
-Als je een **Bash-script** wil schrijven dient dit altijd te **starten** met de **volgende lijn**.
+#### Een bash-script maken
+
+Om een bash-script te schrijven heb je enkel een scripteditor en toegang nodig tot een terminal-console (met Bash-interpreter).  
+Bash is standaard geinstalleer op Linux en macOS, maar is ook beschikbaar voor Windows.
+
+Een bash-script heeft typisch 2 belangrijke eigenschappen (om te starten), eerst en vooral is het een textfile met de **extensie .sh**
+anderzijds dient het te starten met een **shebang**
+
+Als je een **Bash-script** wil schrijven **starten** met de **volgende lijn**.
 
 ~~~
 #!/bin/bash
 ~~~
 
-We noemen het symbool **```#!```** ook wel een **shebang**, deze bepaalt **welke script-interpreter** gebruikt wordt.  
+Dit symbool **```#!```** wordt dan ook benoemd als **shebang**.  
+
+Hoewel het buiten de scope valt van deze initiatie, deze shebang is eigen metadata die bepaalt **welke script-interpreter** gebruikt wordt.  
+Met onderstaande shebang zal je vragen aan het OS geen bash te gebruiken maar Korn-shell (andere gelijkaardige scripting-engine)
+
+~~~
+#!/bin/ksh
+~~~
+
+#### Een eerste script
+
 Vervolgens kan je daaronder dan commando's plaatsen, deze zullen dan **sequentieel** worden **uitgevoerd**
 
 ~~~bash
 #!/bin/bash
 echo "Hello World"
-echo "Het is vandaag $(date)"
+echo "Je eerste bash-script"
 ~~~
 
 #### Commentaar
