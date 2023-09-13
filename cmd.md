@@ -1967,7 +1967,7 @@ ls: cannot access 'a b c': No such file or directory
 
 #### Condities met if
 
-Bash kan (zoals Python) ook als programmeer- of scripting-taal worden gebruikt.  
+Bash kan ook gebruikt worden voor complexere logica met loops en condities (zoals Java en C#).  
 De structuur van een conditie ziet er als volgt uit:
 
 ~~~bash
@@ -1995,6 +1995,23 @@ else
 fi
 ~~~
 
+Let wel, de condities/expressies - binnen de vierkante haakjes - zijn verschillend van wat we gewoon zijn
+van klassieke programmeer talen.
+
+In het bovenstaand voorbeeld maken we gebruiken van -eq om een variabele met een waarde te vergelijken waar
+je dat in een andere programmeer taal zoals hieronder geillustreerd.
+
+~~~csharp
+int a = 0;
+if( a == 0) {
+  Console.WriteLine("a is 0");
+} else {
+  Console.WriteLine("a is niet null 0");
+}
+~~~
+
+Ook maak je geen gebruik van braces **{}** maar gebruik je **;then** om de start aan te duiden en **fi** om af te sluiten...
+
 ##### Testen op getal-waardes
 
 Je kan deze variabelen gaan interpreteren als getallen met de volgende mogelijkheiden:
@@ -2005,9 +2022,7 @@ INTEGER1 -gt INTEGER2 => INTEGER1 is numeriek groter than INTEGER2
 INTEGER1 -lt INTEGER2 => INTEGER1 is numeriek kleiner than INTEGER2
 ~~~
 
-met als voorbeelden:
-
-* Testen of een argument groter is dan een getal:
+Bijvoorbeeld als je wil testen of een argument groter is dan een getal:
 
 ~~~bash
 #!/bin/bash
