@@ -51,9 +51,9 @@ In het voorbeeld hierboven heb je:
 
 > We leggen verder in het document uit wat hexadecimaal is en hoe je die 0- en 1-tjes moet begrijpen
 
-Deze bytes groeperen maakt het dan mogelijk voor een CPU om deze bytes op te vragen op adres.  
-In de extreem veréénvoudigde weergave heb je een programma dat de waardes van adres 0 en 1
-opvragen, deze optellen en het resultaat opslagen in de byte met adres 2
+Deze **bytes groeperen** maakt het dan **mogelijk** voor een **CPU** om deze **bytes** op te vragen op **adres** in het geheugen (of RAM).  
+In de **extreem veréénvoudigde weergave** heb je een programma dat de **waardes** van **adres 0 en 1**
+opvragen, deze **optellen** en het **resultaat** **opslagen** in de byte met adres **2**
 
 > RAM staat trouwens voor Random Access Memory waar random staat voor het feit dat
 > je een geheugen cel (byte) even snel kan ophalen los van een (random) adres
@@ -103,10 +103,10 @@ Deze grootheden zijn **multiplicators van bytes met machten van 2** (niet met du
 | 2^70 ≈ 1,181 × 10^21 | zettabyte | ZB        |
 | 2^80 ≈ 1,209 × 10^24 | yottabyte | YB        |
 
-Wel benaderen deze een machten van 10 zoals je in de tabel hierboven ziet:
+We **benaderen** deze met de **som** van  **machten** van **2^10** zoals je in de tabel hierboven ziet:
 
-* Een kilobyte is 1.024 ipv 1.000
-* Een gigabyte is 1.073.741.824 ipv 1.000.000.000
+* Een **kilobyte** is **1.024** ipv 1.**000**
+* Een **gigabyte** is **1.073.741.824** ipv **1.000.000.000**
 * ...
 
 Dit kan een detail lijken maar hoort toch tot de **essentiele kennis** van een softwareontwikkelaar.
@@ -116,14 +116,14 @@ Dit kan een detail lijken maar hoort toch tot de **essentiele kennis** van een s
 
 ### bits en bytes in netwerk snelheid
 
-Als men spreekt over bandbreedte en download-upload snelheden spreekt met soms over mpbs, gpbs ...  of we het aantal bits per seconde 
+Als men spreekt over **bandbreedte** en **download-upload snelheden** spreekt met soms over mpbs, gpbs ...  of we het aantal bits per seconde 
 dat een netwerk doorduwt.  
 
 In dat geval spreken we echter over **1000-tallen ipv 2^10**:
 
-* kbps staat voor 1.000 bits/sec
-* mbps staat voor 1.000.000 bits/sec
-* gbps staat voor 1.000.000.000 bits/sec
+* **kbps** staat voor **1.000 bits/sec**
+* **mbps** staat voor **1.000.000 bits/sec**
+* **gbps** staat voor **1.000.000.000 bits/sec**
 * ...
 
 
