@@ -942,9 +942,9 @@ EINDE PROGRAMMA:       exit-code
 In onderstaand voorbeeld zal de standard-output van het commando "ls" naar de shell doorsturen
 
 ~~~
-student@studentdeb:~$ ls -l hello.sh 
+$ ls -l hello.sh 
 -rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-student@studentdeb:~$
+$
 ~~~
 
 #### Redirection operator > (overwrite)
@@ -953,19 +953,19 @@ Deze output kan je echter "redirect"-en naar een een file.
 Dit doe je door na het commando een **```>```** teken te plaatsen gevolgd naar welk file je wil schrijven zoals hieronder geillustreerd.
 
 ~~~
-student@studentdeb:~$ ls -l hello.sh > lsout
-student@studentdeb:~$ cat lsout
+$ ls -l hello.sh > lsout
+$ cat lsout
 -rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-student@studentdeb:~$
+$
 ~~~
 
 Een 2de voorbeeld is als je een file wil aanmaken met reeds wat tekst in:
 
 ~~~
-student@studentdeb:~$ echo "Hello World" > helloworld 
-student@studentdeb:~$ cat helloworld
+$ echo "Hello World" > helloworld 
+$ cat helloworld
 Hello world
-student@studentdeb:~$
+$
 ~~~
 
 #### Redirection operator >> (append)
@@ -973,10 +973,10 @@ student@studentdeb:~$
 De >-operator zal een file overschrijven, al er reeds een file bestaat zal deze worden overschreven met de volledige output van het commando.
 
 ~~~
-student@studentdeb:~$ ls -l hello.sh > lsout
-student@studentdeb:~$ cat lsout
+$ ls -l hello.sh > lsout
+$ cat lsout
 -rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-student@studentdeb:~$ 
+$ 
 ~~~
 
 Als je echter het bestand niet wil overschrijven gebruik je de **>>-redirection-operator**.  
@@ -984,12 +984,12 @@ Om te vermijden dat we voorgaande input niet overschrijven gebruiken we deze ope
 
 ~~~
 tudent@studentdeb:~$ ls -l hello.sh >> lsout
-student@studentdeb:~$ ls -l hello.sh >> lsout
-student@studentdeb:~$ cat lsout
+$ ls -l hello.sh >> lsout
+$ cat lsout
 -rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
 -rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
 -rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-student@studentdeb:~$ 
+$ 
 ~~~
 
 Als gevolg hiervan zien we dat de file is aangevuld...
@@ -1014,10 +1014,10 @@ Een **applicatie** zal **foutboodschappen** doorsturen naar de **STDERR**, niet 
 Bij volgende voorbeeld proberen we express een nietbestaande file op te lijsten en de outputweg te schrijven naar een file.
 
 ~~~
-student@studentdeb:~$ ls -l hello.sh.not > lsout
+$ ls -l hello.sh.not > lsout
 ls: cannot access 'hello.sh.not': No such file or directory
-student@studentdeb:~$ cat lsout 
-student@studentdeb:~$ 
+$ cat lsout 
+$ 
 ~~~
 
 Hier zien we dat de **file leeg** is, dit is omdat de enige output van het ls-commando de foutboodschap was die je op de console zag verschijnen.  
@@ -1027,10 +1027,10 @@ Hier zien we dat de **file leeg** is, dit is omdat de enige output van het ls-co
 Als je er echter wil voor zorgen dat de **error-output** naar een file wordt weggeschreven kan je dit door een nummer toe te voegen aan het redirect-symbool, voor de **error-stream** is dit altijd **2**
 
 ~~~
-student@studentdeb:~$ ls -l hello.sh.not 2> lserr
-student@studentdeb:~$ cat lserr 
+$ ls -l hello.sh.not 2> lserr
+$ cat lserr 
 ls: cannot access 'hello.sh.not': No such file or directory
-student@studentdeb:~$ 
+$ 
 ~~~
 
 Je kan ook zorgen dat **beide** streams **tegelijkertijd** worden weggeschreven.  
@@ -1041,12 +1041,12 @@ In onderstaand voorbeeld:
 * de gewone output gaat naar lsout 
 
 ~~~
-student@studentdeb:~$ ls -l hello.sh hello.sh.not >lsout 2> lserr
-student@studentdeb:~$ cat lserr 
+$ ls -l hello.sh hello.sh.not >lsout 2> lserr
+$ cat lserr 
 ls: cannot access 'hello.sh.not': No such file or directory
-student@studentdeb:~$ cat lsout
+$ cat lsout
 -rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-student@studentdeb:~$ 
+$ 
 ~~~
 
 #### Redirect van beide STDOUT en STDERR via &>
@@ -1055,11 +1055,11 @@ Als je beide tegelijkertijd will redirecten en je **&>** gebruiken in de plaats 
 In het **voorbeeld** hieronder zullen **beide streams** naar **lsall** worden weggeschreven.
 
 ~~~
-student@studentdeb:~$ ls -l hello.sh hello.sh.not &> lsall
-student@studentdeb:~$ cat lsout 
+$ ls -l hello.sh hello.sh.not &> lsall
+$ cat lsout 
 -rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
 ls: cannot access 'hello.sh.not': No such file or directory
-student@studentdeb:~$ 
+$ 
 ~~~
 
 ### STDIN
@@ -1090,12 +1090,12 @@ namelijk STDIN.
 In onderstaand voorbeeld typen we wat tekst gevolgd, om deze tekst (STDIN) te beeindigen gebruiken we "Ctrl + D"
 
 ~~~
-student@studentdeb:~$ wc
+$ wc
 hello
 world
 greetings from the shell
       3       6      37
-student@studentdeb:~$ 
+$ 
 ~~~
 
 #### Redirection vanuit een file naar STDIN via <
@@ -1106,8 +1106,8 @@ Dit kunnen we via de operator **<**.
 We komen terug op ons voorgaand voorbeeld waar we een file aanmaken met 2 lijnen.
 
 ~~~
-student@studentdeb:~$ ls -l hello.sh hello.sh.not &> lsall
-student@studentdeb:~$ cat lsall
+$ ls -l hello.sh hello.sh.not &> lsall
+$ cat lsall
 ls: cannot access 'hello.sh.not': No such file or directory
 -rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
 ~~~
@@ -1115,9 +1115,9 @@ ls: cannot access 'hello.sh.not': No such file or directory
 Als we nu de inhoud van deze file willen afleiden naar het wc-commando kunnen we dit doen als hieronder.
 
 ~~~
-student@studentdeb:~$ wc < lsall
+$ wc < lsall
   2  18 114
-student@studentdeb:~$ 
+$ 
 ~~~
 
 #### Redirection van STDIN/STDOUT vanuit een ander process/commando naar STDIN via |
@@ -1867,16 +1867,16 @@ echo "Hello $1 $2"
 Dit script zal dan de 1ste en 2de parameter afdrukken met het echo-commando (adhv string-substitutie).
 
 ~~~
-student@studentdeb:~$ chmod u+x a.sh 
-student@studentdeb:~$ ./a.sh 
+$ chmod u+x a.sh 
+$ ./a.sh 
 Hello  
-student@studentdeb:~$ ./a.sh a
+$ ./a.sh a
 Hello a 
-student@studentdeb:~$ ./a.sh a b
+$ ./a.sh a b
 Hello a b
-student@studentdeb:~$ ./a.sh a b c
+$ ./a.sh a b c
 Hello a b
-student@studentdeb:~$ 
+$ 
 ~~~
 
 #### Speciale argumenten
@@ -1903,13 +1903,13 @@ echo $*
 ... en uitvoert als hieronder
 
 ~~~
-student@studentdeb:~$ $ bash ./hello.sh 1 2 3 4
+$ ./hello.sh 1 2 3 4
 Hello 1 2
 ./hello.sh
 4
 1 2 3 4
 1 2 3 4
-student@studentdeb:~$ 
+$ 
 ~~~
 
 ... zien we (na de output van het vorige voorbeeld):
@@ -1963,6 +1963,290 @@ ls: cannot access 'b': No such file or directory
 ls: cannot access 'c': No such file or directory
 test 2:
 ls: cannot access 'a b c': No such file or directory
+~~~
+
+#### Condities met if
+
+Bash kan (zoals Python) ook als programmeer- of scripting-taal worden gebruikt.  
+De structuur van een conditie ziet er als volgt uit:
+
+~~~bash
+if [ condition ]
+then
+  command1
+  command2
+  ...
+  commandn
+else
+  command1
+  command2
+  ...
+  commandn
+fi
+~~~
+
+Bijvoorbeeld onderstaande if gaat vergelijken of er argumenten zijn.
+
+~~~bash
+if [ $# -eq 0 ]; then
+        echo Er zijn geen argumenten.
+else
+        echo Er zijn wel argumenten.
+fi
+~~~
+
+##### Testen op getal-waardes
+
+Je kan deze variabelen gaan interpreteren als getallen met de volgende mogelijkheiden:
+
+~~~
+INTEGER1 -eq INTEGER2 => INTEGER1 is numeriek gelijk to INTEGER2
+INTEGER1 -gt INTEGER2 => INTEGER1 is numeriek groter than INTEGER2
+INTEGER1 -lt INTEGER2 => INTEGER1 is numeriek kleiner than INTEGER2
+~~~
+
+met als voorbeelden:
+
+* Testen of een argument groter is dan een getal:
+
+~~~bash
+#!/bin/bash
+if [ $1 -gt 100 ]
+then
+    echo Nummer is groter dan 100.
+fi
+~~~
+
+##### else if...
+
+In de meeste programmeertalen kan je ook naast else ook een "else if"-clausule toevoegen.  
+Deze zal andere alternatieven testen indien de if-clausule niet true evalueert.
+
+~~~bash
+#!/bin/bash
+if [ $1 -gt 100 ]
+then
+    echo Nummer is groter dan 100.
+elif [ $1 -gt 75 ]
+then
+    echo Nummer is tussen 76 en 100
+elif [ $1 -gt 50 ]
+then
+    echo Nummer is tussen 51 en 75
+else
+    echo Nummer is kleiner of gelijk aan 50
+fi
+~~~
+
+Als we deze testen met wat getallen...
+
+~~~
+$ ./hello.sh 101
+Nummer is groter dan 100.
+$ ./hello.sh 99
+Nummer is tussen 76 en 100
+$ ./hello.sh 65
+Nummer is tussen 51 en 75
+$ ./hello.sh 50
+Nummer is kleiner of gelijk aan 50
+$ 
+~~~
+
+##### not/inversie
+
+Je kan je test ook inverteren, als ik bijvoorbeeld het omgekeerde
+wil van groter dan 100 kan ik de eigenlijke test inverteren met een uitroepteken.
+
+~~~bash
+#!/bin/bash
+if [ ! $1 -gt 100 ]
+then
+    echo Nummer is niet groter dan 100.
+else
+    echo Nummber is groter dan 100
+fi
+~~~
+
+Deze mag eventueel ook buiten de haakjes staan
+
+~~~bash
+#!/bin/bash
+if ! [ $1 -gt 100 ]
+then
+    echo Nummer is niet groter dan 100.
+else
+    echo Nummber is groter dan 100
+fi
+~~~
+
+
+##### Testen op string-waardes
+
+* Testen op basis van het aantal argumenten
+
+~~~
+-n STRING => 	De lengte string > 0.
+-z STRING =>	Het betref een lege string.
+STRING1 = STRING2 => STRING1 is equal to STRING2
+STRING1 != STRING2 =>	STRING1 is not equal to STRING2
+~~~
+
+Voorbeelden:
+
+* Nakijken of de string gelijk is
+
+~~~bash
+#!/bin/bash
+if [ $1 = "go" ]
+then
+        echo "go"
+fi
+~~~
+
+~~~bash
+#!/bin/bash
+if [ -n $1 ]
+then
+        echo "geen lege string"
+fi
+~~~
+
+##### File-verificaties
+
+Een 3de manier is deze vergelijkingen te maken als zijn het files
+
+~~~
+-e FILE => FILE bestaat.
+-d FILE => FILE bestaat en is een directory.
+-r FILE => FILE bestaat en de read-permissie is toegekend.
+-s FILE => FILE bestaat en is niet leeg.
+-w FILE => FILE bestaat en je mag er naar schrijven.
+-x FILE => FILE bestaat en heeft execute-permissies.
+~~~
+
+Het volgende voorbeeld kijkt na of het argument een file is:
+
+~~~bash
+#!/bin/bash
+if [ $# -eq 0 ]
+then
+        echo Er zijn geen argumenten.
+else
+        echo Er zijn $# argumenten.
+        if [ -e $1 ]
+        then
+                echo Het bestand $1 bestaat.
+        else
+                echo Het bestand $1 bestaat niet.
+        fi
+fi
+~~~
+
+##### Combinaren met && en ||
+
+Je kan (net zoals in Python) ook combinaties maken
+
+~~~
+! EXPRESSION =>	EXPRESSION geinverteerd (false => true)
+&& => en
+|| => of
+~~~
+
+Volgende script gaat het vergelijk maken of een eerste getal 
+tussen de 2 andere argumenten ligt
+
+~~~bash
+if [ $1 -gt $2 ] && [ $1 -lt $3 ]
+then
+        echo "$1 ligt tussen  $a en $b"
+else
+        echo "$1 ligt niet tussen $a en $b"
+fi
+~~~
+
+Met als volgende gebruik:
+
+~~~
+$  ./between.sh 6 5 10
+6 ligt tussen  5 en 10
+$  ./between.sh 4 5 10
+4 ligt niet tussen 5 en 10
+$  
+~~~
+
+#### for loop
+
+De for-loop kan gebruikt worden om door een lijst te lopen
+
+~~~bash
+#!/bin/bash
+for i in 1 2 3 4 5 6 7 8 9 10;
+do
+    echo $i
+done 
+~~~
+
+Deze lijst kan je ook genereren met het commando **seq**  
+
+~~~
+bart@bvlegion:~$ seq 1 10
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+bart@bvlegion:~$
+~~~
+
+en als volgt **toepassen** binnen een **script**
+
+~~~bash
+#!/bin/bash
+for i in $(seq 1 10);
+do
+    echo $i
+done 
+~~~
+
+#### while loop
+
+Een andere loop die gaat testen op een conditie.  
+Deze heeft het volgende **formaat**:
+
+~~~bash
+while [ condition ]
+do
+   command1
+   command2
+   command3
+done
+~~~
+
+Je kan deze bijvoorbeeld gebruiken in **combinatie** met een **teller** en **conditie**:
+
+~~~bash
+#!/bin/bash
+x=1
+while [ $x -le 5 ]
+do
+  echo "Welcome $x times"
+  x=$(( $x + 1 ))
+done
+~~~
+
+Maar ook om een **oneindige loop** aan te maken:
+
+~~~bash
+#!/bin/bash
+while true; do
+    echo "hello"
+    sleep 5
+done
 ~~~
 
 
