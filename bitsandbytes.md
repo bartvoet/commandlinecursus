@@ -1,16 +1,30 @@
 # Bits & Bytes
 
-## Wat zijn bits en bytes?
+![](matrix.jpeg)
+
+Doel van dit hoofdstukje is wat **duiding** te geven **wat bits en bytes** zijn
+en wat je er mee kan of moet aanvangen of software ontwikkelaar.
+
+## Om te starten, wat zijn bits en bytes?
+
+**Vooraleer** te kijken **hoe** we met **bits en bytes** **werken** waar hebben we het over 
+als we over bits & bytes spreken.
 
 ### Wat zijn bits?
 
-Intern gebruikt je computer **bits** om informatie digitaal op te slaan.  
-Alle hardware op je computer CPU, geheugen, harde schrijven, flashgeheugen, werkt op dit niveau
+Intern gebruikt je computer **bits** om informatie **digitaal** **op te slaan**.  
+Alle hardware op je computer **CPU**, **geheugen**, **harde schrijven**, flashgeheugen,... werken op dit niveau
 
-Een bit is een samentrekking van **b**inary dig**it**, letterlijk vertaald binair cijfer.
+Een bit is eigenlijk een samentrekking van **b**inary dig**it**, wat zich letterlijk vertaald **binair cijfer**.
 maw heb betreft een cijfer dat enkel 2 waardes kan hebben, namelijk **0 of 1**.
 
-**Computergeheugen** bijvoorbeeld is eigelijk een **rij/aanschakeling** van zeer veel **bits** (miljarden).  
+### Computer(geheugen) -> rijen van bits
+
+Alle soorten **computergeheugen** - of het nu een harde schijf, RAM-geheugen, cache, ... zijn -
+zijn (aan de basis) **rijen/aanschakelingen** van (zeer veel) **bits** (miljarden).  
+
+Een computer is dus niet meer of minder allemaal kleine schakelaartjes die 0 of 1 kunnen zijn
+zoals je hieronder ziet.  
 
 ~~~
 +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
@@ -18,23 +32,55 @@ maw heb betreft een cijfer dat enkel 2 waardes kan hebben, namelijk **0 of 1**.
 +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
 ~~~
 
-De CPU van een computer (of eender welk digitaal toestel) verwerkt dan en houdt al zijn informatie bij in die lange rij van bits.  
+Rond al die 0- en 1-tjes heb je dan een hardware dat (reken en logische) bewerkingen doet op die rij van bitjes.  
+De **CPU** van je computer (of eender welk digitaal toestel) verwerkt dan en houdt al zijn informatie bij in die lange rij van bits.  
 
-### Bytes groeperen bits...
-
-Als ik je vertel dat computerhardware enkel met in bits werkt is dat maar de halve waarheid.  
-**Bits** worden zelden **alleen** **gebruikt** binnen **computers** en programma's.  
-
-Ze zijn bijna altijd **gebundeld** in **8-bits groepjes**, en deze verzamelingen noemen we **bytes**...
-
-#### Waarom groeperen?
-
-Dit maakt het **gemakkelijker** om **grotere** **getallen** te vormen en hardware te maken die op
-groepen van bits te werken.  
-
-In een **computergeheugen** bijvoorbeeld worden die **rij van bits** dan gegroepeerd in **adresseerbare bytes**
 
 ~~~
+                             +-----+
+                             | CPU |
+                             +--+--+
+                                |
+                                v
++---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+| 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 1 | 0 | ...
++---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+~~~
+
+### Computerorganisatie
+
+#### Computerorganisatie -> groeperen en adresseren van bits
+
+Als ik je vertel dat computerhardware **enkel** met in **bits** werkt is dat maar een **half verhaal**.  
+**Bits** worden zelden **alleen** **gebruikt** binnen **computers** en programma's.  
+
+Er zijn namelijk 2 grote challenges als je werkt met bits:
+
+* **bits** zijn te **klein** om met te **werken**  
+  Bij voorkeur ga je dit proberen te **groeperen** in grotere stukken om de data 
+  gemakkelijker te berekenen, bewerken, op te halen of te bewaren
+* Je moet geheugen kunnen **adresseren** (zoals je een boek indexeert met pagina's en hoofstukken) om data terug te vinden
+
+#### Computerorganisatie -> bits groeperen (per 8) in bytes
+
+Hoe pakt men dit nu aan in een computer, een 1ste deel van de oplossing is
+
+Die **rij van bits** wordt bijna altijd **gebundeld** in **8-bits groepjes**, en deze **verzamelingen** noemen we **bytes**...
+
+Dat groeperen in bytes maakt het voor de CPU/processor **gemakkelijker** om data te gaan groeperen in die gigantische 
+reeks van bits. 
+
+#### Computerorganisatie -> adresseren van bytes (gegroepeerde bits)
+
+Het **werkgeheugen** of RAM is technisch gezien een hele rang **rij van bits** dan gegroepeerd in **adresseerbare bytes**.  
+De processor/CPU kan deze data bereiken via deze adressen
+
+~~~
+                             +-----+
+                +------------+ CPU +------------+
+                |            +-----+            |
+                |                               |
+                V                               V
          Byte op adres 0                 Byte op adres 1
                 |                               |
 +---------------+---------------+---------------+---------------+
@@ -49,21 +95,46 @@ In het voorbeeld hierboven heb je:
 * Op **adres 0** => een byte met de waarde **0101 1000** of 0x58 (hexadimaal) of 88 (decimaal)
 * Op **adres 1** => een byte met de waarde **0000 1010** of 0x0A (hexadimaal) of 10 (decimaal)
 
-> We leggen verder in het document uit wat hexadecimaal is en hoe je die 0- en 1-tjes moet begrijpen
+Elk van die bytes kan dan voorgesteld worden als een getal tussen 0 en 255 (anders gezegd 2^8 of 256 mogelijke getallen)
 
-Deze **bytes groeperen** maakt het dan **mogelijk** voor een **CPU** om deze **bytes** op te vragen op **adres** in het geheugen (of RAM).  
-In de **extreem veréénvoudigde weergave** heb je een programma dat de **waardes** van **adres 0 en 1**
-opvragen, deze **optellen** en het **resultaat** **opslagen** in de byte met adres **2**
+> Geen zorgen: We leggen verder in het document uit wat hexadecimaal is en hoe je die 0- en 1-tjes moet begrijpen
 
-> RAM staat trouwens voor Random Access Memory waar random staat voor het feit dat
-> je een geheugen cel (byte) even snel kan ophalen los van een (random) adres
+#### Programma's, werkgeheugen en bytes
+
+Deze **groepering** en **adressering** van **bytes** zijn dus de basisprincipes achter de werking van 
+eender welke computer.  
+
+Aan de basis gaat een computer de **programma**'s die je schrijft uitvoeren door constant **bytes** (of groepen van bytes)
+te **lezen** en weg te **schrijven** naar werkgeheugen of RAM (en ondertussen berekeningen op uit te voeren).  
+
+Stel dit **extreem veréénvoudigde voorbeeld**, je hebt een programma dat 2 bytes met elkaar optelt.  
+
+~~~cs
+...
+char a = 88;
+char b =  5;
+char c = a + b;
+...
+~~~
+
+> Nota: Een char is C# een cijfer met de grootte van een bytes
+
+**Wat** gebeurt er nu met een computer als je dit **programma** compileert en uitvoert?
+
+* Eerst worden variabele a en b worden ergens met hun waarde in het geheugen geplaatst  
+  (intern wordt a en b vertaald naar een adres)
+  * Variabele a wordt bijvoorbeeld op adres 1 gezet (kan ook adres 545465466 zijn maar voor de éénvoud)
+  * Variabele b wordt bijvoorbeeld op adres 2
+* Stap 1 en 2: De **waardes** van **adres 0 en 1** opvragen
+* Stap 3: Het resultaat van beide wordt **opgeteld** 
+* Het **resultaat** **opslagen** in de byte met adres **2** (variabele c)
 
 ~~~
-+-----------+                 +---+------------+
++-----------+     STAP 1      +---+------------+
 |           +<----------------+ 0 | 0101 1000  |
-|   CPU     |                 +----------------+
+|   CPU     |     STAP 2      +----------------+
 |           +<----------------+ 1 | 0000 1010  |
-+-----+-----+                 +----------------+
++-----+-----+     STAP 3      +----------------+
       +---------------------->+ 2 | 1100 0010  |
                               +----------------+
                               | 3 |            |
@@ -73,9 +144,20 @@ opvragen, deze **optellen** en het **resultaat** **opslagen** in de byte met adr
                                  ...
 ~~~
 
-> Dit is natuurlijk heel **veréénvoudigd**, **adressen** op je computer gaan tot in de **miljarden**.  
-> Een **gigabyte** is gelijk aan** 1.073.741.824** (oftewel 2^30).  
-> Ook gaat een CPU in werkelijkheid gaat meerdere bytes tegelijk (4 tot 8) ophalen (afhankelijk van je databus).  
+Hou rekening er mee, dit is natuurlijk heel **veréénvoudigd**, **adressen** op je computer gaan tot in de **miljarden**.  
+Een **gigabyte** is gelijk aan** 1.073.741.824** (oftewel 2^30).  
+Ook gaat een CPU in werkelijkheid gaat meerdere bytes tegelijk (4 tot 8) ophalen (afhankelijk van je databus). 
+
+> *Wist je trouwens:*  
+> **RAM** staat trouwens voor **Random Access Memory**.  
+> Het woord **Random** staat daarin voor het feit dat
+> je eender welke geheugencel (met grootte van een byte) 
+> even snel kan ophalen losstaande van welk (random) adres
+> het heeft.  
+> Zo zal byte 1.000.000 even snel opgehaald worden als 
+> byte 1
+
+#### Conclusie computerorganisatie: bytes zijn de boekhouding van een computer
 
 Het **belangrijkste** om te weten is dat een **computer** zijn **boekhouding** altijd bijhoudt in **adressen** van **bytes** voor alles wat opslag is.  
 Ook files, computerprogramma's, ... moet je bekijken in **bytes** (zeker in de tooling en debugging)
@@ -85,11 +167,51 @@ Ook files, computerprogramma's, ... moet je bekijken in **bytes** (zeker in de t
 > dat is iets dat de afgelopen 70 jaar zo geevolueerd is in computer hardware...  
 > Het werkt gewoon heel efficient omdat je gemakkelijk kan omrekenen van bit naar **hexadecimale** getallen zoals
 > je zo dadelijk zal zien...
-> 
 
-### bits en bytes zijn ook meetéénheden (voor geheugen)
+## Moet ik echt weten wat bits en bytes zijn als softwareontwikkelaar?
 
-Eén van de zaken waar die direct naar boven komen zijn **grootheden**, denk maar aan een **gigabyte**.  
+Eénvoudig gezegd **JA** (en nog eens JA)? als softwareontwikkelaar (of toekomstige) kom je regelmatig bytes (of soms bits) tegen.  
+
+### Coderingen
+
+Het kunnen **werken** met **bytes** en **hexidecimale** getallen zoals
+
+* De **codering** van **IP-adressen**
+* **ASCII**- en UTF8 voor codering van tekstbestanden en strings
+* **RGB**-kleurensysteem
+* **Hashing** en **ecrypties** die op bit-niveau spelen
+* **Geheugenadressen**
+* ...
+
+### Debuggen en analyseren van programma's
+
+Je bent aan het **programmeren/debuggen**:
+
+![](debuggen.png)
+
+* De **identificatie** van een **object** tijdens het **debuggen** (707 tem 709 zijn geheugenlocaties...)
+* De **inhoud** van een **String** is ook maar een **array van bytes** (100, 101, 98, 117, 103, 103, 101, 110 is een array van bytes)
+* **Exit**-codes binnen **programma's**
+* ...
+
+### Embedded programmere en operating systemen
+
+In sommige takken van programmeren is het nog belangrijk te begrijpen en om te gaan met software.  
+
+Wanneer je embedded software schrijft of drivers maakt om met specifieke hardware (peripherals) 
+moet je van je software zoe goed als rechtstreeks communiceren met je hardware.  
+
+Die hardware zal dan ook enkel bits en bytes verstaan...
+
+### bits en bytes als meetéénheden (voor geheugen)
+
+Denk hierbij maar aan het **begrijpen** van **groot- en meetéénheden** zoals:
+
+* De **grootte** van een **file** of opslagmedium (kilobytes, megabytes, ...)
+* **Processoren** van **32 bit vs 64 bit**
+* Een RAM-geheugen van **8 gigabyte**
+* ...
+ 
 Deze grootheden zijn **multiplicators van bytes met machten van 2** (niet met duizendtallen) zoals je ziet hieronder  
 
 | Hoeveelheid          | Grootheid | Afkorting |
@@ -127,58 +249,49 @@ In dat geval spreken we echter over **1000-tallen ipv 2^10**:
 * ...
 
 
+## Waarde van (bits en) bytes
 
-## Moet ik echt weten wat bits en bytes zijn als softwareontwikkelaar?
-
-Eénvoudig gezegd **JA** (en nog eens JA)? als softwareontwikkelaar (of toekomstige) kom je regelmatig bytes (of soms bits) tegen.  
-Denk hierbij maar aan het **begrijpen** van **groot- en meetéénheden** zoals:
-
-* De **grootte** van een **file** of opslagmedium (kilobytes, megabytes, ...)
-* **Processoren** van **32 bit vs 64 bit**
-* Een RAM-geheugen van **8 gigabyte**
-* ...
-
-Het kunnen werken met bytes en hexidecimale getallen zoals
-
-* De **codering** van **IP-adressen**
-* **ASCII**- en UTF8 voor codering van tekstbestanden en strings
-* **RGB**-kleurensysteem
-* **Hashing** en **ecrypties** die op bit-niveau spelen
-* **Geheugenadressen**
-* ...
-
-Je bent aan het **programmeren/debuggen**:
-
-![](debuggen.png)
-
-* De **identificatie** van een **object** tijdens het **debuggen** (707 tem 709 zijn geheugenlocaties...)
-* De **inhoud** van een **String** is ook maar een **array van bytes** (100, 101, 98, 117, 103, 103, 101, 110 is een array van bytes)
-* **Exit**-codes binnen **programma's**
-* ...
-  
-
-## Getallenstelsels
+Computers en software voeren berekenen, coderen, decoderen, ... met bytes.  
 
 We hebben tot nu gezien waarom er bits en bytes bestaan en we hebben min of meer een idee wat ze zijn.    
 Om echter de waardes er van te decoderen en te berijpen moeten we iets verstaat over getallenstelsels.
 
-De eenvoudigste **manier** om **bits** te **begrijpen** is door ze te **vergelijken** met iets dat je **kent**, namelijk **cijfers**.  
+### Getallenstelsels
 
-### Cijfers vs getallen
+De eenvoudigste **manier** om **bits** te **begrijpen**, is door ze te **vergelijken** met iets dat je **kent**, 
+namelijk de gewone decimale **cijfers** die we kennen.
+
+Om te kunnen werken met decimale cijfers hebben het **decimale getallenstelsel** moeten leren.  
+Zo'n getallenstelsel is het geen dat onze cijfers vertalen naar een **waarde**
+
+#### Cijfers vs getallen
+
+Het concept van een getallenstelsel waarschijnlijk vrij **abstract**...  
+Omdat te begrijpen moeten we starten met het begrijpen van het **verschil** tussen een **getal** en **cijfer**
 
 Een (decimaal) **getal** bestaat uit verschillende **cijfers** die numerieke waarden **tussen 0 en 9** kan bevatten.  
 Deze cijfers worden dan gecombineerd om grotere getallen te creëren.  
 
-### Volgorde vs waarde
+Bijvoorbeeld bij 
 
-Bijvoorbeeld het getal **1234** bestaat uit **4** **cijfers**: **1, 2, 3 en 4**.  
-De waarde die dit getal heeft wordt bepaald door dat de **volgorde** van deze cijfers.  
+* is het **getal** **1234** 
+* en bestaat dit uit **4** **cijfers**: 1, 2, 3 en 4.  
+
+#### Volgorde van cijfers vs waarde van getal
+
+De waarde die dit **getal heeft** wordt bepaald door:
+
+* De **waarde** van deze **cijfers** zelf  
+  (9 is groter dan 1)
+* Maar ook **vooral** ook de **volgorde** van deze cijfers  
+  (de 2 in 2000 is van grotere waarde dan de 2 in 20).  
 
 Zo weten we dat **3124** **groter** is dan **1234** **ondanks** het feit dat dit uit **dezelfde cijfers** bestaat.
 
-### Decimale getallen-stelsel
+#### Decimale getallen-stelsel
 
-Dit kan je wiskundig heel gemakkelijk uitrekenen door elk **cijfer** uit een **getal** te vermenigvuldigen
+De waarde van een decimaal getal kan je wiskundig heel gemakkelijk 
+uitrekenen door elk **cijfer** uit een **getal** te vermenigvuldigen
 met een **macht van 10**.
 
 ~~~
@@ -200,21 +313,20 @@ Vandaar dat we het getallenstelsel decimaal noemen.
 De **deci** in decimaal betekent **10**, elke **positie** - van rechts naar links - stelt een
 hogere macht van 10 voor
 
-### Van 10 vingers...
+#### Van 10 vingers...
 
-Bovenstaande zou nog in je **comfortzone** moeten zitten uit het lager en middelbaar onderwijs...  
 **Decimale getallen** zijn voor ons ook heel **logisch**, de mens heeft leren werken met het decimale
 tallenstelsel gezien wij **10 vingers** hebben.
 
 ![](5vingers.jpeg)
 
-### ...naar 8 vingers
+#### ...naar 8 vingers
 
 Stel dat we - zoals de **4 vingers** zouden hebben zouden we bijvoorbeeld met een **8-tallig tallenstelsel** hebben
 
 ![](simpsons.png)
 
-En zouden we als volgt tot de waarde komen van onze getallen
+En zouden we **als volgt** tot de **waarde** komen van onze **8-tallig getallen** (2 * 4 vingers)
 
 ~~~
   (1 * 8^3) + (2 * 8^2) + (3 * 8^1) + (4 * 8^0)
@@ -224,11 +336,21 @@ En zouden we als volgt tot de waarde komen van onze getallen
 =    1536    +    64     +    16      +    4    =  1620 (ipv 3124 decimaal)
 ~~~
 
-Met een **andere getallenstelsel** krijgen we dus een **andere waarde**!!    
-In het geval van het 8-tallig (Simpson-)getallenstelsel is de eigenlijke waarde kleiner...
+In het 10-tallig stelsel werkten we met een **basis** van 10, elke positie (van rechts naar links)
+was een macht van 10 hoger (1 -> 10 -> 100 -> 1000 -> ...)  
+
+In ons nieuw **8-tallig stelsel** werken we echter met een **basis** van **8**.  
+Elke positie gaat dus vermenigvuldigd worden met een hogere macht van 8
+(1 -> 8 -> 64 -> 512)
+
+Met een **andere getallenstelsel** krijgen we dus een **andere waarde**!!!  
+In het geval van het **8-tallig (Simpson-)getallenstelsel** is de eigenlijke waarde kleiner...
 Dit is ook logisch want er zijn **minder getallen of symbolen** beschikbaar voor elke positie van het **cijfer**
 
-## Computers hebben zelfs maar 2 vingers...
+### Computers hebben zelfs maar 2 vingers (1 vinger aan elke hand)
+
+Nu dat we (min of meer) begrijpen wat een getallenstelsel is (en dat je ook andere getallenstelsel hebben dan het decimale)
+kunnen we de overstap maken naar binaire getallen (die maar 2 vingers hebben)
 
 Computers werken echter **niet** met **10 of 8** (vingers) als **basis** maar met een **2-tallig getallenstelsel**.  
 Als we werken met bits (0 of 1) benoemen we ook wel het **binaire getallenstelsel**.  
@@ -247,7 +369,7 @@ maw alle getallen (alle data) die je in je programma berekent zal worden opgesla
 > Nota: technisch gezien zou je computerhardware kunnen maken die tot 10
 > zou kunnen tellen ipv 2 maar dit zou zeer complex en duur worden...
 
-### Binaire getalstelsel (of hoe te tellen met 2 vingers)
+#### Binaire getalstelsel (of hoe te tellen met 2 vingers)
 
 Hoe werkt dit binaire getallenstelsel nu?  
 **ipv** met **10 vingers** te tellen tellen we er met maar **2 vingers**
@@ -257,7 +379,7 @@ Hoe werkt dit binaire getallenstelsel nu?
 Waar we dus met **10 cijfer-symbolen** werkten tussen **0 en 9**, werkte een computer enkel met 2 symbolen **0 en 1**.  
 **Bijvoorbeeld** het getal 1011 **vertaalt** zich naar een waarde als volgt:
 
-### Binaire naar decimaal
+#### Binaire naar decimaal (van 2 naar 10 vingers)
 
 ~~~
   (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (1 * 2^0)
@@ -270,8 +392,7 @@ Je rekent dus om naar een decimale waarde bits en bytes om te zetten van binair 
 * Vermenigvuldigen met een macht van 2
 * Van links naar rechts telkens een macht hoger (startende bij 0)
 
-
-### Decimaal naar binair
+#### Decimaal naar binair (van 10 naar 2 vingers)
 
 **Moeillijker** is een **decimaal** getal **om** te **zetten** naar een **binaire** representatie.  
 Om dit te doen wordt meestal het **volgende algoritme** toegepast:
@@ -299,9 +420,9 @@ Let wel het resultaat moet worden omgedraaid 13 is **niet** gelijk aan **1101** 
 > naar andere getallenstelsels.  Als naar een 8-tallig stelsel
 > wil omrekenen deel je door 8 ipv 2
 
-## Hexadimale representaties
+### Hexadimale representaties
 
-We hebben zonet gezien dat het **moeillijk** is om te rekenen van **binair** naar **decimaal**.  
+We hebben zonet gezien dat het **moeilijk** is om te rekenen van **binair** naar **decimaal**.  
 In de praktijk worden bytes (computerdata) echter niet **binair** voorgesteld maar in **hexadecimale** voorstelling.  
 
 **Hexadecimaal** is een 16-tallig getallen stelsel en bestaat uit de volgende cijfers: van 1 tem 10 en van A tem F.  
@@ -326,7 +447,7 @@ In onderdstaande tabel zie je een mapping van de decimale getallen (base 10) naa
 |14       |e       |    1110|
 |15       |f       |    1111|
 
-Een **hexadecimaal** getal omzetten naar **decimaal** is niet zo heel moeillijk.  
+Een **hexadecimaal** getal omzetten naar **decimaal** is niet zo heel moeilijk.  
 Je vermenigvuldigt elke positie met een macht van 16:
 
 Het getal **AB** hexadecimaal bijvoorbeeld kan je dan omrekenen als volgt met als resultaat **171** decimaal
@@ -338,12 +459,32 @@ Het getal **AB** hexadecimaal bijvoorbeeld kan je dan omrekenen als volgt met al
                        171
 ~~~
 
-### Notaties van hexadecimale getallen
+#### Notaties van hexadecimale getallen
 
 Om het onderscheid te maken **prefixed** gebruik men meestal - zeker in programmeertalen - 
 een hexadecimaal getal met **0x**
 
-### Hexadecimaal vs 4 bits
+Als de code-snippet van eerder gebruiken met hexadecimale cijfers ipv de decimale
+
+~~~cs
+...
+char a = 0x58; //88 decimaal
+char b =  0x5; //5
+char c = a + b;
+...
+~~~
+
+De zelfde notatie wordt trouwens ook gebruikt in ander talen zoals Python hieronder...
+
+~~~python
+...
+a = 0x58 #88 decimaal
+b =  0x5 #5 decimaal
+c = a + b
+...
+~~~
+
+#### Hexadecimaal vs 4 bits
 
 Zoals je misschien al kan gezien hebben lopen de **waardes** van een **hexadecimaal** getal
 **gelijk** met die van exact van **4 bits**.  
@@ -353,7 +494,7 @@ Dit zorgt ervoor dat een **directe** **conversie** kan doen van **binair** en **
 
 **Bijvoorbeeld** **"1010 0011 1110 0001"** kan **direct** mappen naar het hexadecimale equivalent **"A3E1"** en omgekeerd.  
 
-### Hexadecimaal en bytes (en nibbles)
+#### Hexadecimaal en bytes (en nibbles)
 
 Zo'n **groepje** van **4 bits** - dat je kan voorsttellen met een hexadecimaal getal - noemen we ook wel een **nibble**.  
 Een **byte** bestaande uit **exact 2 nibbles** kan je dan ook **exact** **mappen** naar een hexadecimaal representatie.
@@ -361,7 +502,7 @@ Een **byte** bestaande uit **exact 2 nibbles** kan je dan ook **exact** **mappen
 Een byte zal dan gaan van 0x0 naar 0xFF (255 decimaal of 1111 1111 binair).  
 maw Een byte kan altijd **exact** worden voorgesteld als **2 hexadecimale getallen**.  
 
-### Hexadecimaal is gemakkelijker om met te werken van binair
+#### Hexadecimaal is gemakkelijker om met te werken van binair
 
 Je kan dus eigenlijk heel gemakkelijk **converteren** van de taal van de machine (bits) naar een leesbaar en bruikbaar getal.  
 Als je bijvoorbeeld een integer van 32 bits hebt kan je moeillijk werken en rekenen met binaire getallen.  
@@ -376,7 +517,7 @@ kan je deze **veel gemakkelijker** voorstellen als **hexadecimaal**
 
 Standaard zal je in alle tooling waar je bit-manipulatie moet doen werken met hexadecimale getallen
 
-### Voorbeelden
+#### Voorbeelden
 
 Zeker in security sleutels en netwerken (mac en ipv6) is het heel gemakkelijk om hexadecimaal te kennen.  
 Beeld je maar in dat je de volgende waardes moet uitschrijven als binair:
@@ -392,6 +533,32 @@ Hexadecimaal wordt letterlijk overal gebruikt
 ## Toepassingen met bits, bytes en hexadecimale getallen
 
 ### ASCII en file-encoderingen
+
+Een praktisch voorbeeld
+
+~~~
+68 65 6C 6C  6F 0A
+~~~
+
+~~~
+00 NUL  10 DLE  20    30 0  40 @  50 P  60 `  70 p 
+01 SOH  11 DC1  21 !  31 1  41 A  51 Q  61 a  71 q 
+02 STX  12 DC2  22 "  32 2  42 B  52 R  62 b  72 r 
+03 ETX  13 DC3  23 #  33 3  43 C  53 S  63 c  73 s 
+04 EOT  14 DC4  24 $  34 4  44 D  54 T  64 d  74 t 
+05 ENQ  15 NAK  25 %  35 5  45 E  55 U  65 e  75 u 
+06 ACK  16 SYN  26 &  36 6  46 F  56 V  66 f  76 v 
+07 BEL  17 ETB  27 '  37 7  47 G  57 W  67 g  77 w 
+08 BS   18 CAN  28 (  38 8  48 H  58 X  68 h  78 x 
+09 HT   19 EM   29 )  39 9  49 I  59 Y  69 i  79 y 
+0A LF   1A SUB  2A *  3A :  4A J  5A Z  6A j  7A z 
+0B VT   1B ESC  2B +  3B ;  4B K  5B [  6B k  7B { 
+0C FF   1C FS   2C ,  3C <  4C L  5C \  6C l  7C | 
+0D CR   1D GS   2D -  3D =  4D M  5D ]  6D m  7D } 
+0E SO   1E RS   2E .  3E >  4E N  5E ^  6E n  7E ~ 
+0F SI   1F US   2F /  3F ?  4F O  5F _  6F o  7F DEL 
+~~~
+
 
 ### RGB-kleuren-codes
 
