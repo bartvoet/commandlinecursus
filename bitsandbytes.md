@@ -379,30 +379,43 @@ Hoe werkt dit binaire getallenstelsel nu?
 Waar we dus met **10 cijfer-symbolen** werkten tussen **0 en 9**, werkte een computer enkel met 2 symbolen **0 en 1**.  
 **Bijvoorbeeld** het getal 1011 **vertaalt** zich naar een waarde als volgt:
 
-#### Binaire naar decimaal (van 2 naar 10 vingers)
+#### Binair naar decimaal (van 2 naar 10 vingers)
+
+Als we kijken naar de vorige getallenstelsels gebruiken we een basis om de waarde in te schatten:
+
+* Bij het **10-tallig** stelsel werk je met 10 symbolen (0 tem 9) en **machten** van **10**
+* Bij het **8-tallig** stelsel werk je met 8 symbolen (0 tem 7) en **machten** van **8**
+
+Werken met binaire getallen volgt **hetzelfde principe**:
+
+* Je werkt met 0 en 1 als symbolen
+* Maar met een **basis** van **2**
+
+Stel bijvoorbeeld je wil de **waarde** te weten komen van het binaire getal **1011**.  
+In de berekening hieronder stap je dezelfde stappen als eerder toe maar met een **basis** van **2**:
 
 ~~~
   (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (1 * 2^0)
 =    8    +      0     +     2     +     1      =   11 (decimaal)
 ~~~
 
-Je rekent dus om naar een decimale waarde bits en bytes om te zetten van binair door decimaal door:
+Je **rekent** dus **om** naar een (decimale) **waarde** bits en bytes om te zetten van binair door decimaal door:
 
-* De waarde 0 of 1 van elke getal
-* Vermenigvuldigen met een macht van 2
-* Van links naar rechts telkens een macht hoger (startende bij 0)
+* De waarde **0** of **1** van **elk getal**
+* **Vermenigvuldigen** met een **macht van 2**
+* Van **links naar rechts** telkens een **macht hoger** (startende bij 0)
 
 #### Decimaal naar binair (van 10 naar 2 vingers)
 
-**Moeillijker** is een **decimaal** getal **om** te **zetten** naar een **binaire** representatie.  
+**Moeilijker** is een **decimaal** getal **om** te **zetten** naar een **binaire** representatie.  
 Om dit te doen wordt meestal het **volgende algoritme** toegepast:
 
 * **Deel** het getal door **2** iteratief/herhaaldelijk
-* Per iteratie
+* Per **iteratie**
   * Hergebruik **gehele quotiënt** op voor **een volgende iteratie**.
   * Gebruik de **rest** op voor het binaire cijfer.
 * **Herhaal** de stappen totdat het **quotiënt** gelijk is aan **0**.
-* Het resultaat is het uitschrijven van de bits vanachter te beginnen
+* Het **resultaat** is het **uitschrijven** van de **bits** vanachter te beginnen
 
 Als je bijvoorbeeld 11 wil omzetten
 
@@ -413,20 +426,23 @@ Als je bijvoorbeeld 11 wil omzetten
 | 2/2           | 1        | 0    | 2     |
 | 1/2           | 0        | 1    | 3     |
 
-Let wel het resultaat moet worden omgedraaid 13 is **niet** gelijk aan **1101** maar zal **1011** zijn
+Let wel het **resultaat** moet worden omgedraaid 13 is **niet** gelijk aan **1101** maar zal **1011** zijn
 
 > Nota:  
 > Bemerk dat je dit algoritme ook kan gebruiken om om te rekenen
 > naar andere getallenstelsels.  Als naar een 8-tallig stelsel
 > wil omrekenen deel je door 8 ipv 2
 
-### Hexadimale representaties
+## Hexadimale representaties
 
 We hebben zonet gezien dat het **moeilijk** is om te rekenen van **binair** naar **decimaal**.  
-In de praktijk worden bytes (computerdata) echter niet **binair** voorgesteld maar in **hexadecimale** voorstelling.  
+In de praktijk worden bytes (computerdata) echter niet **binair** **voorgesteld** maar 
+gebruiken we eerder een **hexadecimale** voorstelling.  
 
-**Hexadecimaal** is een 16-tallig getallen stelsel en bestaat uit de volgende cijfers: van 1 tem 10 en van A tem F.  
-In onderdstaande tabel zie je een mapping van de decimale getallen (base 10) naar hexadecimaal (base 16) naar binair (base 2)
+### Hexadecimaal getallenstelsel
+
+**Hexadecimaal** is een **16-tallig getallenstelsel** en bestaat uit de volgende cijfers: van 1 tem 10 en van A tem F.  
+In onderstaande tabel zie je een mapping van de decimale getallen (base 10) naar hexadecimaal (base 16) naar binair (base 2)
 
 |base 10  |base 16 | base 2 |
 |---------|--------|--------|
@@ -459,32 +475,37 @@ Het getal **AB** hexadecimaal bijvoorbeeld kan je dan omrekenen als volgt met al
                        171
 ~~~
 
-#### Notaties van hexadecimale getallen
+### Notaties van hexadecimale getallen
 
-Om het onderscheid te maken **prefixed** gebruik men meestal - zeker in programmeertalen - 
-een hexadecimaal getal met **0x**
+Om het onderscheid te maken tussen decimale en hexadecimale getallen gebruik men meestal - zeker in programmeertalen - gebruik van een prefix.
 
-Als de code-snippet van eerder gebruiken met hexadecimale cijfers ipv de decimale
+In de meeste programmeer talen prefixen we bijvoorbeeld hexadecimaal getal met **0x**.  
+In onderstaande snippet bijvoorbeeld initialiseren we variabele **a** met het **hexadecimale**
+**getal 58** en variabele **b** met een decimaal getal **88**
 
 ~~~cs
 ...
-char a = 0x58; //88 decimaal
-char b =  0x5; //5
-char c = a + b;
+char a = 0xA8; 
+char b = 168; 
+// Beide variabelen zijn gelijk in waarde
+Debug.Assert(a == b); 
 ...
 ~~~
 
+Ik gebruik in het voorbeeld **Assert** om het programma te laten crashen in geval 
+de vergelijking niet correct zou zijn.  
 De zelfde notatie wordt trouwens ook gebruikt in ander talen zoals Python hieronder...
 
 ~~~python
 ...
-a = 0x58 #88 decimaal
-b =  0x5 #5 decimaal
-c = a + b
+a = 0xA8
+b = 168
+# Beide variabelen zijn gelijk in waarde
+assert(a == b)
 ...
 ~~~
 
-#### Hexadecimaal vs 4 bits
+### Hexadecimaal vs 4 bits
 
 Zoals je misschien al kan gezien hebben lopen de **waardes** van een **hexadecimaal** getal
 **gelijk** met die van exact van **4 bits**.  
@@ -494,7 +515,7 @@ Dit zorgt ervoor dat een **directe** **conversie** kan doen van **binair** en **
 
 **Bijvoorbeeld** **"1010 0011 1110 0001"** kan **direct** mappen naar het hexadecimale equivalent **"A3E1"** en omgekeerd.  
 
-#### Hexadecimaal en bytes (en nibbles)
+### Hexadecimaal en bytes (en nibbles)
 
 Zo'n **groepje** van **4 bits** - dat je kan voorsttellen met een hexadecimaal getal - noemen we ook wel een **nibble**.  
 Een **byte** bestaande uit **exact 2 nibbles** kan je dan ook **exact** **mappen** naar een hexadecimaal representatie.
@@ -502,7 +523,7 @@ Een **byte** bestaande uit **exact 2 nibbles** kan je dan ook **exact** **mappen
 Een byte zal dan gaan van 0x0 naar 0xFF (255 decimaal of 1111 1111 binair).  
 maw Een byte kan altijd **exact** worden voorgesteld als **2 hexadecimale getallen**.  
 
-#### Hexadecimaal is gemakkelijker om met te werken van binair
+### Hexadecimaal is gemakkelijker om met te werken van binair
 
 Je kan dus eigenlijk heel gemakkelijk **converteren** van de taal van de machine (bits) naar een leesbaar en bruikbaar getal.  
 Als je bijvoorbeeld een integer van 32 bits hebt kan je moeillijk werken en rekenen met binaire getallen.  
@@ -515,30 +536,138 @@ kan je deze **veel gemakkelijker** voorstellen als **hexadecimaal**
 
 * A8BF18EF
 
-Standaard zal je in alle tooling waar je bit-manipulatie moet doen werken met hexadecimale getallen
+Standaard zal je in alle tooling waar je bit-manipulatie moet doen eerder werken 
+met **hexadecimale** representaties van bytes ipv **binaire** representatie.
 
-#### Voorbeelden
+### Conclusie: Hexadecimaal is gemakkelijker als representatie voor bytes
 
-Zeker in security sleutels en netwerken (mac en ipv6) is het heel gemakkelijk om hexadecimaal te kennen.  
-Beeld je maar in dat je de volgende waardes moet uitschrijven als binair:
+Waarom werken we nu met Hexadecimale representaties?  
+In essentie zijn er 2 belangrijke reden:
 
-* Een ipv6-adres zoals 2001:0db8:85a3:0000:1319:8a2e:0370:7344 
-* De kleur oranje #ff8500 
-* De ascii-code voor hello zijnde 68 65 6C 6C 6F
-* Een geheugenadres tijdens het debuggen van 0xFE89AAOE
-* ...
+* Het **leest en schrijft** gemakkelijker dan binaire notatie (zie hierboven)
+* Er is een **gemakkelijke mapping** met **bits** wat je **niet** hebt bij **decimale getallen**
 
-Hexadecimaal wordt letterlijk overal gebruikt
+Laten we dit illustreren met als voorbeeld **ipv6-adressering**.
+
+#### Gemakkelijke notatie voor bytes
+
+Zo'n een IPV6-adres is een getal bestaande uit 16 bytes of 128 bits.  
+Gegeven bijvoorbeeld een **ipv6-adres** met als waarde **2001:0db8:85a3:0000:1319:8a2e:0370:7344**.  
+
+Stel dat je dit zou moeten uitdrukken in een **binaire representatie** zou je een grote
+blok krijgen zoals **hieronder** voorgesteld: 
+
+~~~
+0100 0000 0000 0001 0000 1101 1011 1000
+1000 0101 1010 0011 0000 0000 0000 0000
+0001 0011 0001 1001 1000 1010 0010 1110
+0000 0011 0111 0000 0111 0011 0100 0100
+~~~
+
+Het wordt moeilijk te werken met die bits als je deze wil ingeven in een configuratie van 
+bijvoorbeeld een operating system, een router, ...
+
+#### Waarom geen decimaal representatie gebruiken?
+
+In het kader van "er zijn geen domme vragen" zou je zou natuurlijk kunnen argumenteren,
+waarom geen 
+
+Je zou **2001:0db8:85a3:0000:1319:8a2e:0370:7344** kunnen **decimaal** kunnen voorstellen als
+**42540766452641154073116346738896040772** bijvoorbeeld?
+
+Het grote voordeel van hexadecimale representaties was - zoals eerder vermeld - 
+de directe(re) mapping naar de bits.
+
+~~~
+  2    0    0    1    0    d    b    8
+0100 0000 0000 0001 0000 1101 1011 1000
+  8    5    a    3    0    0    0    0 
+1000 0101 1010 0011 0000 0000 0000 0000
+  1    3    1    9    8    a    0    e
+0001 0011 0001 1001 1000 1010 0010 1110
+  0    3    7    0    7    3    4    4 
+0000 0011 0111 0000 0111 0011 0100 0100
+~~~
+
+Dit wordt duidelijk bij **bijvoorbeeld** wanneer men bij **ip-adressen** wordt er 
+gebruik gaat maken van **bitmasks** om na te kijken of een IP-adres 
+tot een **zelfde** **network** behoort of **range** hoort.  
+
+In deze techniek ga je bekijken naar de 1ste n bytes (of bits) om te weten of ip-adres tot het
+zelfde netwerk behoort.
+
+Als je bijvoorbeeld beslist dat alle hosts met dezelfde 1ste **14 bytes**  tot het zelfde netwerk behoren
+zal **2001:0db8:85a3:0000:1319:8a2e:0370:7344** behoren tot het netwerk **startende met**
+**2001:0db8:85a3:0000:1319:8a2e:0370**
+
+~~~
+masker: 2001:0db8:85a3:0000:1319:8a2e:0370
+IP 1:   2001:0db8:85a3:0000:1319:8a2e:0370:7344
+IP 2:   2001:0db8:85a3:0000:1319:8a2e:0370:1111
+IP 3:   2001:0db8:85a3:0100:1319:8a2e:0370:1381
+                        ^
+                        +---- IP 3 is verschillend 
+~~~
+
+Zoals je ziet in het voorbeeld hierboven kan je na een 
+korte vergelijking zien welke host tot het zelfde netwerk
+behoort.
+
+Anderzijds kan de computer en software hier heel efficient
+op opereren gezien er enkel moet gemapt worden op de bits
+rechtstreeks zonder al te veel berekening...
+
+Een zelfde vergelijking en of structurering zou je niet kunnen
+maken met decimale getallen.
+
+
+
 
 ## Toepassingen met bits, bytes en hexadecimale getallen
 
+
+Hexadecimaal wordt letterlijk **overal gebruikt** in IT-toepassingen.
+
+Naast netwerknotaties (ipv6 en MAC bijvoorbeeld) wordt het ook zeer veel gebruikt in security 
+en alle soorten encoderingen en adresseringen zoals:
+
+* De **kleur** oranje #ff8500 
+* De **ascii-code** voor hello zijnde 68 65 6C 6C 6F
+* Een **geheugenadres** tijdens het debuggen van 0xFE89AAOE
+* ...
+
 ### ASCII en file-encoderingen
 
-Een praktisch voorbeeld
+Een praktisch voorbeeld is de opbouw van een tekst file.  
 
-~~~
-68 65 6C 6C  6F 0A
-~~~
+Stel nu dat je met een teksteditor zoals notepad (geen tekstverwerker zoals Word voor alle duidelijkheid)
+een tekstfile maakt met de inhoud hello...
+
+![](tekstfile.png)
+
+
+Als we nu gaan kijken naar een tool om de bytes te bekijken waaruit een file bestaat via een tool zoals
+hexedit op Linux
+
+> Als je dit op Windows wil proberen gebruik HxD (https://mh-nexus.de/en/hxd/) voor Windows  
+> Voor Mac kan je Hex Fiend gebruiken (https://hexfiend.com/)
+
+![](hexedit.png)
+
+
+Deze file bestaat uit de bytes **68 65 6C 6C 6F 0A**  
+Elke byte komt overeen met een byte:
+
+* 68 -> h
+* 65 -> e
+* 6C -> l
+* 6C -> l
+* 6F -> o
+
+De laatste komt overeen met een onzichtbaar karakter dat we een linefeed 
+noemen en het einde van een lijn markeert.
+
+De mapping van bytes naar een printbaar karakter noemen we **ASCII**.
 
 ~~~
 00 NUL  10 DLE  20    30 0  40 @  50 P  60 `  70 p 
@@ -559,14 +688,21 @@ Een praktisch voorbeeld
 0F SI   1F US   2F /  3F ?  4F O  5F _  6F o  7F DEL 
 ~~~
 
+#### String binnen een programma
 
-### RGB-kleuren-codes
+Een string in programmeertalen is meestal ook geencodeerd op
+dezelfde manier.
 
-### Base64
+Als je de volgende code uitvoert in een dotnet console-project zie 
+dat dit ook mapt naar dezelfde waardes
 
-## Tools om met te werken
 
-* Bless Hex Editor voor Linux mac
-* HxD voor Windows
-* Hex Fiend voor Mac
+~~~cs
+using System.Text;
 
+string value = "hello";
+byte[] bytes = Encoding.UTF8.GetBytes(value);
+string hexString = Convert.ToHexString(bytes);
+
+Console.WriteLine($"{value} == {hexString}");
+~~~
