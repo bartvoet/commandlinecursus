@@ -53,38 +53,85 @@ Denk maar bijvoorbeeld aan de code die je schrijft, word-documenten, database-fi
 
 #### File-extensions
 
-Een file extension is een suffix, in de vorm van enkele karakters, aan het einde van een filenaam.  
-Deze extensie geeft aan welk type bestand het is en welk programma moet worden gebruikt om het te openen. 
+Een **file extension** is een **suffix**, in de vorm van enkele karakters, aan het **einde** van een **filenaam**.  
+Deze extensie geeft aan welk **type bestand** het is en welk **programma** moet worden **gebruikt** om het te openen. 
 
-Het is meestal gescheiden van de bestandsnaam door een punt aan het einde, zo zullen bijvoorbeeld de C#-files waar je met werkt eindigen eindigen op cs, bijvoorbeeld 'HelloWorld.cs'.
+Het is meestal **gescheiden** van de **bestandsnaam** door een **punt** aan het **einde**, zo zullen **bijvoorbeeld** de **C#-files** waar je met werkt eindigen eindigen op **cs**, bijvoorbeeld 'HelloWorld.cs'.
 
-Zo'n extensie zegt dus iets over het soort van bestand en wat je besturingsysteem er met doet als je dit bestand opent via een file explorere
+Zo'n **extensie** zegt dus iets over het **soort van bestand **en wat je besturingsysteem er met doet als je dit bestand opent via een "file explorer".
 
-* Een .txt extensie geeft aan dat het een tekstbestand is, dat kan worden geopend met Notepad
-* Een .docx is een Word-document dat zal worden geopend met Microsoft Word (of LibreOffice in geval van Linux).
-* Een .jpg of .png extensie duidt een afbeeldingsbestand aan, dat kan worden geopend met elk beeldbewerkingsprogramma of viewer, zoals Adobe Photoshop of de standaard foto-viewer van je besturingssysteem.
-* Een .exe extensie geeft een uitvoerbaar bestand aan in Windows (op Linux meestal zonder een extensie), wat betekent dat het een programma is dat kan worden uitgevoerd.
+* Een **.txt** extensie geeft aan dat het een **tekstbestand** is, dat kan worden geopend met Notepad
+* Een **.docx** is een **Word-document** dat zal worden geopend met Microsoft Word (of LibreOffice in geval van Linux).
+* Een **.jpg** of **.png** extensie duidt een **afbeeldingsbestand** aan, dat kan worden geopend met elk beeldbewerkingsprogramma of viewer, zoals Adobe Photoshop of de standaard foto-viewer van je besturingssysteem.
+* Een **.exe** extensie geeft een uitvoerbaar bestand aan in Windows (op Linux meestal zonder een extensie), wat betekent dat het een programma is dat kan worden uitgevoerd.
 
-Sommige besturingssystemen verbergen standaard de bestandsextensie voor bekende bestandstypen, maar deze kan meestal worden weergegeven door de juiste instellingen te wijzigen.  
 Het is belangrijk om voorzichtig te zijn bij het wijzigen van een bestandsextensie, omdat dit de manier kan veranderen waarop het besturingssysteem het bestand behandelt.
+
+#### Bestandsextensies tonen (op Windows)
+
+Sommige besturingssystemen verbergen standaard de bestandsextensie voor bekende bestandstypen, maar deze kan meestal worden weergegeven door de **juiste instellingen** te **wijzigen**.  
+
+In Windows doe je door binnen de "file explorer" de optie "Toon extensies" aan te duiden (zie onder)
+
+![](fileextensies.png)
 
 #### Text vs binaire bestanden
 
-Binnen files maken onderscheid tussen tekst-bestanden en binaire bestanden.  
+Binnen files maken onderscheid tussen **tekst-bestanden** en **binaire bestanden**.  
 
-Een tekstbestand is een type bestand dat leesbare karakters of tekst bevat.  
+Een **tekstbestand** is een type bestand dat **leesbare karakters** of tekst bevat.  
 Het is in feite een reeks tekens die door een computer worden opgeslagen als binaire codes, maar die worden geïnterpreteerd als leesbare tekens (zoals letters, cijfers, en symbolen).  
+
+> We hebben dit reeds eerder gezien binnen het hoofdstuk rond "bits en bytes" als we **ASCII** besproken...
 
 Tekstbestanden zijn universeel en kunnen worden geopend door eenvoudige tekstbewerkingsprogramma's zoals notepad (of andere texteditors).  
 Voorbeelden van tekstbestanden zijn .txt, .csv, .xml en .json bestanden.
 
-De code waar je met werkt is meestal  
+> De code die je schrijft zal ook meestal van dit type zijn (.cs en .java-files bijvoorbeeld)
 
-Een binair bestand daarentegen is een bestand dat binaire gegevens bevat, die niet direct menselijk leesbaar zijn. Dit betekent dat de inhoud van het bestand bestaat uit een of andere vorm van data die door de computer op een specifieke manier moet worden geïnterpreteerd. Deze bestanden bevatten vaak meer complexe gegevensstructuren dan simpele tekst, zoals afbeeldingen, audio, video, uitvoerbare programma's, enz. Voorbeelden van binaire bestanden zijn .jpg, .png, .mp3, .exe, enz.
+Een **binair bestand** daarentegen is een bestand dat binaire gegevens bevat, die niet direct **menselijk leesbaar** zijn.  Dit betekent dat de **inhoud** van het **bestand** bestaat uit een of andere vorm van data die door de **computer** op een **specifieke manier** moet worden **geïnterpreteerd**.  
+Deze bestanden bevatten vaak meer complexe gegevensstructuren dan simpele tekst, zoals afbeeldingen, audio, video, uitvoerbare programma's, enz. Voorbeelden van binaire bestanden zijn .jpg, .png, .mp3, .exe, enz.
 
 Belangrijk om op te merken is dat terwijl tekstbestanden doorgaans minder complex zijn dan binaire bestanden, ze beperkter zijn in termen van de soorten data die ze kunnen bevatten. Binaire bestanden, hoewel complexer, kunnen een veel breder scala aan data bevatten en representeren.
 
-### Bestandssystemen
+> De meeste artifacten die je zal deployen (exe, dll, jar, war, ...) zijn binaire bestanden
+
+#### Archieven (zip, rar, ...)
+
+Een speciaal soort file betreft een **archive**.  
+
+Een archive (archief) is een soort van **container-bestand** dat **1 of meerdere bestanden** en/of folders
+zal bundelen in 1 bestand.  
+Dit maakt het gemakkelijker de bestanden te groeren, transporteren, archiveren, versturen, ...
+
+Daarnaast voorzien deze **archiverings-formaten** meestal (maar niet altijd) een vorm van **compressie**.  
+Dit houdt in dat de (totale) grootte (aantal bytes) van de diverse file(s) zal kleiner zijn dan de oorspronkelijke
+bestand(en).
+De compressie - bij klassieke archieven - zal **lossless** zijn, er zal geen informatie verwijderd worden 
+(in tegenstelling bij compressie bij sommige mediabestanden)
+
+Bekende voorbeelden van compressie-formaten zijn **zip**, **rar**, **7zip**, ...  
+In onderstaand voorbeeld maak je gebruik van het programma 7zip om een archief aan te maken.
+
+![](archivezip.png)
+
+Of op macOS via Finder:
+
+![](macarchive.jpeg)
+
+Of op Linux Mint
+
+![](linuxzip.png)
+
+##### tar.gz
+
+Ook heel populair in server-systemen (zeker op Linux) zijn tar en gunzip.  
+Je zal dikwijls files tegenkomen met de extensie **tar.gz**.  
+
+Dat betreft dan een tar-file (bundeling van meerdere files en folders) die 
+gecomprimeerd is met gunzip-compressie
+
+### Bestandssystemen (werken met files)
 
 Om deze **bestanden** gemakkelijk te kunnen **terugvinden** op je harde schijf, zorgt je operating system (of besturingssysteem) voor een organisatie van die harde schijf (of andere opslagmedia zoals een SD-card).
 
@@ -177,14 +224,11 @@ Elke directory heeft een bepaalde **path** (of pad) waar je kan navigeren, in he
 
 ## Werken met een shell?
 
-Een shell is een programma dat rechtstreeks toegang heeft tot een
+### Wat is een shell
 
-* Aanmaken/verwijderen/hernoemen/... van een files en folders
-* Starten van programma's
-
-![](shell_vs_user.png)
-
-Een shell is (om het simpel te houden) een tool die je een toegang geeft om low-level **systeem-taken** uit te voeren:
+Een **shell** is een **interactief** **programma** dat rechtstreeks **toegang** heeft tot een
+aantal **systeem-utilities** die je via een **text-interface** kan aanspreken om een aantel
+low-level **systeem-taken** uit te voeren zoals bijvoorbeeld:
 
 * **Opstarten** van **programma's**
 * **Navigeren** door een **file-systeem**
@@ -194,44 +238,124 @@ Een shell is (om het simpel te houden) een tool die je een toegang geeft om low-
 * **Automatiseren** van taken
 * ...
 
-### Tekst-commando's ingeven
+### interactief vs scripting
+
+Bij een shell (Bash, Powershell, ...) heb je 2 operatie-modi:
+
+* **Interactief**: je typt commando, krijgt antwoord van de shell en je kan het volgende commando typen
+* **Scripting**: een script dat meerdere commando's bevat wordt uitgevoerd als een programma
+
+### Interactief tekst-commando's ingeven
 
 Een **shell** of **CLI** (command-line-interface) zorgt ervoor dat een gebruiker deze (bovenvermelde) taken kan uitvoeren via **tekst-commando's**.  
 
-Deze tekst-commando's kunnen meestal ook **gebundeld** worden in een **script** (dat je dan kan uitvoeren van een CLI net zoals je programma's kan uitvoeren)   
+In onderstand voorbeeld maak je een directory aan, copieer je een file naar deze directory,
+en kijk je na of deze file bestaat.
 
-Nadat zo'n commando/script/programma is uitgevoerd krijgt de gebruiker weer de kans om de shell of het programma aan te spreken door op de opdrachtregel een nieuwe opdracht op te geven.  
+~~~bash
+$ mkdir een_directory
+$ cp een_file een_directory/
+$ ls een_directory/
+een_file
+$
+~~~
+
+Als gebruiker krijg je telkens na het **uitvoeren** van een **commando** terug
+de prompt ter beschikking om het volgende commando uit te voeren.
+
+Ook zullen sommige commando's **feedback** geven, "ls een_directory" zal tonen welke bestanden
+in de folder staan.  
+Als er een **fout** in de **aanroep** commando staat zal je ook feedback krijgen, hieronder vragen
+we bijvoorbeeld de inhoud van een niet bestaande directory op.  
+(net zoals een C#-programma een error zal opwerpen als je een getal door 0 deelt...)
+
+~~~bash
+$ ls geen_directory/
+ls: cannot access 'geen_directory/': No such file or directory
+$
+~~~
+
+### Scripting
+
+Naast interactief te werken kan je ook in **scripting-modus** werken.  
+Daar heb je geen interactie maar je kan wel **meerdere commando's uitvoeren** **zonder** deze
+**interactief** in te geven.
+
+De eerdere tekst-commando's kunnen bijvoorbeeld ook **gebundeld** worden in een **script**.  
+(dat je dan kan uitvoeren van een CLI net zoals je programma's kan uitvoeren).   
+
+Zo'n script is een **opeenvolging** van **shell-commandos** die sequentieel worden uitgevoerd (in de volgorde dat ze in het bestand staan).  
+In het onderstaande voorbeeld zal eerst het **mkdir-commando** worden uitgevoerd om een directory en dan pas
+heb cp-commando (copy) om de file te **copieren**
+
+~~~bash
+mkdir een_directory
+cp een_file ./een_directory
+~~~
+
+In de **meeste shell-omgevingen** is er ook de mogelijkheid om hier wat **programmeer-constructies** aan zo'n
+script toe te voegen (**argumenten** meegeven, **variabelen**, **loops**, **condities**, ...).  
+Hier komen we **later** nog op **terug**
 
 ### Waarom werken met een shell
 
-Om het kort te houden, het is een tool die moet gekend zijn als je wil programmeren omdat we deze vaardigheden nodig hebben om later met toolchains (compiler en linkers) om te gaan.  
+Om het **kort** te houden, het is een tool die moet gekend zijn als je wil **programmeren** omdat we deze vaardigheden nodig hebben om later met **build tools** (dotnet, maven, gradle, npm, ...) om te gaan, **taken** te **automatiseren**, 
+**herhaling** van manuele acties te vermijden, ...  
 
-Elke softwareontwikkelaar moet de beginselen kennen van het werken met command-line.  
-Dit argument is nog sterker als je met embedded devices werkt die veelal enkel te besturen zijn via command-line.
+Elke **softwareontwikkelaar** moet de **beginselen** kennen van het werken met **command-line** binnen de
+omgeving waar zij/hij ontwikkeld (dit kan je laptop zijn maar ook een remote omgeving).  
+Dit argument is nog sterker als je met **embedded devices** werkt die veelal enkel te besturen zijn via command-line.
 
-### Bash en Powershell
-
-We gaan nu dit bekijken voor 2 soorten shell-omgevingen
-
-* Powershell op Windows
-* Bash op Linux, Mac (e.a. Posix-systemen)
 
 ## Shell-omgevingen
 
+Een besturingssysteem zal meestal 1 of meerdere omgevingen ondersteunen.  
+De meest bekende zijn **Bash** en **Powershell** maar er zijn natuurlijk meerdere...
+
+### Met welke omgeving gaan we nu werken?
+
+Het doel van deze cursus is te focussen op niet 1 maar  op
+ **2 shell-omgevingen** te focussen
+
+* **Powershell** op **Windows** (met soms een vergelijking naar CMD)
+* **Bash** op **Linux**, **Mac** (e.a. Posix-systemen)
+
+Dit onderdeel zal dus voor deze beide omgevingen de grote lijnen uitleggen:
+
+* Hoe moet je een shell openen?
+* Files en directories manipuleren
+* Wat zijn de belangrijkste commando's?
+* ...
+
+### Dat mag je zelf kiezen!
+
+Als **student** mag je zelf de **keuze maken** welke van de 2 je gebruikt
+om opdrachten oefeningen te maken...
+
+* Sommige studenten zullen met **Windows** waar de **natuurlijke** **keuze** **Powershell** is.  
+* Andere studenten met **Mac** of **Linux** zullen zullen dan weer met **Bash** werken...
+
+> Voor **Windows**-gebruikers is het soms ook aangeraden Bash te gebruiken wegens
+> het **veelvuldig** gebruik van **Linux** via **Docker** en/of Windows Subsystem for Linux (**WSL**)
+
+De bedoeling van dit onderdeel is de student **ondersteuning** te **bieden** met tools (in dit geval
+command line).  
+De keuze is dus aan jou maar je mag vanzelfsprekend ook beide gebruiken...
+
 ### Een shell openen in Windows
 
-In Windows heb je (sinds Windows 7) heb je 2 versies van "command line":
+In **Windows** heb je (sinds Windows 7) heb je **2 versies** van "command line":
 
-* De klassieke CMD
-* Powershell
+* De klassieke **CMD**
+* **Powershell**
 
 We geven hieronder even mee hoe je beide kan openen.  
 Voor de rest van de cursus gaan we (voor Windows) verder met Powershell (waar van toepassing wijzen we op de verschillen)
 
 #### CMD (legacy)
 
-Afhankelijk van de Windows-versie open je via het menu (onder "accessoires" of "administrative tools") het programma CMD.  
-Eenmaal gestart krijg je een scherm zoals hieronder:  
+Afhankelijk van de **Windows-versie** open je via het **menu** (onder "accessoires" of "administrative tools") het programma **CMD**.  
+Eenmaal gestart krijg je een **scherm** zoals **hieronder**:  
 
 ![](windows_cmd.png)
 
@@ -248,6 +372,13 @@ C:\Users\Bart>
 
 #### Powershell
 
+Om **Powershell** te **openen** navigeer je in het **Windows-menu** naar Powershell
+
+![](openenpowershell.png)
+
+Eenmaal geopend zie je een scherm gelijkaardig aan hieronder.  
+Een user-prompt staat open om commando's uit te voeren...
+
 ![](windows_ps.png)
 
 Deze **prompt** ```PS C:\Users\bart>```:
@@ -256,13 +387,10 @@ Deze **prompt** ```PS C:\Users\bart>```:
 * geeft je mogelijkheid om een **commando** in te typen
 * PS geeft aan dat je met powershell werkt (ipv de klassieke CMD-tool)
 
-
 ~~~ps
 PS C:\Users\Bart> ls
 
-
     Directory: C:\Users\Bart
-
 
 Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
@@ -274,11 +402,17 @@ PS C:\Users\Bart>
 
 ### Linux/Mac shell openen (Bash)
 
-Linux en Mac hebben verschillende programma's waarmee je toegang kan hebben tot de shell.
+**Linux** en **Mac** hebben verschillende **programma's** waarmee je toegang kan hebben tot de shell.  
+In macOS volg je de instructies te https://support.apple.com/nl-be/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac om de console te openen.
+
+![](macopenenbash.jpeg)
+
+In Linux hangt het wat af van de distibutie waar je met werkt 
+(over het algemeen zullen Linux-gebruikers wel sneller weten hoe een console te openen)
 
 ![](bash_terminal.png)
 
-Eenmaal gestart krijg je een scherm zoals hieronder:  
+Eenmaal **gestart** krijg je een scherm zoals **hieronder**:  
 
 ~~~bash
 demo@demohost:~ $
@@ -301,19 +435,22 @@ drwxrwxr-x  2 bart bart      4096 Oct  4  2022  a
 ...
 ~~~
 
-## Operaties op files en directories
+## Operaties op files en directories met een shell
 
-Veel van de operaties die je moet uitvoeren op een command line zijn 
-fileoperaties:
+Veel van de **operaties** die je moet uitvoeren op een **command line** zijn 
+**fileoperaties**:
 
-* Aanmaken en verwijderen van files en directories
-* Navigeren door een filesysteem
+* **Aanmaken** en **verwijderen** van **files** en **directories**
+* **Navigeren** door een **filesysteem**
 * Kopiëren/Verplaatsen van files en directories
 * ...
 
+In dit hoofdstuk gaan we deze operaties overlopen.  
+Daarnaast gaan we ook even in hoe dat je een "file path" moet gebruiken (relatieve vs absolute paden)
+
 ### Een directory aanmaken
 
-Een eerste operatie is het aanmaken van een directory.  
+Een **eerste** **operatie** is het **aanmaken** van een **directory**.  
 Hiervoor gebruik je - zowel in Powershell en Bash - het commando **mkdir**
 
 #### Een directory aanmaken in Powershell
@@ -321,23 +458,18 @@ Hiervoor gebruik je - zowel in Powershell en Bash - het commando **mkdir**
 We starten met het aanmaken van een **directory** waarin we onze C-code gaan plaatsen.
 
 ~~~powershell
-PS C:\Users\Bart> mkdir een_tweede_directory
-
+PS C:\Users\Bart> mkdir een_eerste_directory
 
     Directory: C:\Users\Bart
-
 
 Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
 d-----          9/3/2023  10:54 PM                een_eerste_directory
 
-
 PS C:\Users\Bart>
-PS C:\Users\Bart> dir
-
+PS C:\Users\Bart> ls
 
     Directory: C:\Users\Bart
-
 
 Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
@@ -347,12 +479,14 @@ d-----          9/3/2023  10:54 PM                een_eerste_directory
 ...
 ~~~
 
-Hier zien we in 1 klap 2 commando's:
+Hier zien we in **1 klap 2 commando's**:
 
 * **mkdir** gevolg door het path **een_eerste_directory**  
   Dit maakt een nieuwe folder of directory deze naam.  
-* Het commando **dir**  
+* Het commando **ls**  
   Laat ons toe de **inhoud** na te kijken van de huidige **directory**
+
+> Nota: als je via **CMD** werkt ipv powershell zal je **dir** moeten gebruiken **ipv** **ls**
 
 #### Een directory aanmaken in Bash
 
@@ -377,29 +511,27 @@ Om te navigeren naar een andere directory maak je - zowel in Powershell, CMD als
 
 #### Navigeren door directories in Powershell
 
-Het gebruik is éénvoudig, je navigeert door cd te typen gevolgd door het path naar deze directory.
-In Powershell doe je dit zoals hieronder.
+Het gebruik is éénvoudig, je navigeert door **cd** te typen **gevolgd** door het **path** naar deze directory.
+In Powershell doe je dit zoals hieronder:
 
 ~~~powershell
 PS C:\Users\Bart> cd een_eerste_programma
 PS C:\Users\Bart\een_eerste_programma>
 ~~~
 
-Merk ook dat aan de prompt het nieuwe path kan zien, in dit geval zijn we ven 
+Merk ook dat aan de **prompt** het **nieuwe path** kan zien, in dit geval zijn we ven 
 "C:\Users\Bart\" naar "C:\Users\Bart\een_eerste_programma" genavigeerd.
 
-Het pad waar je nu in werkt noemen we ook de "work directory".  
+Het pad waar je nu in werkt noemen we ook de **"work directory"**.  
 Er bestaat trouwens ook het commando **pwd** dat staat voor "print workdirectory".  
 Zoals het commando aangeeft zal dit de "work directory" afdrukken waarin je aan het werken bent.
 
 ~~~powershell
 PS C:\Users\Bart\een_eerste_directory> pwd
 
-
 Path
 ----
 C:\Users\Bart\een_eerste_directory
-
 
 PS C:\Users\Bart\een_eerste_directory>
 ~~~
