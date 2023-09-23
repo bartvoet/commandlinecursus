@@ -138,12 +138,21 @@ Om deze **bestanden** gemakkelijk te kunnen **terugvinden** op je harde schijf, 
 Deze hiërarchische organisatie kennen we als een **"file system"** (of bestandssysteem).  
 Zo'n "file system" werkt een beetje als een **boomstructuur**.
 
+#### Parent en children
+
+Binnen deze boomstructuur zullen we ook regelmatig verwijzen naar
+**children** en **parents** waar **children** **files/directories** die **onder** een 
+**parent-folder** vallen.
+
+Als voorbeeld, binnen het path C:\Users\Bart\hello.txt is **hello.txt** een **child** van 
+de **parent-folder** Bart die op zijn beurt een **child** is van de **parent-folder Users**
+
 #### Windows
 
-Een voorbeeld van zo'n boomstructuur in Windows zie je hieronder.  
+Een **voorbeeld** van zo'n **boomstructuur** in **Windows** zie je hieronder.  
 
 In windows is de root van alle bestanden een harde schrijf.  
-Standaard is dit de C-schijf maar je kan er meerdere hebben afhankelijk van je configuratie.
+Standaard is dit de **C-schijf** maar je kan er meerdere hebben afhankelijk van je computer-setup (D, E, F, ...).
 
 Onder deze harde schijf heb je een aan directories (folders) die op hun beurt andere directories en 
 files kan bevatten. Je hebt de harde schijf (C).
@@ -189,7 +198,32 @@ als een **/**
      +-----+    /    +---+
      |     +---------+   |
 +----+----+           +--+------+
-| bin     |     +-----+  home   +-----+
+| bin     |     +-----+  home   +-----+    ...
++---------+     |     +---------+     |
+           +----+----+           +----+----+
+           |  bart   |           |  test   |
+           +----+----+           +---------+
+                |
+          +-----+-----+
+          | afile.txt |
+          +-----------+
+
+~~~
+
+#### macOS
+
+**macOS** gebruikt grotendeels dezelfde **conventies** als Linux maar er
+zijn wel wat verschillen.  
+
+Bijvoorbeeld de home-folders van de gebruikers zullen bijvoorbeeld **niet** onder
+**/home** zitten maar onder **/Users**
+
+~~~
+           +---------+
+     +-----+    /    +---+         
+     |     +---------+   |
++----+----+           +--+------+
+| bin     |     +-----+  Users  +-----+     ...
 +---------+     |     +---------+     |
            +----+----+           +----+----+
            |  bart   |           |  test   |
@@ -203,24 +237,113 @@ als een **/**
 
 ### Filepath (bestandspad)
 
-Elke directory heeft een bepaalde **path** (of pad) waar je kan navigeren, in het geval van de home-directory is dit hieronder "C:\Users\Bart"
+Elk **onderdeel** van een **filesystem** (**files** en **directories**) kan worden aangeduid met een **(file)path** (of pad).  Hiermee kan je bijvoorbeeld via een "file explorer" navigeren en bestand openen:
 
 ![](windows_path.png)
 
-> In Windows Explorer
+Ook vanuit de **programma's die je schrijft** kan je via zo'n **(file)path**
+gebruiken om **files** te **lezen** of **manipuleren**.  
 
-### Hidden files
+Bijvoorbeeld onderstaand C#-sharp programma illustreert dit door een file 
+in de homefolder van de user Bart uit de lezen.
 
-### HOME-directory
+~~~cs
+foreach (string line in File.ReadAllLines(@"C:\Users\Bart\hello.txt")) {
+  Console.WriteLine(line);
+}
+~~~
+
+Zo'n filepath wordt **hiërarchisch** opgebouwd startende vanaf de **root** van je **filesystem**.  
+Dit verschilt wel tussen Windows enerzijds en Linux/macOS anderzijds.  
+
+* Voor Windows start dit een **harde schijf** (**C**, D, ...)
+* Voor Linux/Mac start dit van de **root** van je filesystem **voorgesteld** als een **/**
+
+Dan volgende directories en subdirectories die dit path opmaken gescheiden in Windows door een backslash **\\**
+en in Linux/Mac door een slash **/**
+
+Voor **bijvoorbeeld** een **file HelloWorld.cs** die zich in de **HOME-directory** van een **user** **student** bevindt is dit
+
+* Voor **Windows** is dit **C:\Users\student\HelloWorld.cs**
+* Voor **Linux-distros** is dit **/home/student/HelloWorld.cs**
+* Voor **macOS** is dit **/Users/student/HelloWorld.cs**
+
+#### Filepath van HOME-directory
+
+We hebben daarnet naar de home-directory verwezen.  
+
+Het principe is dat elke user - binnen een operating systeem - een toegewezen
+directory krijgt die we de HOME-directory noemen.  
+In deze folder worden dan typisch automatisch een document-folder, download-folder, media-folders,...
+aangemaakt voor 1 specifieke user
 
 ![](windows_homedir.png)
 
-### Systeem-directories
+Meestal worden deze folders (voor alle users) **gegroepeerd** onder dezelfde **basisfolder**
+afhankelijk van het operating system:
 
-![](windows_system_dir.png)
+* Voor **Windows** onder **C:\Users**
+* Voor **Linux-distros** is dit **/home**
+* Voor **macOS** is dit **/Users**
 
-### Let op case-sensitivity
+Als je dan voor een user - met de naam student - de home-folder zou zoeken is het path:
 
+* Voor **Windows** is dit **C:\Users\student**
+* Voor **Linux-distros** is dit **/home/student**
+* Voor **macOS** is dit **/Users/student**
+
+#### Let op case-sensitivity
+
+Hou rekening met het feit dat op Windows en Mac paden niet case-sensitive zijn.
+
+* Op Windows zal het path "C:\Users\student" als hetzelfde path worden beschouwd als C:\USERS\STudent"
+* Op macOS zal het path "/Users/student" als hetzelfde path worden beschouwd als "/USERS/STudent"
+
+Daarentegen op Linux-distro's zal "/home/student" beschouwd worden als een ander path dan "/home/STUDENT"
+
+### Hidden files
+
+Soms gaat je operating systeem of sommige programma's hidden directories en files aanmaken.  
+Deze files hebben meestal als bedoeling dat je als gewone user deze niet gaat zien.  
+De conventie (zelfde in de verschillende operating systemen) is de directory of file te laten **starten** met een **punt**
+zoals je hieronder ziet.
+
+![](hiddenfiles.png)
+
+> Je gaat deze by default in Windows niet altijd zien.  
+> Als je deze wil kunnen zien moet je dit in de opties
+> van de Windows file explorere aanduiden.
+
+Als **softwareontwikkelaar** is het echter **belangrijk** deze te **kunnen zien** en bewerken
+gezien veel van de tools die je zal gebruiken in de opleiding programmeren dit gebruiken:
+
+* nuget (C#) gebruikt .nuget om dependencies
+* Maven (Java) gebruikt bijvoorbeeld .m2 voor configuratie en dependencies
+* IDE's zoals IntelliJ en Visual Studio voor configuratie
+* sleutels en keys om ssh-sessies te kunnen doen (.ssh)
+* ...
+
+Als je op een Linux-distro volgend commando uitvoert zal je alle hidden folders
+in de home-directory terugvinden...
+
+~~~
+bart@bvlegion:~$ ls -ald ~/.*
+...
+drwxr-xr-x 157 bart bart  12288 Sep 23 10:46 .
+drwxr-xr-x   3 root root   4096 Feb 27  2021 ..
+drwxrwxr-x   3 bart bart   4096 Dec 26  2021 .anaconda
+drwxrwxr-x   5 bart bart   4096 Aug 15 01:42 .android
+-rw-rw-r--   1 bart bart    192 Apr  8 21:55 .angular-config.json
+drwxrwxr-x   2 bart bart   4096 Mar 28 17:31 .arduino
+drwxr-xr-x   6 bart bart   4096 Mar 28 17:44 .arduino15
+drwxrwxr-x   7 bart bart   4096 Mar 28 17:44 .arduinoIDE
+drwxrwxr-x   4 bart bart   4096 Jan  9  2023 .m2
+drwx------   2 bart bart   4096 May 20 18:56 .ssh
+drwxr-xr-x   2 bart bart   4096 Aug 21 00:00 .vim
+-rw-------   1 bart bart  20056 Sep 22 11:14 .viminfo
+...
+$ 
+~~~
 
 ## Werken met een shell?
 
@@ -275,7 +398,7 @@ ls: cannot access 'geen_directory/': No such file or directory
 $
 ~~~
 
-### Scripting
+### Commando's uitvoeren via scripting
 
 Naast interactief te werken kan je ook in **scripting-modus** werken.  
 Daar heb je geen interactie maar je kan wel **meerdere commando's uitvoeren** **zonder** deze
@@ -306,7 +429,6 @@ Elke **softwareontwikkelaar** moet de **beginselen** kennen van het werken met *
 omgeving waar zij/hij ontwikkeld (dit kan je laptop zijn maar ook een remote omgeving).  
 Dit argument is nog sterker als je met **embedded devices** werkt die veelal enkel te besturen zijn via command-line.
 
-
 ## Shell-omgevingen
 
 Een besturingssysteem zal meestal 1 of meerdere omgevingen ondersteunen.  
@@ -327,7 +449,7 @@ Dit onderdeel zal dus voor deze beide omgevingen de grote lijnen uitleggen:
 * Wat zijn de belangrijkste commando's?
 * ...
 
-### Dat mag je zelf kiezen!
+### Dat mag je zelf kiezen
 
 Als **student** mag je zelf de **keuze maken** welke van de 2 je gebruikt
 om opdrachten oefeningen te maken...
@@ -455,7 +577,7 @@ Hiervoor gebruik je - zowel in Powershell en Bash - het commando **mkdir**
 
 #### Een directory aanmaken in Powershell
 
-We starten met het aanmaken van een **directory** waarin we onze C-code gaan plaatsen.
+We starten met het aanmaken van een **directory** met het commando **mkdir**
 
 ~~~powershell
 PS C:\Users\Bart> mkdir een_eerste_directory
@@ -467,6 +589,16 @@ Mode                 LastWriteTime         Length Name
 d-----          9/3/2023  10:54 PM                een_eerste_directory
 
 PS C:\Users\Bart>
+~~~
+
+Zoals geeft het **mkdir-commando** de feedback dat de folder is aangemaakt.  
+Als je nadien het commando **ls** uitvoerd om de inhoud van de working directory te tonen
+
+
+> Working directory is de directory waar je momenteel op ben gelocaliseerd
+> op de console
+
+~~~powershell
 PS C:\Users\Bart> ls
 
     Directory: C:\Users\Bart
@@ -490,17 +622,17 @@ Hier zien we in **1 klap 2 commando's**:
 
 #### Een directory aanmaken in Bash
 
-We starten met het aanmaken van een **directory** waarin we onze C-code gaan plaatsen.
+We starten met het aanmaken van een **directory** via het commando **mkdir**.
 
 ~~~bash
-demo@demohost ~ $ mkdir een_eerste_programma
+demo@demohost ~ $ mkdir een_eerste_directory
 demo@demohost ~ $ ls
-... een_eerste_programma Documents Games ...
+... een_eerste_directory Documents Games ...
 ~~~
 
 Hier zien we in 1 klap 2 commando's:
 
-* **mkdir** gevolg door het path **een_eerste_programma**  
+* **mkdir** gevolg door het path **een_eerste_directory**  
   Dit maakt een nieuwe folder of directory deze naam.  
 * Het commando **ls**  
   Laat ons toe de **inhoud** na te kijken van de huidige **directory**
@@ -511,16 +643,19 @@ Om te navigeren naar een andere directory maak je - zowel in Powershell, CMD als
 
 #### Navigeren door directories in Powershell
 
-Het gebruik is éénvoudig, je navigeert door **cd** te typen **gevolgd** door het **path** naar deze directory.
-In Powershell doe je dit zoals hieronder:
+Het gebruik is éénvoudig, je navigeert door **cd** te typen **gevolgd** door het **path** naar deze directory.  
+In Powershell doe je dit zoals hieronder om te navigeren naar de directory die we daarnet
+hadden aangemaakt:
 
 ~~~powershell
-PS C:\Users\Bart> cd een_eerste_programma
-PS C:\Users\Bart\een_eerste_programma>
+PS C:\Users\Bart> cd een_eerste_directory
+PS C:\Users\Bart\een_eerste_directory>
 ~~~
 
 Merk ook dat aan de **prompt** het **nieuwe path** kan zien, in dit geval zijn we ven 
-"C:\Users\Bart\" naar "C:\Users\Bart\een_eerste_programma" genavigeerd.
+"C:\Users\Bart\" naar "C:\Users\Bart\een_eerste_directory" genavigeerd.
+
+#### pwd en work-directory
 
 Het pad waar je nu in werkt noemen we ook de **"work directory"**.  
 Er bestaat trouwens ook het commando **pwd** dat staat voor "print workdirectory".  
@@ -535,26 +670,112 @@ C:\Users\Bart\een_eerste_directory
 
 PS C:\Users\Bart\een_eerste_directory>
 ~~~
+
 #### Navigeren door directories in Bash
 
 Als je deze directory hebt aangemaakt kan je hiernaartoe navigeren via het commando **cd**  
 (hetgeen staat voor change directory)
 
 ~~~bash
-demo@demohost ~ $ cd een_eerste_programma
-demo@demohost ~/een_eerste_programma $ pwd
-/home/bart/een_eerste_programma
-demo@demohost ~/een_eerste_programma $
+demo@demohost ~ $ cd een_eerste_directory
+demo@demohost ~/een_eerste_directory $ pwd
+/home/bart/een_eerste_directory
+demo@demohost ~/een_eerste_directory $
 ~~~
 
 Het gebruik is éénvoudig, je navigeert door cd te typen gevolgd door het path naar deze directory.  
 Het commando **pwd** print in dit geval de gehele huidige directory af.  
 
-### Relatief vs absoluut path
+### Tab-completions
+
+Tab-completion (of command-line-completion) is een **eigenschap** binnen command line omgevingen
+waarbij de console automatisch gedeeltelijk ingevulde commando's en/of paden aanvult.
+
+Als je bijvoorbeeld in de console **mkd** zou typen, gevolgd door tab zal de console voorstellen doen
+als er meerdere mogelijkheden bestaan 
+
+~~~bash
+$ mkd
+mkdir        mkdiskimage  mkdosfs      
+$ mkdi
+mkdir        mkdiskimage
+$
+~~~
+
+Als er dan nog slechts 1 commando mogelijk bestaat zal console dit verder aanvullen.
+
+~~~bash
+$ cd een_
+mkdir        mkdiskimage  mkdosfs      
+$ 
+mkdir        mkdiskimage
+$
+~~~
+
+Hetzelfde mechanisme is ook daar bij het invoeren van een path als argument
+bij een commando
+
+~~~bash
+$ cd een_
+een_directory/        een_tweede_directory/ 
+$ cd een_directory
+~~~
+
+Gezien tab-completion een uitgebreid (maar handig topic) is voor
+meer info over tab-completion in Powershell kan je gaan kijken naar:
+
+* Powershell: https://learn.microsoft.com/en-us/powershell/scripting/learn/shell/tab-completion?view=powershell-7.3
+* Bash: https://www.gnu.org/software/gnuastro/manual/html_node/Bash-TAB-completion-tutorial.html
+
+### Relatief, absoluut path, ...
+
+**Nu** we **directories** kunnen **aanmaken** en weten welk commando (cd) je moet gebruiken om
+te navigeren naar een directory is de moment aangebroken om verder te praten over het concept **path**.
+
+Eerder hebben we vermeld dat filesystemen **hiërarchisch** zijn opgesteld en dat je een **path** kan gebruiken
+om een locatie van een **file** of **directory** in dit filesysteem te markeren.
+
+#### Absoluut path
+
+Tot nu spraken we enkel over een **absoluut path**.  
+Dat betekent dat je start vanaf de **root** van je **filesystem**:
+
+* Voor Windows is dit een **harde schijf** (**C**, D, ...)
+* Voor Linux/Mac start dit van de **root** van je filesystem **voorgesteld** als een **/**
+
+Voor **bijvoorbeeld** een **file HelloWorld.cs** die zich in de **HOME-directory** van een **user** **student** bevindt is dit
+
+* Voor **Windows** is dit **C:\Users\student\HelloWorld.cs**
+* Voor **Linux-distros** is dit **/home/student/HelloWorld.cs**
+* Voor **macOS** is dit **/Users/student/HelloWorld.cs**
+
+#### Relative path vs Working-directory
+
+Een **relatief path** gaat daarentegen uit van de **huidige locatie** waarin een **programma**, **script** of de **user** zich **bevindt**.  
+
+In deze fase is dit programma onze **terminal/shell-applicatie** waar we shell-commando (cd, mkdir, ...) in uitvoeren.  
+Eerder hadden we ook gezien dat het commando **pwd** kunnen gebruiken om deze directory uit te printen
+
+Stel bijvoorbeeld dat je wil navigeren naar een directory die zich binnen je huidige directory
+ligt kan je daar naar toe navigeren door gewoon het path in te geven vanuit je work-directory.
+
+Dus bijvoorbeeld ipv met "cd C:\Users\student\een_directory\" te navigeren vanuit je HOME-directory
+kan je gewoon "cd .\een_directory" of korter "cd een_directory" gebruiken
+
+#### Parent directory
+
+Als we spreken over een parent directory spreken we over de directory waar jou working-directory
+zich bevindt.  
+Bijvoorbeeld de parent-directory van "C:\Users\student\een_directory\" is "C:\Users\student\"
+
+Als je nu **relatief** naar een **parent-directory** wil verwijzen kan je dit via de volgende notatie **..**.  
+In bovenstaand voorbeeld zou "cd .." je naar "C:\Users\student\" brengen.  
+
+Je kan ook meerdere niveaus hoger, bijvoorbeeld "cd ..\.." brengt je in dat geval naar "C:\Users\"
 
 #### Relatief vs absoluut path in Powershell
 
-*mkdir* en *cd* nemen - net zoals de meeste commando's op de DOS-prompt - als input een **path**.    
+*mkdir* en *cd* nemen - net zoals de meeste commando's op de DOS-prompt - als input een **path**.  
 Zo'n path is de verwijzing naar een (target-)directory waarop je dit commando wil op uitvoeren.  
 
 Er zijn een aantal manieren waarop je een path kan construeren, het grootste onderscheid dat we hier maken is  absoluut of relatief:
@@ -562,8 +783,8 @@ Er zijn een aantal manieren waarop je een path kan construeren, het grootste ond
 * **absoluut** is een path dat start vanaf de root-directory, dit path start namelijk vanaf de schijf waar je wil naar verwijzen
 
 ~~~powershell
-PS C:\Users\> cd C:\Users\bart\een_eerste_programma
-PS C:\Users\Bart\een_eerste_programma
+PS C:\Users\> cd C:\Users\bart\een_eerste_directory
+PS C:\Users\Bart\een_eerste_directory
 ~~~
 
 Dit start altijd me een verwijzing naar de root-directory (in het geval van Windows is dit een schijf)
@@ -571,8 +792,8 @@ Dit start altijd me een verwijzing naar de root-directory (in het geval van Wind
 * **relatief** verwijst naar een locatie relatief naar je huidige directory
 
 ~~~powershell
-PS C:\Users\Bart>cd een_eerste_programma
-PS C:\Users\Bart\een_eerste_programma>cd ..
+PS C:\Users\Bart>cd een_eerste_directory
+PS C:\Users\Bart\een_eerste_directory>cd ..
 PS C:\Users\Bart>cd ..\een_andere_directory
 PS C:\Users\een_andere_directory>
 ~~~
@@ -582,18 +803,18 @@ Het symbool **..** (2 dots na elkaar) kan je altijd gebruiken om naar de super-d
 
 #### Relatief vs absoluut path in Bash
 
-*mkdir* en *cd* nemen - net zoals de meeste commando's op de DOS-prompt - als input een **path**.    
+**mkdir** en ! nemen - net zoals de meeste commando's op de DOS-prompt - als **input** een **path**.  
 Zo'n path is de verwijzing naar een (target-)directory waarop je dit commando wil op uitvoeren.  
 
 Er zijn een aantal manieren waarop je een path kan construeren, het grootste onderscheid dat we hier maken is  absoluut of relatief:
 
-* **absoluut** is een path dat start vanaf de root-directory, dit path start namelijk vanaf de schijf waar je wil naar verwijzen
+* **absoluut** is een **path** dat **start vanaf** de **root-directory**, dit path start namelijk vanaf de schijf waar je wil naar verwijzen
 
 ~~~bash
-demo@demohost ~ $ cd /home/bart/een_eerste_programma
-demo@demohost ~/een_eerste_programma $ pwd
-/home/bart/een_eerste_programma
-demo@demohost ~/een_eerste_programma $
+demo@demohost ~ $ cd /home/bart/een_eerste_directory
+demo@demohost ~/een_eerste_directory $ pwd
+/home/bart/een_eerste_directory
+demo@demohost ~/een_eerste_directory $
 ~~~
 
 Dit start altijd me een verwijzing naar de root-directory
@@ -601,29 +822,43 @@ Dit start altijd me een verwijzing naar de root-directory
 * **relatief** verwijst naar een locatie relatief naar je huidige directory
 
 ~~~bash
-demo@demohost ~ $ cd een_eerste_programma
-demo@demohost ~/een_eerste_programma $ pwd
-/home/bart/een_eerste_programma
-demo@demohost ~/een_eerste_programma $ cd ../een_andere_directory
+demo@demohost ~ $ cd een_eerste_directory
+demo@demohost ~/een_eerste_directory $ pwd
+/home/bart/een_eerste_directory
+demo@demohost ~/een_eerste_directory $ cd ../een_andere_directory
 demo@demohost ~/een_andere_directory $
 ~~~
 
 Dit verwijst van je huidige directory naar een path relatief tov je huidige directory.  
 Het symbool **..** (2 dots na elkaar) kan je altijd gebruiken om naar de super-directory te verwijzen
 
-### Home-directory
+### HOME-directory
 
-#### Home-directory in Powershell
+Eerder hadden we reeds gezien wat een HOME-directory betekent.  
+Binnen de shell-omgevingen kan je hier via een aantal shortcuts naartoe navigeren.
+
+#### Symbool voor HOME-directory
+
+Naast de **.**-symbool - voor de huidige directory - en het **..**-symbool kan je ook direct verwijzen
+in een path naar een HOME-directory met het symbool **~**.
+
+Als je **bijvoorbeeld** de inhoud wil kennen van de **HOME-directory** kan je het commando **"ls ~"** gebruiken
+zonder het volledige absolute path te gebruiken van de HOME-directory.  
+Je kan dit echter ook **combineren** met een **relatief path** om de waarde van een **subdirectory** **binnen** de **HOME-directory** te verwijzen.  
+
+Bijvoorbeeld "ls ~\een_directory" toont de inhoud van deze directory binnen de HOME-directory.
+
+#### HOME-directory in Powershell
 
 Elke user in Windows heeft een home-directory, Windows voorzien een environment-variabele waarmee je terug kan gaan naar deze directory.
 
 ~~~powershell
 PS C:\Users\Bart>cd C:\
-C:\Users> cd %HOMEPATH%
+C:\Users> cd ~
 PS C:\Users\Bart>
 ~~~
 
-#### Home-directory in Bash
+#### HOME-directory in Bash
 
 Elke user op unix-systemen heeft een home-directory, in bash kan je daarna verwijzen met het teken ~  
 Ook cd typen zonder iets zorgt dat je in de home-directory geraakt
@@ -642,33 +877,80 @@ demo@demohost ~ $
 
 ### Directories verwijderen
 
-#### Directories verwijderen in Windows
+#### Lege directories verwijderen in Windows
 
 Een directory kan verwijderd worden door het commando rmdir.  
 Deze directory mag wel geen files bevatten anders zal deze een fout-code opleveren
 
 ~~~
-PS C:\Users\Bart>rmdir een_eerste_programma
+PS C:\Users\Bart>rmdir een_eerste_directory
 
-PS C:\Users\Bart>cd een_eerste_programma
+PS C:\Users\Bart>cd een_eerste_directory
 The system cannot find the path specified.
 ~~~
 
 Als je nadien naar deze directory probeert te gaan krijg je een boodschap dat deze directory niet bestaat.
 
+#### (niet lege) Directories verwijderen in Windows
 
-#### Directories verwijderen in Bash
+Als een directory niet leeg is echter kan je deze niet zo maar deleten.  
+De console zal jou waarschuwen dat de directory niet leeg is en je moet bevestigen/
+
+~~~powershell
+PS C:\Users\Bart> rmdir .\een_eerste_directory\
+
+Confirm
+The item at C:\Users\Bart\een_eerste_directory\ has children and the Recurse parameter was not specified. If you
+continue, all children will be removed with the item. Are you sure you want to continue?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"):
+~~~
+
+Je kan dit bevestigen of via rm werken ipv rmdir en de recursive flag meegeven
+
+~~~
+PS C:\Users\Bart>rm -r een_eerste_directory
+
+PS C:\Users\Bart>cd een_eerste_directory
+The system cannot find the path specified.
+~~~
+
+Hier pas je wel best met op gezien je hier ongewild files kan deleten die onder deze 
+directory vallen...
+
+#### Lege directories verwijderen in Bash
 
 Een directory kan verwijderd worden door het commando rmdir.  
 Deze directory mag wel geen files bevatten anders zal deze een fout-code opleveren
 
 ~~~bash
-demo@demohost ~ $ rmdir een_eerste_programma
-demo@demohost ~ $ cd een_eerste_programma
-bash: cd: een_eerste_programma: No such file or directory
+demo@demohost:~$ rmdir een_eerste_directory
+demo@demohost:~$ cd een_eerste_directory
+bash: cd: een_eerste_directory: No such file or directory
+demo@demohost:~$
 ~~~
 
 Als je nadien naar deze directory probeert te gaan krijg je een boodschap dat deze directory niet bestaat.
+
+#### (niet lege) Directories verwijderen in Bash
+
+Als de directory echter niet leeg is zal **rmdir** dit niet **toelaten** in Bash.  
+Dit zal namelijk enkel werken als de directory leeg is.
+
+~~~bash
+demo@demohost:~$ rmdir een_eerste_directory/
+rmdir: failed to remove 'een_eerste_directory/': Directory not empty
+demo@demohost:~$ 
+~~~
+
+Indien je dan **toch** de directory **wil verwijderen** gebruik je ipv rmdir het commando
+**rm -rf** (waar **r** voor **recursive** staat en **f** voor **force**)
+
+~~~bash
+demo@demohost:~$ rm -rf een_eerste_directory/
+demo@demohost:~$ ls een_eerste_directory
+ls: cannot access 'een_eerste_directory': No such file or directory
+demo@demohost:~$
+~~~
 
 ### Files binnen een directory oplijsten
 
@@ -691,23 +973,14 @@ PS C:\Users\Bart\mijn_eerste_programma>dir
                2 Dir(s)  123.086.462.976 bytes free
 ~~~
 
-Vervolgens maken we via een **texteditor** (bijvoorbeeld notepad++ zoals eerder besproken) aan, en copieren we volgende inhoud (ons eerste C-programma) naar een file:
-
-~~~c
-#include <stdio.h>
-
-int main()
-{
-	printf("Hello World\n");
-	return 0;
-}
-~~~
+Vervolgens maken we via een **texteditor** (bijvoorbeeld notepad zoals eerder besproken) aan, en bewaren we dit 
+in deze directory
 
 Deze file bewaren we onder de eerder aangemaakte directory onder de naam hello.c.  
-Nadien kijken we na met het DIR-commando of deze file correct is aangemaakt.  
+Nadien kijken we na met het ls-commando of deze file correct is aangemaakt.  
 
 ~~~powershell
-PS C:\Users\Bart\mijn_eerste_programma>dir
+PS C:\Users\Bart\mijn_eerste_programma>ls
  Volume in drive C is System
  Volume Serial Number is E687-8D34
 
@@ -715,7 +988,7 @@ PS C:\Users\Bart\mijn_eerste_programma>dir
 
 02/02/2017  14:25    <DIR>          .
 02/02/2017  14:25    <DIR>          ..
-02/02/2017  14:24                77 hello.c
+02/02/2017  14:24                77 hello.txt
                2 File(s)            471 bytes
                2 Dir(s)  123.097.833.472 bytes free
 ~~~
@@ -730,19 +1003,9 @@ demo@demohost ~/mijn_eerste_programma $ ls
 demo@demohost ~/mijn_eerste_programma $
 ~~~
 
-Vervolgens maken we via een **texteditor** (bijvoorbeeld gedit zoals eerder besproken) aan, en copieren we volgende inhoud (ons eerste C-programma) naar een file:
+Vervolgens maken we via een **texteditor** (bijvoorbeeld gedit zoals eerder besproken) en bewaren
+we deze in deze eerder aangemaakte directory
 
-~~~c
-#include <stdio.h>
-
-int main()
-{
-	printf("Hello World\n");
-	return 0;
-}
-~~~
-
-Deze file bewaren we onder de eerder aangemaakte directory onder de naam hello.c.  
 Nadien kijken we na met het ls-commando of deze file correct is aangemaakt.  
 
 ~~~bash
@@ -750,39 +1013,42 @@ demo@demohost ~/mijn_eerste_programma $ ls
 hello.code
 ~~~
 
-### Inhoud van een file tonen op command-line
+### Werken met textfiles op command-line
 
-#### Inhoud van een file tonen op command-line in Powershell
+Om een **textfile** aan te maken, de inhoud te bekijken of bewerken werk je **meestal** vanuit een **teksteditor**.  
+Dit kan echter ook vanuit command line op een aantal manieren.
+
+#### Inhoud van een file tonen in Powershell
 
 Stel dat je deze file alleen wil lezen bestaat er ook de mogelijkheid vanuit de command-line deze file te lezen.  
-Dit kan door de inhoud van deze file naar de command-line af te drukken via het commmando **type**
+Dit kan door de inhoud van deze file naar de command-line af te drukken via het commmando **cat** of **type**  
+(type werkt ook op legacy CMD)
+
 
 ~~~powershell
-PS C:\Users\Bart\mijn_eerste_programma>type hello.c
-#include <stdio.h>
-
-int main()
-{
-        printf("Hello World\n");
-        return 0;
-}
+PS C:\Users\Bart\mijn_eerste_programma>cat hello
+hello world
 C:\Users\bart\mijn_eerste_programma>
 ~~~
 
-#### Inhoud van een file tonen op command-line in Bash
+#### Inhoud toevoegen met een commando in powershell
+
+~~~powershell
+PS C:\Users\bart\> echo 'hello world' > .\hello.txt
+PS C:\Users\bart\> cat .\hello.txt
+hello world
+PS C:\Users\bart\>
+~~~
+
+#### Inhoud van een file tonen in Bash
 
 Stel dat je deze file alleen wil lezen bestaat er ook de mogelijkheid vanuit de command-line deze file te lezen.  
 Dit kan door de inhoud van deze file naar de command-line af te drukken via het commmando **cat**
 
 ~~~bash
-demo@demohost ~/mijn_eerste_programma $ cat hello.c
-#include <stdio.h>
-
-int main()
-{
-        printf("Hello World\n");
-        return 0;
-}
+demo@demohost ~/mijn_eerste_programma $ cat hello
+hello world
+demo@demohost ~/mijn_eerste_programma $
 ~~~
 
 ### Copieren van een files
@@ -927,12 +1193,6 @@ demo@demohost ~/mijn_eerste_programma $ echo $?
 
 Deze variabele $? zal de error-code bijhouden die door het laatste programma was teruggegeven aan de shell.  
 
-### Permissies op files en directories
-
-#### Permissies in Powershell
-
-#### Permissies met Bash
-
 ## Environment-variabelen
 
 Een shell laat toe om - zoals in een programmmeer-taal - variabelen aan te maken en te gebruiken.
@@ -1041,262 +1301,6 @@ TERM=xterm-256color
 ...
 ~~~
 
-## Pipes en redirection
-
-### STDIN, STDOUT en STDERR
-
-Een proces binnen een Linux-distro (maar ook UNIX- en ander POSIX-compliant OS)
-heeft altijd automatich **3 files** of **streams** ter beschikking
-
-* **STDIN**: standard input
-* **STDOUT**: standard output
-* **STDERR**: standard error
-
-Dit zijn datastromen die je een applicatie **"standaard"** zal **doorgeven** (STDOUT en STDERR) aan de **shell**.  
-Vanuit de shell echter kan je deze **datastromen** doorgeven aan **andere** **applicaties** via een aantal operatoren (>, >>, <, |)
-
-### STDOUT
-
-De eerste is STDOUT, dit is de tekst/output dat je applicatie produceert
-
-~~~
-START PROGRAMMA:       argumenten   
-                           |
-                           V                        (1)
-                    +------+-----+----> standard output
-                    |  processs  |  
-                    +------+-----+
-                           |
-                           V
-EINDE PROGRAMMA:       exit-code    
-~~~
-
-In onderstaand voorbeeld zal de standard-output van het commando "ls" naar de shell doorsturen
-
-~~~
-$ ls -l hello.sh 
--rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-$
-~~~
-
-#### Redirection operator > (overwrite)
-
-Deze output kan je echter "redirect"-en naar een een file.  
-Dit doe je door na het commando een **```>```** teken te plaatsen gevolgd naar welk file je wil schrijven zoals hieronder geillustreerd.
-
-~~~
-$ ls -l hello.sh > lsout
-$ cat lsout
--rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-$
-~~~
-
-Een 2de voorbeeld is als je een file wil aanmaken met reeds wat tekst in:
-
-~~~
-$ echo "Hello World" > helloworld 
-$ cat helloworld
-Hello world
-$
-~~~
-
-#### Redirection operator >> (append)
-
-De >-operator zal een file overschrijven, al er reeds een file bestaat zal deze worden overschreven met de volledige output van het commando.
-
-~~~
-$ ls -l hello.sh > lsout
-$ cat lsout
--rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-$ 
-~~~
-
-Als je echter het bestand niet wil overschrijven gebruik je de **>>-redirection-operator**.  
-Om te vermijden dat we voorgaande input niet overschrijven gebruiken we deze operator.
-
-~~~
-tudent@studentdeb:~$ ls -l hello.sh >> lsout
-$ ls -l hello.sh >> lsout
-$ cat lsout
--rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
--rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
--rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-$ 
-~~~
-
-Als gevolg hiervan zien we dat de file is aangevuld...
-
-### STDERR
-
-Naast **STDOUT** is er echter nog een **2de** output-stream, namelijk **STDERR**.  
-
-~~~
-START PROGRAMMA:       argumenten   
-                           |
-                           V                        (1)
-                    +------+-----+----> standard output
-                    |  processs  |  
-                    +------+-----+---->  standard error 
-                           |                        (2)
-                           V
-EINDE PROGRAMMA:       exit-code    
-~~~
-
-Een **applicatie** zal **foutboodschappen** doorsturen naar de **STDERR**, niet naar **STDOUT**.
-Bij volgende voorbeeld proberen we express een nietbestaande file op te lijsten en de outputweg te schrijven naar een file.
-
-~~~
-$ ls -l hello.sh.not > lsout
-ls: cannot access 'hello.sh.not': No such file or directory
-$ cat lsout 
-$ 
-~~~
-
-Hier zien we dat de **file leeg** is, dit is omdat de enige output van het ls-commando de foutboodschap was die je op de console zag verschijnen.  
-
-#### Redirect van STDERR via 2>
-
-Als je er echter wil voor zorgen dat de **error-output** naar een file wordt weggeschreven kan je dit door een nummer toe te voegen aan het redirect-symbool, voor de **error-stream** is dit altijd **2**
-
-~~~
-$ ls -l hello.sh.not 2> lserr
-$ cat lserr 
-ls: cannot access 'hello.sh.not': No such file or directory
-$ 
-~~~
-
-Je kan ook zorgen dat **beide** streams **tegelijkertijd** worden weggeschreven.  
-In onderstaand voorbeeld:
-
-* lijsten zowel een bestaande als niet bestaande file op
-* de error-output gaat naar lserr
-* de gewone output gaat naar lsout 
-
-~~~
-$ ls -l hello.sh hello.sh.not >lsout 2> lserr
-$ cat lserr 
-ls: cannot access 'hello.sh.not': No such file or directory
-$ cat lsout
--rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-$ 
-~~~
-
-#### Redirect van beide STDOUT en STDERR via &>
-
-Als je beide tegelijkertijd will redirecten en je **&>** gebruiken in de plaats hiervan.  
-In het **voorbeeld** hieronder zullen **beide streams** naar **lsall** worden weggeschreven.
-
-~~~
-$ ls -l hello.sh hello.sh.not &> lsall
-$ cat lsout 
--rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-ls: cannot access 'hello.sh.not': No such file or directory
-$ 
-~~~
-
-### STDIN
-
-Een 3de stream is STDIN, dit is de standaard input die een applicatie meekrijgt vanaf de shell.
-
-~~~
-START PROGRAMMA:       argumenten   
-                           |
-                           V                        (1)
-(0)                 +------+-----+----> standard output
-standard input ---->|  processs  |  
-                    +------+-----+---->  standard error
-                           |                        (2)
-                           V
-EINDE PROGRAMMA:       exit-code    
-~~~
-
-Om dit de demonstreren gebruiken we het **commando wc**.  
-wc is de afkorting voor **wordcount** en geeft (standaard zonder argumenten) 3 outputs:
-
-* Aantal lijnen
-* Aantal woorden
-* Aantal karakters
-
-Als je dit commando uitvoert zonder argumenten zal dit commando wachten op input van de console,
-namelijk STDIN.  
-In onderstaand voorbeeld typen we wat tekst gevolgd, om deze tekst (STDIN) te beeindigen gebruiken we "Ctrl + D"
-
-~~~
-$ wc
-hello
-world
-greetings from the shell
-      3       6      37
-$ 
-~~~
-
-#### Redirection vanuit een file naar STDIN via <
-
-Net als we met > naar een file kunnen afleiden, kunnen we inhoud van een file afleiden naar STDIN.  
-Dit kunnen we via de operator **<**.
-
-We komen terug op ons voorgaand voorbeeld waar we een file aanmaken met 2 lijnen.
-
-~~~
-$ ls -l hello.sh hello.sh.not &> lsall
-$ cat lsall
-ls: cannot access 'hello.sh.not': No such file or directory
--rwxr--r-- 1 student student 60 Mar 13 20:04 hello.sh
-~~~
-
-Als we nu de inhoud van deze file willen afleiden naar het wc-commando kunnen we dit doen als hieronder.
-
-~~~
-$ wc < lsall
-  2  18 114
-$ 
-~~~
-
-#### Redirection van STDIN/STDOUT vanuit een ander process/commando naar STDIN via |
-
-In bovenstaand voorbeeld werkten we nog altijd met een tussenfile - lsall - om de output
-van het ls-commando te verbinden aan het wc-commando.
-
-Er is echter een operator die de output-stream van het ene commando (ls) men de inputstream van het andere commando (wc).  
-Om dit te doen moet een pipe-opetor of | tussen beide commando's plaatsen zoals hieronder geillustreerd.
-
-~~~
-bart@studentdeb:~$ ls -l hello.sh hello.sh.not | wc
-ls: cannot access 'hello.sh.not': No such file or directory
-      1       9      52
-bart@studentdeb:~$
-~~~
-
-Bemerk hier wel dat deze pipe-operator enkel de stderror verbindt met de stdin.
-
-~~~
-            STDOUT    |    STDIN   STDOUT     CONSOLE:
-    +------+-----+-------->+------+-----+---->  1       9      52 
-    |  ls -l ... |         |     WC     |
-    +------+-----+         +------+-----+
-~~~
-
-
-#### Redirection vanuit een ander process/commando naar STDIN via |&
-
-Wil je toch beide proberen dan dien je dit te doen met een variant van de pike-operator die beide **STDERR en STDIN combineert**, namelijk **|&**
-
-~~~
-bart@studentdeb:~$ ls -l hello.sh hello.sh.not |& wc
-      2      18     112
-bart@studentdeb:~$ 
-~~~
-
-Met deze operator worden zowel de STDOUT als de STDERR bij elkaar gevoegd
-en doorgegeven aan de STDIN van WC.
-
-~~~
-            STDOUT  |&      STDIN   STDOUT     CONSOLE:
-    +------+-----+---+----->+------+-----+---->  2      18     112 
-    |  ls -l ... |   |      |     WC     |
-    +------+-----+---+      +------+-----+
-            STDERR
-~~~
 
 
 ## Scripting
@@ -1423,7 +1427,6 @@ PS C:\Users\bartvoe>
 Je dient het **exacte path** te gebruiken en in dit geval kan je **relatief verwijzen** door **.\**
 
 TODO: PATH demonstreren...
-
 
 
 #### Write-Host command
