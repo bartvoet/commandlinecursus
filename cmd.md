@@ -1018,20 +1018,169 @@ hello.code
 Om een **textfile** aan te maken, de inhoud te bekijken of bewerken werk je **meestal** vanuit een **teksteditor**.  
 Dit kan echter ook vanuit command line op een aantal manieren.
 
-#### Inhoud van een file tonen in Powershell
+1 van die manieren is werken met **out- en inputstreams**.  
+Een process - ofdat nu Windows, Linux of Mac is - heeft altijd een inputstream en meerdere outputstreams.  
+Om precies te zijn 1 inputstream die we **standard input** of **STDIN** noemen en minstens 2 outputstreams
+die we **standard output** (STDOUT) en **standard error** (STDERR)
 
-Stel dat je deze file alleen wil lezen bestaat er ook de mogelijkheid vanuit de command-line deze file te lezen.  
-Dit kan door de inhoud van deze file naar de command-line af te drukken via het commmando **cat** of **type**  
-(type werkt ook op legacy CMD)
 
-
-~~~powershell
-PS C:\Users\Bart\mijn_eerste_programma>cat hello
-hello world
-C:\Users\bart\mijn_eerste_programma>
+~~~
+  START PROGRAMMA:       argumenten   
+                             |
+                             V                        (1)
+  (0)                 +------+-----+----> standard output
+  standard input ---->|  processs  |  
+                      +------+-----+---->  standard error
+                             |                        (2)
+                             V
+  EINDE PROGRAMMA:        exit-code    
 ~~~
 
-#### Inhoud toevoegen met een commando in powershell
+Kort gezegd deze streams stellen de input en output van de console voor.  
+Als je bijvoorbeeld een commando ls uitvoert zal daar een **output** aan verbonden zijn zoals je hieronder ziet.  
+Deze output kan je in de console opvangen met een aantal operatoren zoals we zo dadelijk gaan zien...
+
+~~~powershell
+PS C:\Users\Bart> ls
+
+    Directory: C:\Users\Bart
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          3/4/2022  11:14 AM                .config
+d-----        12/21/2022   8:11 PM                .dotnet
+d-----         6/19/2022  12:58 AM                .librarymanager
+d-----          8/1/2022   8:37 PM                .ms-ad
+d-----         3/26/2022   3:17 PM                .nuget
+d-----         7/22/2022   7:41 PM                .omnisharp
+d-----         6/20/2022  10:44 AM                .templateengine
+d-----          3/4/2022  11:00 AM                .vscode
+d-r---         2/26/2022   8:39 PM                3D Objects
+...
+PS C:\Users\Bart> 
+~~~
+
+Daarnaast heb je ook een error-stream ingeval je process niet succesvol kan beeindigd worden.  
+Dit kan je bijvoorbeeld simuleren door ls uit te voeren met een niet bestaande directory
+
+~~~powershell
+PS C:\Users\Bart> ls een_niet_bestaande_directory
+ls : Cannot find path 'C:\Users\Bart\een_niet_bestaande_directory' because it does not exist.
+At line:1 char:1
++ ls een_niet_bestaande_directory 2> test.txt
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\Bart\e...aande_directory:String) [Get-ChildItem], ItemNotFoundException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetChildItemCommand
+PS C:\Users\Bart> 
+~~~
+
+#### Binnen een C#-programma
+
+Om het concept van deze streams te linken aan iets dat je
+al hebt gezien demonstreren we dit met een programma dat je
+zelf kan schrijven binnen de cursus programmeren.
+
+##### SDTIN en STDOUT
+
+In het programma zal Console.WriteLine worden verbonden aan STDOUT
+Console.ReadLine daarentegen zal een lijn lezen aan de STDIN die je voorzien
+
+
+~~~cs
+Console.WriteLine("Naam: ");
+string naam = Console.ReadLine();
+Console.WriteLine($"Je naam is {naam}")
+~~~
+
+##### SDTERR
+
+STDERR wordt binnen dotnet-projecten meestal gelinkt aan exceptions of crashes
+van je programma's.
+
+Zo zal onderstaand programma crashen Als je bijvoorbeeld onderstaand programma zou aanre
+
+~~~cs
+int delenDoor = 0;
+Console.WriteLine(5 / delenDoor);
+~~~
+
+Als je dit programma uitvoert wordt deze error geredirect naar de STDERR en niet naar de STDERR.  
+Hoe je dit verschil kan zien gaan we zo dadelijk zien.
+
+~~~powershell
+PS C:\Users\Bart> ConsoleApp4.exe
+Unhandled exception. System.DivideByZeroException: Attempted to divide by zero.
+   at Program.<Main>$(String[] args) in C:\Users\Bart\Source\Repos\ConsoleApp4\ConsoleApp4\Program.cs:line 2
+
+C:\Users\Bart\ConsoleApp4.exe (process 6236) exited with code -1073741676.
+PS C:\Users\Bart> 
+~~~
+
+#### Textfiles en redirects in Powershell
+
+##### Redirects in powershell
+
+In Powershell kan je een redirect uitvoeren, dit houdt in dat je de **STDOUT** gaat
+omleiden naar een file.
+
+Om dit de te doen gebruik je het >-symbool na het commando.  
+In onderstaand voorbeeld gaan we ls gebruiken om de inhoud van de huidige directory
+op te vragen:
+
+~~~powershell
+PS C:\Users\Bart> ls > inhouddirectory
+PS C:\Users\Bart>
+~~~
+
+Wat interessant is echter is dat het commando **geen feedback** geeft, dit is omdat
+de output (STDOUT) is omgelend naar de file.  
+Via het ls-commando kunnen we dit verifieren
+
+~~~
+PS C:\Users\Bart> ls .\inhouddirectory
+   Directory: C:\Users\Bart  
+Mode                 LastWriteTime         Length Name                                                                                                                              
+----                 -------------         ------ ----
+-a----         9/24/2023  11:54 AM          20720 inhoudfile 
+PS C:\Users\Bart>
+~~~
+
+##### Inhoud file tonen op de commandline in Powershell
+
+Je kan vanzelfsprekend gaan kijken via de file explorer om
+deze file te bekijken maar binnen powershell heb je ook een 
+commando om de inhoud van een file te bekijken.
+
+Als je het cat-commando (of type dat ook werkt in de legacy CMD) gebruikt
+can je de inhoud van een file naar de STDOUT op de console toveren zoals
+je hieronder ziet:
+
+~~~powershell
+PS C:\Users\Bart> cat .\inhoudfile
+
+    Directory: C:\Users\Bart
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----          3/4/2022  11:14 AM                .config
+d-----        12/21/2022   8:11 PM                .dotnet
+d-----         6/19/2022  12:58 AM                .librarymanager
+d-----          8/1/2022   8:37 PM                .ms-ad
+...
+PS C:\Users\Bart>
+~~~
+
+##### File editen met echo in Powershell
+
+Een handige truc - veel gebruikt in scripting - is het **echo-commando**
+gebruiken om **tekst toe te voegen**.
+
+Het echo-commando zorgt ervoor dat je een **stuk tekst** naar de **console**
+kan **printen**, **handig** als je een script schrijft en je wil bijvoorbeeld
+log-info naar de console schrijven.
+
+In dit geval kan je een redirect kan je dit echter ook gebruiken om een textfile
+aan te maken met inhoud
 
 ~~~powershell
 PS C:\Users\bart\> echo 'hello world' > .\hello.txt
@@ -1040,15 +1189,110 @@ hello world
 PS C:\Users\bart\>
 ~~~
 
-#### Inhoud van een file tonen in Bash
+##### File appenden met echo in Powershell
 
-Stel dat je deze file alleen wil lezen bestaat er ook de mogelijkheid vanuit de command-line deze file te lezen.  
-Dit kan door de inhoud van deze file naar de command-line af te drukken via het commmando **cat**
+Een enkele **>** zal telkens de file **overschrijven**!  
+Als je een 2de commando zou uitvoeren volgende op vorige commando
+
+~~~powershell
+PS C:\Users\bart\> echo 'greetings' > .\hello.txt
+PS C:\Users\bart\> cat .\hello.txt
+greetings
+PS C:\Users\bart\>
+~~~
+
+Als je er wil voor zorgen dat deze niet wordt overschreven maar eerder de tekst wil **toevoegen**
+gebruiken je een dubbele notatie **>>** zoals je in onderstaand voorbeeld ziet.
+
+~~~powershell
+PS C:\Users\bart\> echo 'from bart' >> .\hello.txt
+PS C:\Users\bart\> cat .\hello.txt
+greetings
+from bart
+PS C:\Users\bart\>
+~~~
+
+#### Textfiles en redirects in Bash
+
+##### Redirects in bash
+
+In Bash kan je een redirect uitvoeren, dit houdt in dat je de **STDOUT** gaat
+omleiden naar een file.
+
+Om dit de te doen gebruik je het **>-symbool** na het **commando**.  
+In onderstaand voorbeeld gaan we ls gebruiken om de inhoud van de huidige directory
+op te vragen:
 
 ~~~bash
-demo@demohost ~/mijn_eerste_programma $ cat hello
+demo@demohost:~/ $ ls > inhouddirectory
+demo@demohost:~/ $
+~~~
+
+Wat interessant is echter is dat het commando **geen feedback** geeft, dit is omdat
+de output (STDOUT) is omgelend naar de file.  
+Via het ls-commando kunnen we dit verifieren
+
+~~~bash
+demo@demohost:~/ $ ls ./inhouddirectory
+inhoudfile 
+demo@demohost:~/ $
+~~~
+
+##### Inhoud van een file tonen in Bash
+
+Als je het cat-commando gebruikt
+can je de inhoud van een file naar de STDOUT op de console toveren zoals
+je hieronder ziet:
+
+~~~bash
+demo@demohost:~/ $ cat ./inhouddirectory
+ Demo
+ Demos
+ Desktop
+ Development 
+demo@demohost:~/ $
+~~~
+
+##### File editen met echo in Bash
+
+Een handige truc - veel gebruikt in scripting - is het **echo-commando**
+gebruiken om **tekst toe te voegen**.
+
+Het echo-commando zorgt ervoor dat je een **stuk tekst** naar de **console**
+kan **printen**, **handig** als je een script schrijft en je wil bijvoorbeeld
+log-info naar de console schrijven.
+
+In dit geval kan je een redirect kan je dit echter ook gebruiken om een textfile
+aan te maken met inhoud
+
+~~~bash
+demo@demohost:~/ $ echo 'hello world' > .\hello.txt
+demo@demohost:~/ $ cat .\hello.txt
 hello world
-demo@demohost ~/mijn_eerste_programma $
+demo@demohost:~/ $
+~~~
+
+##### File appenden met echo in Powershell
+
+Een enkele **>** zal telkens de file **overschrijven**!  
+Als je een 2de commando zou uitvoeren volgende op vorige commando
+
+~~~bash
+demo@demohost:~/ $> echo 'greetings' > .\hello.txt
+demo@demohost:~/ $ cat .\hello.txt
+greetings
+demo@demohost:~/ $
+~~~
+
+Als je er wil voor zorgen dat deze niet wordt overschreven maar eerder de tekst wil **toevoegen**
+gebruiken je een dubbele notatie **>>** zoals je in onderstaand voorbeeld ziet.
+
+~~~bash
+demo@demohost:~/ $ echo 'from bart' >> .\hello.txt
+demo@demohost:~/ $ cat .\hello.txt
+greetings
+from bart
+demo@demohost:~/ $
 ~~~
 
 ### Copieren van een files
@@ -1127,187 +1371,11 @@ hello.c
 > **Nota:**  
 > Net zoals bij andere commando's kan je een file aanduiden met zowel een relatief als een absoluut path
 
-## Uitvoeren van programma's
-
-### Uitvoeren van programma's in Powershell
-
-Naast het bekijken en manipuleren van je file-systeem kan je ook programma's uit voeren.  
-Dit doe je door in een directory (waar)
-
-~~~bat
-PS C:\Users\Bart>cd mijn_eerste_programma
-
-PS C:\Users\Bart\mijn_eerste_programma>dir
- Volume in drive C is System
- Volume Serial Number is E687-8D34
-
- Directory of C:\Users\bart\mijn_eerste_programma
-
-02/02/2017  14:35    <DIR>          .
-02/02/2017  14:35    <DIR>          ..
-02/02/2017  14:24                77 hello.c
-02/02/2017  14:24                99 hello
-               2 File(s)            176 bytes
-               2 Dir(s)  123.094.589.440 bytes free
-
-PS C:\Users\Bart\mijn_eerste_programma>hello
-Hello World
-~~~
-
-### Uitvoeren van programma's in Bash
-
-Naast het bekijken en manipuleren van je file-systeem kan je ook programma's uit voeren.  
-Dit doe je door in een directory (waar)
-
-~~~bash
-demo@demohost ~/mijn_eerste_programma $ ls
-hello.c hello
-demo@demohost ~/mijn_eerste_programma $ ./hello
-Hello World
-~~~
-
-### Error-levels
-
-#### Error-levels in Powershell
-
-Naast je eigen variabelen houdt je operating systeem ook een aantal variabelen bij.  
-
-~~~powershell
-PS C:\Users\Bart> echo $?                                    True                                                         PS C:\Users\Bart> ls qbsdfs                                  ls : Cannot find path 'C:\Users\Bart\qbsdfs' because it      does not exist.                                              At line:1 char:1                                             + ls qbsdfs                                                  + ~~~~~~~~~                                                      + CategoryInfo          : ObjectNotFound: (C:\Users\Bar     t\qbsdfs:String) [Get-ChildItem], ItemNotFoundException       + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerS     hell.Commands.GetChildItemCommand                                                             PS C:\Users\Bart>   
-~~~
-
-De variabele **$?** bijvoorbeeld houdt de error-code van de laatst uitgevoerde applicatie bij.
-
-#### Error-levels in Bash
-
-Naast je eigen variabelen houdt je operating systeem ook een aantal variabelen bij.  
-
-~~~bash
-demo@demohost ~ $ cd een_directory_die_niet_bestaat
-demo@demohost ~ $ echo $?
-1
-demo@demohost ~ $ cd mijn_eerste_programma/
-demo@demohost ~/mijn_eerste_programma $ echo $?
-0
-~~~
-
-Deze variabele $? zal de error-code bijhouden die door het laatste programma was teruggegeven aan de shell.  
-
-## Environment-variabelen
-
-Een shell laat toe om - zoals in een programmmeer-taal - variabelen aan te maken en te gebruiken.
-
-### Een environment-variabele definiëren
-
-#### Een environment-variabele definiëren in Powershell
-
-Een environment-variabele is een variabele (eigenlijk een stuk tekst) die door de shell wordt bijgehouden gedurende de terminal-sessie.  
-
-Het volgende voorbeeld gebruikt bijvoorbeeld dit mechanisme om een het path naar je project bij te houden
-
-~~~powershell
-PS C:\Users\Bart\mijn_eerste_programma>set MIJN_PROJECT=C:\Users\bart\mijn_eerste_programma
-
-PS C:\Users\Bart\mijn_eerste_programma>echo MIJN_PROJECT
-
-PS C:\Users\Bart\mijn_eerste_programma>cd C:\
-
-PS C:\> cd %MIJN_PROJECT%
-
-PS C:\Users\Bart\mijn_eerste_programma>
-~~~
-
-* Zo'n variabele kan je initialiseren via het keyword **set**
-* Gevolgd door de **naam** van deze variabele
-* Je kan de inhoud van zo'n **variabele** afdrukken naar de console met het commando **echo** (gevolgd door de naam)
-* Je kan de inhoud hergebruiken bij andere commando's door deze naam te omringen door een **%**-terugkomen   
-  (de shell zal dan de tekst achter deze variabele vervangen)
-
-> **Let op**, als deze variabele al bestaat dan wordt deze overschreven
-
-#### Een environment-variabele definiëren in Bash
-
-Een environment-variabele is een variabele (eigenlijk een stuk tekst) die door de shell wordt bijgehouden gedurende de terminal-sessie.  
-
-Het volgende voorbeeld gebruikt bijvoorbeeld dit mechanisme om een het path naar je project bij te houden
-
-~~~
-demo@demohost ~ $ MIJN_PROJECT=/home/bart/mijn_eerste_programma
-demo@demohost ~ $ echo $MIJN_PROJECT
-/home/bart/mijn_eerste_programma
-demo@demohost ~ $ cd $MIJN_PROJECT
-demo@demohost ~/mijn_eerste_programma $
-
-~~~
-
-* Zo'n variabele kan je initialiseren via door de **naam** van deze variabele
-* Te verbinden via een **=**-teken aan een tekst
-* Je kan de inhoud van zo'n **variabele** afdrukken naar de console met het commando **echo**  
-  (gevolgd door de naam voorafgegaan door een $-teken)
-* Je kan de inhoud hergebruiken bij andere commando's door deze naam te laten voorgaan door een **$**-terugkomen   
-  (de shell zal dan de tekst achter deze variabele vervangen)
-
-> **Let op**, als deze variabele al bestaat dan wordt deze overschreven
-
-### Environment-variabelen bekijken
-
-#### Environment-variabelen bekijken in Powershell
-
-Als je alle variabelen willen zien moet je gewoon SET typen
-
-~~~powershell
-PS C:\Users\Bart\mijn_eerste_programma>SET
-ALLUSERSPROFILE=C:\Documents and Settings\All Users
-APPDATA=C:\Documents and Settings\bart\Application Data
-CLIENTNAME=Console
-CommonProgramFiles=C:\Program Files\Common Files
-COMPUTERNAME=V-HJLVYI8TKYLPA
-ComSpec=C:\WINDOWS\system32\cmd.exe
-FP_NO_HOST_CHECK=NO
-HOMEDRIVE=C:
-HOMEPATH=\Documents and Settings\bart
-KMP_DUPLICATE_LIB_OK=TRUE
-LOGONSERVER=\\V-HJLVYI8TKYLPA
-MKL_SERIAL=YES
-NIEXTCCOMPILERSUPP=C:\Program Files\National Instruments\Shared\ExternalCompi
-Support\C\
-NUMBER_OF_PROCESSORS=1
-OS=Windows_NT
-Path=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem
-PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.py;.pyw
-PROCESSOR_ARCHITECTURE=x86
-PROCESSOR_IDENTIFIER=x86 Family 6 Model 42 Stepping 7, GenuineIntel
-PROCESSOR_LEVEL=6
-...
-~~~
-
-#### Environment-variabelen bekijken in Bash
-
-Als je alle variabelen willen zien moet je gewoon het commando printenv typen
-
-~~~bash
-demo@demohost ~/mijn_eerste_programma $ printenv
-LC_PAPER=de_BE.UTF-8
-XDG_VTNR=8
-SSH_AGENT_PID=2713
-XDG_SESSION_ID=c1
-LC_ADDRESS=de_BE.UTF-8
-LC_MONETARY=de_BE.UTF-8
-COMP_WORDBREAKS= 	
-"'><;|&(:
-QT_STYLE_OVERRIDE=gtk
-GPG_AGENT_INFO=/home/bart/.gnupg/S.gpg-agent:0:1
-TERM=xterm-256color
-...
-~~~
-
-
-
 ## Scripting
 
 Tot nog toe hebben we altijd **interactief** gewerkt met de command line. 
 
-Je
+We gebruikten de shell als volgt:
 
 * typt een **commando** na de prompt
 * Bash **voert** dit commando **uit** (als je enter hebt gedrukt)
@@ -1316,16 +1384,23 @@ Je
 Een **2de modus** waar je met een shell kan werken is **scripting**.  
 Binnen een script kan je 1 of meerdere commando's bundelen en deze kan je dan in 1 maal uitvoeren.
 
+In dit deel gaan we kijken naar hoe we éénvoudige scripten kunnen schrijven om bepaalde zaken te
+automatiseren
+
+Dit onderdeel is 2 verdeeld.  
+Het eerste deel behandeld Powershell, het 2de Bash.  
+Afhangende van jou voorkeur en/of besturingssysteem bekijk je Powershell of Bash
+
 ### Powershell scripting
 
 #### Een powershell-script schrijven
 
-Om een powershell-script te schrijven heb je in principe niet veel nodig:
+Om een **powershell-script** te **schrijven** heb je in principe **niet veel nodig**:
 
-* Een teksteditor, eender welke teksteditor (zelfs notepad zou al moeten volstaan)  
-  De meest efficiente voor dit soort scripting is echter Visual Studio Code (https://code.visualstudio.com/) met
+* Een **teksteditor**, eender welke teksteditor (zelfs notepad zou al moeten volstaan)  
+  De meest efficiente voor dit soort scripting is echter **Visual Studio Code** (https://code.visualstudio.com/) met
   goede code completion en debugging mogelijkheden
-* Een powershell-console, normaal gezien standaard geinstalleerd op Windows
+* Een **powershell-console**, normaal gezien standaard geinstalleerd op Windows
 
 > *Bemerking:*
 > Powershell is ook installeerbaar op Linux en macOS.  
@@ -1333,10 +1408,10 @@ Om een powershell-script te schrijven heb je in principe niet veel nodig:
 
 #### Een script aanmaken (Hello World)
 
-Om een powershell-script aan te maken maak je een nieuwe tekstbestand aan binnen je teksteditor (of ide).  
-Dit bestand moet eindigen met ps1 om automatisch door de interpreter te worden opgepikt.
+Om een **powershell-script** aan te maken maak je een nieuwe tekstbestand aan binnen je **teksteditor** (of ide).  
+Dit bestand moet **eindigen** met ps1 om automatisch door de interpreter te worden opgepikt.
 
-Als eerste oefening maak een betand met de naam Write-Hello.ps1 aan met onderstaande content:
+Als **eerste oefening** maak een betand met de naam **Write-Hello.ps1** aan met onderstaande **content**:
 
 ~~~ps1
 Write-Host "Hello world"
@@ -1344,10 +1419,10 @@ Write-Host "Hello world"
 
 #### Een script uitvoeren
 
-Om een script uit te voeren:
+Om een **script** **uit te voeren**:
 
-* Navigeer je met de console naar de locatie waar je het script hebt opgeslagen
-* Je voert het uit door de naam te typen voorafgegaan door .\ zoals hieronder
+* **Navigeer** je met de **console** naar de **locatie** waar je het **script** hebt opgeslagen
+* Je voert het uit door de **naam te typen** voorafgegaan door **.\** zoals hieronder
 
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-Hello.ps1
@@ -1355,10 +1430,10 @@ Hello World
 PS C:\Users\Bart\pstryout>
 ~~~
 
-Het punt gevolgd door backslash verwijst hier naar het **relatieve path** van het script 
+Het **punt** **gevolgd** door **backslash** verwijst hier naar het **relatieve path** van het script 
 tov je **huidige working work-directory**
 
-Je kan ook een absoluut path doorgeven als hieronder
+Je kan **ook** een **absoluut path** doorgeven als hieronder
 
 ~~~ps1
 PS C:\Users\> cd ..\..
@@ -1367,7 +1442,7 @@ Hello World
 PS C:\Users\>
 ~~~
 
-Of een relatief path vanuit een andere directory
+**Of** een **relatief path** vanuit een **andere directory**
 
 ~~~ps1
 PS C:\Users\> .\Bart\pstryout\Write-Hello.ps1
@@ -1377,7 +1452,7 @@ PS C:\Users\>
 
 ##### Extensie weglaten
 
-Je kan ook de extensie weglaten bij het script zoals hieronder gedemonstreed...
+Je kan ook de **extensie weglaten** bij het script zoals **hieronder** **gedemonsteerd**...
 
 ~~~ps1
 PS C:\Users\Bart\pstryout> .\Write-Hello
@@ -1387,8 +1462,8 @@ PS C:\Users\Bart\pstryout>
 
 #### Security!!!
 
-Eén van de zaken waar je dient op te letten (zeker als je een laptop van het bedrijf hebt) is dat Powershell
-dikwijls is gedisabled.  
+Eén van de zaken waar je dient op te letten (zeker als je een laptop van het bedrijf hebt) is dat **Powershell**
+dikwijls is **gedisabled**.  
 
 ~~~ps1
 PS C:\Users\bartvoe> .\Write-Hello.ps1
@@ -1403,43 +1478,24 @@ At line:1 char:1
 PS C:\Users\bartvoe>
 ~~~
 
+Als je dit ziet kan je dit in de setting van Windows gaan aanpassen.  
 
-#### PATH
+Zie https://learn.microsoft.com/en-us/powershell/scripting/windows-powershell/starting-windows-powershell?view=powershell-7.3 voor meer informatie.  
 
-Enkel de naam de naam van het typen volstaat niet zoals je hieronder ziet.  
-
-~~~ps1
-PS C:\Users\Bart\pstryout> Write-Hello.ps1
-Write-Hello.ps1 : The term 'Write-Hello.ps1' is not recognized as the name of a cmdlet, function, script file,
-or operable program. Check the spelling of the name, or if a path was included, verify that the path is
-correct and try again.
-At line:1 char:1
-+ Write-Hello.ps1
-+ ~~~~~~~~~~~~~~~
-    + CategoryInfo          : ObjectNotFound: (Write-Hello.ps1:String) [], CommandNotFoundException
-    + FullyQualifiedErrorId : CommandNotFoundException
-
-
-Suggestion [3,General]: The command Write-Hello.ps1 was not found, but does exist in the current location. Windows PowerShell does not load commands from the current location by default. If you trust this command, instead type: ".\Write-Hello.ps1". See "get-help about_Command_Precedence" for more details.
-PS C:\Users\bartvoe>
-~~~
-
-Je dient het **exacte path** te gebruiken en in dit geval kan je **relatief verwijzen** door **.\**
-
-TODO: PATH demonstreren...
-
+Mocht je dit doen met een laptop van je bedrijf kan je hier best vragen aan je administrator...
 
 #### Write-Host command
 
-Powershell ondersteund vele commands en commandlets.  
-De eerste die we hebben gezien is Write-Host die dient om output naar de console te schrijven vanuit een script:
+Powershell ondersteund vele **commands** en **commandlets**.  
+De eerste die we hebben gezien is Write-Host (hetzelfde als echo dat we eerder hadden gezien) 
+en dient om output naar de console te schrijven vanuit een script:
 
 ~~~ps1
 Write-Host "Hello world"
 ~~~
 
 In vele gevallen zijn er trouwens ook klassiek varianten (uit CMD of Bash) ondersteund.  
-In dit geval zal **echo** hetzelfde doen als **Write-Host**...
+In dit geval zal **echo** hetzelfde doen als **Write-Host** zoals we eerder hadden gezien...
 
 ~~~ps1
 echo "Hello world"
@@ -1658,20 +1714,22 @@ Write-Host $result
 #### Variable-substition binnen strings
 
 Een zeer nuttige en veel gebruikte techniek binnen scripting is het principe
-van variable-substition.
+van **variable-substition**.
 
-ipv van je string te concateneren kan je de variabelen rechtstreeks includen 
-in de string
+**ipv** van je string te **concateneren** kan je de variabelen rechtstreeks **includen** 
+in de **string**
 
-Als we bijvoorbeeld de 3 parameters willen herbruiken van het vorige script
-om een mooi geformateerd resultaat te printen zoals hieronder
+Als we bijvoorbeeld de **3 parameters** willen **gebruiken** van het vorige script
+om een **mooi geformateerd** te bereiken kan je dit toepassen zoals hieronder:
 
 ~~~ps1
 param ([int]$param1,[int]$param2)
+
 $result = $param1 + $param2
 write-host "$param1 + $param2 = $result"
 ~~~
 
+De parameters worden rechstreeks als variabelen verwezen en expanded in het script.  
 Als je dit uitvoert zoals hieronder krijg je een mooiere output
 
 ~~~ps1
@@ -1682,9 +1740,8 @@ PS C:\Users\Bart\pstryout>
 
 #### Alternatieve schrijfwijze
 
-Let ook, je kan ook variabelen aanroepen door deze te 
-omringen door accolades.  
-Dit is - zoals we direct gaan zien - om een duidelijk onderscheid te maken met command substitution
+Je kan ook variabelen aanroepen door deze te **omringen** door **accolades**.  
+Dit is - zoals we direct gaan zien - om een **duidelijk** onderscheid te maken met **command** **substitution**
 
 ~~~ps1
 param ([int]$param1,[int]$param2)
@@ -1692,16 +1749,25 @@ $result = $param1 + $param2
 write-host "${param1} + ${param2} = ${result}"
 ~~~
 
+Met hetzelfde resultaat:
+
+~~~ps1
+PS C:\Users\Bart\pstryout> .\Write-Hello 1 2
+1 + 2 = 3
+PS C:\Users\Bart\pstryout>
+~~~
+
 #### Command-substitution
 
-Een variant op de voorgaande variable-substitution is command-substitution.  
-ipv de inhoud van een variabele te herbruiken, gaat deze de output van een commando herbruiken
+Een **variant** op de voorgaande variable-substitution is **command-substitution**.  
+ipv de **inhoud** van een **variabele** te herbruiken, gaat deze de **output** van een **commando** **herbruiken**
 
 ~~~ps1
 Write-Host "Het is vandaag $(date)"
 ~~~
 
-Zoals je hieronder ziet zal deze de datum vandaag afdrukken
+Let hierbij op het gebruik van **ronde haakjes** voor **$(date)**
+Zoals je **hieronder** ziet zal deze de datum **vandaag** afdrukken
 
 ~~~ps1
 PS C:\Users\Bart\pstryout> Write-DateOfToday
@@ -1709,7 +1775,7 @@ Het is vandaag 09/12/2023 19:57:52
 PS C:\Users\Bart\pstryout>
 ~~~
 
-Je kan dit trouwens ook hergebruiken om een variabele te initializeren
+Je kan dit trouwens **ook** hergebruiken om een **variabele** te **initializeren**
 met de output van een commando:
 
 ~~~ps1
@@ -1717,15 +1783,67 @@ $datumVandaag = $(date)
 Write-Host "Het is vandaag $datumVandaag"
 ~~~
 
-#### Condities
+#### File manipulatie
+
+Tot nu toe hebben we enkel Write-Host gebruikt maar
+in vele gevallen ga je in scripten ook file-manipulaties uitvoeren zoals in het
+voorbeeld hieronder
 
 ~~~ps1
-$value = 5
+$fileName = $args[0]
+Write-Host "Creatie van een file met de naam ${fileName}.txt"
+echo $(date) > "${fileName}.txt"
+~~~
 
-if ($value -gt 1) {
-    Write-Host "value is greater than 1"
+Bij het aanroepen van deze file zal je zien dat die dan een fil
+aanmaakt met als naam het argument met .txt erna.
+
+~~~powershell
+PS C:\Users\Bart\Tmp> .\hello.ps1 test
+Creatie van een file met de naam test.txt
+PS C:\Users\Bart\Tmp> ls
+
+
+    Directory: C:\Users\Bart\Tmp
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         9/24/2023   6:57 PM            117 hello.ps1
+-a----         9/24/2023   6:57 PM             92 test.txt
+
+
+PS C:\Users\Bart\Tmp> cat .\test.txt
+Sunday, September 24, 2023 6:57:24 PM
+
+PS C:\Users\Bart\Tmp>
+~~~
+
+#### Condities
+
+In Powershell kan je ook éénvoudige programmeerlogica inbouwen. 
+
+> We gaan er in dit geval van uit dat je momenteel de onderdelen 
+> Programmeren Basis volgt (of gevolgd hebt.)
+
+Een eerste **voorbeeld** is het gebruik van een **if-else-constructie** zoals we
+deze kennen vanuit **C#**
+
+~~~ps1
+$value = $args[0]
+$min = $args[1]
+$max = $args[2]
+
+if ($value -gt $max) {
+  Write-Host "value $value is greater than $max"
+} elseif($value -lt $min) {
+  Write-Host "value  $value is smaller than $min"
+} else {
+  Write-Host "value $value is between $min and $max"
 }
 ~~~
+
+Voor meer info zie https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-if?view=powershell-7.3
 
 #### for-loop
 

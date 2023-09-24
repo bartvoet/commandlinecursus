@@ -471,3 +471,148 @@ en doorgegeven aan de STDIN van WC.
 ## Scripting
 
 ### Powershell scripting
+
+
+## Uitvoeren van programma's
+
+### Uitvoeren van programma's in Powershell
+
+Naast het bekijken en manipuleren van je file-systeem kan je ook programma's uit voeren.  
+Dit doe je door in een directory (waar)
+
+~~~powershell
+PS C:\Users\Bart>cd mijn_eerste_programma
+
+PS C:\Users\Bart\mijn_eerste_programma>dir
+ Volume in drive C is System
+ Volume Serial Number is E687-8D34
+
+ Directory of C:\Users\bart\mijn_eerste_programma
+
+02/02/2017  14:35    <DIR>          .
+02/02/2017  14:35    <DIR>          ..
+02/02/2017  14:24                77 hello.c
+02/02/2017  14:24                99 hello
+               2 File(s)            176 bytes
+               2 Dir(s)  123.094.589.440 bytes free
+
+PS C:\Users\Bart\mijn_eerste_programma>hello
+Hello World
+~~~
+
+### Uitvoeren van programma's in Bash
+
+Naast het bekijken en manipuleren van je file-systeem kan je ook programma's uit voeren.  
+Dit doe je door in een directory (waar)
+
+~~~bash
+demo@demohost ~/mijn_eerste_programma $ ls
+hello.c hello
+demo@demohost ~/mijn_eerste_programma $ ./hello
+Hello World
+~~~
+
+### Error-levels
+
+#### Error-levels in Powershell
+
+Naast je eigen variabelen houdt je operating systeem ook een aantal variabelen bij.  
+
+~~~powershell
+PS C:\Users\Bart> echo $?                                    True                                                         PS C:\Users\Bart> ls qbsdfs                                  ls : Cannot find path 'C:\Users\Bart\qbsdfs' because it      does not exist.                                              At line:1 char:1                                             + ls qbsdfs                                                  + ~~~~~~~~~                                                      + CategoryInfo          : ObjectNotFound: (C:\Users\Bar     t\qbsdfs:String) [Get-ChildItem], ItemNotFoundException       + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerS     hell.Commands.GetChildItemCommand                                                             
+PS C:\Users\Bart>   
+~~~
+
+De variabele **$?** bijvoorbeeld houdt de error-code van de laatst uitgevoerde applicatie bij.
+
+#### Error-levels in Bash
+
+Naast je eigen variabelen houdt je operating systeem ook een aantal variabelen bij.  
+
+~~~bash
+demo@demohost ~ $ cd een_directory_die_niet_bestaat
+demo@demohost ~ $ echo $?
+1
+demo@demohost ~ $ cd mijn_eerste_programma/
+demo@demohost ~/mijn_eerste_programma $ echo $?
+0
+~~~
+
+Deze variabele $? zal de error-code bijhouden die door het laatste programma was teruggegeven aan de shell.  
+
+### Environment-variabelen bekijken
+
+#### Environment-variabelen bekijken in Powershell
+
+Als je alle variabelen willen zien moet je gewoon SET typen
+
+~~~powershell
+PS C:\Users\Bart\mijn_eerste_programma>SET
+ALLUSERSPROFILE=C:\Documents and Settings\All Users
+APPDATA=C:\Documents and Settings\bart\Application Data
+CLIENTNAME=Console
+CommonProgramFiles=C:\Program Files\Common Files
+COMPUTERNAME=V-HJLVYI8TKYLPA
+ComSpec=C:\WINDOWS\system32\cmd.exe
+FP_NO_HOST_CHECK=NO
+HOMEDRIVE=C:
+HOMEPATH=\Documents and Settings\bart
+KMP_DUPLICATE_LIB_OK=TRUE
+LOGONSERVER=\\V-HJLVYI8TKYLPA
+MKL_SERIAL=YES
+NIEXTCCOMPILERSUPP=C:\Program Files\National Instruments\Shared\ExternalCompi
+Support\C\
+NUMBER_OF_PROCESSORS=1
+OS=Windows_NT
+Path=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.py;.pyw
+PROCESSOR_ARCHITECTURE=x86
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 42 Stepping 7, GenuineIntel
+PROCESSOR_LEVEL=6
+...
+~~~
+
+#### Environment-variabelen bekijken in Bash
+
+Als je alle variabelen willen zien moet je gewoon het commando printenv typen
+
+~~~bash
+demo@demohost ~/mijn_eerste_programma $ printenv
+LC_PAPER=de_BE.UTF-8
+XDG_VTNR=8
+SSH_AGENT_PID=2713
+XDG_SESSION_ID=c1
+LC_ADDRESS=de_BE.UTF-8
+LC_MONETARY=de_BE.UTF-8
+COMP_WORDBREAKS= 	
+"'><;|&(:
+QT_STYLE_OVERRIDE=gtk
+GPG_AGENT_INFO=/home/bart/.gnupg/S.gpg-agent:0:1
+TERM=xterm-256color
+...
+~~~
+
+#### Exacte verwijzing 
+
+Zoals eerder vermeld moest je het script prefixen met **.\\** als je dit uitvoert.  
+Enkel de naam de naam van het typen volstaat niet zoals je hieronder ziet.  
+
+~~~ps1
+PS C:\Users\Bart\pstryout> Write-Hello.ps1
+Write-Hello.ps1 : The term 'Write-Hello.ps1' is not recognized as the name of a cmdlet, function, script file,
+or operable program. Check the spelling of the name, or if a path was included, verify that the path is
+correct and try again.
+At line:1 char:1
++ Write-Hello.ps1
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (Write-Hello.ps1:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+
+Suggestion [3,General]: The command Write-Hello.ps1 was not found, but does exist in the current location. Windows PowerShell does not load commands from the current location by default. If you trust this command, instead type: ".\Write-Hello.ps1". See "get-help about_Command_Precedence" for more details.
+PS C:\Users\bartvoe>
+~~~
+
+Dit komt omdat je een **exacte path** dient te gebruiken en in dit geval kan je **relatief verwijzen** door **.\**
+
+TODO: PATH demonstreren...
