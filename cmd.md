@@ -1799,7 +1799,7 @@ Bij het aanroepen van deze file zal je zien dat die dan een fil
 aanmaakt met als naam het argument met .txt erna.
 
 ~~~powershell
-PS C:\Users\Bart\Tmp> .\hello.ps1 test
+PS C:\Users\Bart\Tmp> .\Write-Helllo.ps1 test
 Creatie van een file met de naam test.txt
 PS C:\Users\Bart\Tmp> ls
 
@@ -1829,6 +1829,17 @@ In Powershell kan je ook éénvoudige programmeerlogica inbouwen.
 Een eerste **voorbeeld** is het gebruik van een **if-else-constructie** zoals we
 deze kennen vanuit **C#**
 
+We maken een script dat gaat testen of een waarde
+tussen 3 ligt en dat 3 argumenten neemt:
+
+* Een waarde als eerste argument
+* Een minimum waarde als 2de argument
+* Een mawimum waarde als 3de argument
+
+> *Nota:*  
+> Het script is om demo-reden éénvoudig gehouden.  
+> Het zal bijvoorbeeld niet correct werken wanneer min > max...
+
 ~~~ps1
 $value = $args[0]
 $min = $args[1]
@@ -1843,24 +1854,64 @@ if ($value -gt $max) {
 }
 ~~~
 
+Bij uitvoering zal dit de 3 waardes vergelijken
+
+~~~powershell
+PS C:\Users\Bart\Tmp> .\hello.ps1 5 -2 6
+value  5 is between -2 and 6
+PS C:\Users\Bart\Tmp> .\hello.ps1 -3 -2 6
+value -3 is between -2 and 6
+PS C:\Users\Bart\Tmp> .\hello.ps1 8 -2 6
+value 8 is greater than 6
+PS C:\Users\Bart\Tmp> 
+~~~
+
+##### Vergelijkingsoperatoren
+
+Bemerk dat de klassieke C#-operatoren zoals <, >, ==, ... niet zijn ondersteund.  
+In plaats daarvan moeten je
+
+* -eq als ==
+* -neq als !=
+* -lt als <
+* -gt als >
+* -le als <=
+* -ge als >=
+* ...
+
 Voor meer info zie https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-if?view=powershell-7.3
 
 #### for-loop
 
+Daarnaast voorzien Powershell ook in een for loop.  
+Deze is - het gebruik van de specifieke vergelijkingsoperatoren buiten beschouwing genomen - redelijk
+gelijkaardig aan degene die we kennen vanuit C#.
+
 ~~~ps1
 param ([int]$lijnen)
+
 for ($i = 1; $i -le $lijnen; $i++){
     Write-Host $i
 }
 ~~~
 
+~~~powershell
+PS C:\Users\Bart\Tmp> .\Write-Lines.ps1 8
+1
+2
+3
+4
+5
+6
+7
+8
+PS C:\Users\Bart\Tmp> 
+~~~
+
 #### foreach-loop
 
-~~~ps1
-foreach($item in $args){
-    Write-Host $item
-}
-~~~
+Ook de foreach-loop is zeer gelijkaardig.  
+Dit programma loopt door de argumenten die meegeeft en print het totaal af.
 
 ~~~ps1
 [int]$sum = 0
@@ -1870,7 +1921,17 @@ foreach($item in $args){
 Write-Host "Het totaal is $sum"
 ~~~
 
+Het resultaat:
+
+~~~powershell
+PS C:\Users\Bart\Tmp> .\sum.ps1 8 5 6
+Het totaal is 19
+PS C:\Users\Bart\Tmp>
+~~~
+
 #### lijsten
+
+Ook kan je deze foreach-loop gebruiken voor zelf gedefinieerde lijsten
 
 ~~~ps1
 $list = @('a', 'b', 'c', 'd');
@@ -1880,10 +1941,55 @@ foreach($item in $list){
 }
 ~~~
 
+Als je deze dan uitvoert loopt deze over de lijst
+
+~~~powershell
+PS C:\Users\Bart\Tmp> .\Write-List.ps1
+a
+b
+c
+d
+PS C:\Users\Bart\Tmp>
+~~~
+
+#### Testen op files
+
+Een laatste interessante commandlet is Testpath.  
+Deze kan je gebruiken binnen een if-statement om na te kijken of een file of directory
+reeds bestaat.
+
+~~~powershell
+$fileCheck = $args[0]
+
+if (Test-Path $fileCheck -PathType leaf)
+{
+    Write-Host "File $fileCheck bestaat"
+}
+else
+{
+  Write-Host "File $fileCheck bestaat niet"
+}
+~~~
+
+In dit geval gebruiken we deze om een boodschap te printen zoals je hieronder ziet.
+
+~~~powershell
+PS C:\Users\Bart\Tmp> .\Check-File.ps1 "C:\Users\Bart\test.txt"
+File C:\Users\Bart\test.txt bestaat
+PS C:\Users\Bart\Tmp> .\Check-File "C:\Users\Bart\test-niet.txt"
+File C:\Users\Bart\test-niet.txt bestaat niet
+PS C:\Users\Bart\Tmp>
+~~~
+
+Als je dezelfde **testen** wil doen met **directory** wijzig het **PathType** naar **Directory**, als je 
+het **niet uitmaakt** of het een file of directory is geef je **geen PathType** aan
+
+> In vele gevallen zal je echter dit gebruiken in combinatie met een de creatie of verwijdering van files
+
 ### Bash-scripting
 
-Waar we op Windows eerder gebruik zullen maken van powershell gebruiken we op Linux en macOS 
-typisch gebruik van scripting met Bash.
+Waar we op **Windows** eerder gebruik zullen maken van **Powershell** gebruiken we op **Linux en macOS **
+typisch gebruik van scripting met **Bash**.
 
 > Nota:  
 > Op Windows kan het ook zijn dat je geconfronteerd wordt met Bash.  
@@ -2347,7 +2453,6 @@ else
 fi
 ~~~
 
-
 ##### Testen op string-waardes
 
 * Testen op basis van het aantal argumenten
@@ -2381,7 +2486,7 @@ fi
 
 ##### File-verificaties
 
-Een 3de manier is deze vergelijkingen te maken als zijn het files
+Een **3de soort condities** zijn verificaties maken opfiles
 
 ~~~
 -e FILE => FILE bestaat.
@@ -2516,8 +2621,3 @@ while true; do
     sleep 5
 done
 ~~~
-
-
-
-
-
